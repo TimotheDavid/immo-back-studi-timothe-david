@@ -1,0 +1,14 @@
+version: 3.0.0
+
+services:
+  db:
+    container_name: postgres-test-immo
+    image: postgres:13.0-alpine
+    environment:
+      - POSTGRES_PASSWORD: test
+      - POSTGRES_USER: test
+      - POSTGRES_DB: immo-test
+    ports:
+      - 6004:5432
+    volumes:
+      - ./docker/pg/data:/var/lib/postgresql/data
