@@ -1,13 +1,14 @@
-version: 3.0.0
+version: '3.1'
 
 services:
   db:
     container_name: postgres-test-immo
     image: postgres:13.0-alpine
     environment:
-      - POSTGRES_PASSWORD: test
-      - POSTGRES_USER: test
-      - POSTGRES_DB: immo-test
+        POSTGRES_PASSWORD: test
+        POSTGRES_USER: test
+        POSTGRES_DB: immodev
+
     ports:
       - 6004:5432
     volumes:

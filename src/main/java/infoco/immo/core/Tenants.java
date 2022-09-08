@@ -3,16 +3,22 @@ package infoco.immo.core;
 
 import lombok.*;
 
-@Getter
-@Setter
-@AllArgsConstructor
+import java.util.UUID;
+
 @Builder
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Tenants {
-    private final String civility;
-    private final String firstName;
-    private final String name;
-    private final String birthDate;
-    private final String email;
-    private final String secondEmail;
-    private final String phone;
+    private  int  civility;
+    private  String firstName;
+    private  String name;
+    private  String birthDate;
+    private String birthPlace;
+    private  String email;
+    private  String secondEmail;
+    private  String phone;
+    private  UUID   id;
+
 }

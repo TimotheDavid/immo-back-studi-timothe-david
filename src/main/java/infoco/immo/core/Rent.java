@@ -7,15 +7,17 @@ import java.util.UUID;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class Rent {
-    private final Float rentAmount;
-    private final String inDate;
-    private final String descriptionIn;
-    private final String outDate;
-    private final String descriptionOut;
-    private final Float deposit;
-    private final Float agencyPourcent;
-    private final UUID tenantsId;
-    private final UUID apartmentId;
+    private UUID id;
+    private  Float rentAmount;
+    private  String inDate;
+    private  String descriptionIn;
+    private  String outDate;
+    private  String descriptionOut;
+    private  Float deposit;
+    private  Float agencyPourcent;
+    private  UUID tenantsId;
+    private  UUID apartmentId;
 }

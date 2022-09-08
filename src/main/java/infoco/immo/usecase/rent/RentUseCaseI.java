@@ -4,9 +4,9 @@ import infoco.immo.core.Rent;
 
 import java.util.UUID;
 
-public interface TenantsUseCaseI {
+public interface RentUseCaseI {
     public UUID create(Rent rent);
-    public RentResponse get(Rent rent);
-    public UUID update(Rent rent);
+    public Rent  get(Rent rent);
+    public void update(Rent rent);
     public void delete(UUID rentId);
 }
