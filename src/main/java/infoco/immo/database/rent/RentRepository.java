@@ -44,7 +44,7 @@ public class RentRepository implements RentRepositoryI {
     public void update(Rent rent) {
         final String SQL = "UPDATE immo.rent SET rent = ?, in_date = ?, in_description = ?, out_date = ? , out_description = ?, deposit = ?, agency_pourcent = ?, apartmentid = ?, tenantid = ? WHERE uuid = ? ";
         db.update(SQL, ps -> {
-            int nthPlace = 0;
+            int nthPlace = 1;
             ps.setFloat(nthPlace++, rent.getRentAmount());
             ps.setString(nthPlace++, rent.getInDate());
             ps.setString(nthPlace++, rent.getDescriptionIn());

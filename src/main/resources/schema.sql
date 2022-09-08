@@ -54,10 +54,10 @@ CREATE TABLE IF NOT EXISTS RENT
     deposit         FLOAT DEFAULT 0,
     agency_pourcent FLOAT DEFAULT 8,
 
-    apartmentId     SERIAL,
-    tenantId        SERIAL,
-    FOREIGN KEY (apartmentId) REFERENCES APARTMENT (id),
-    FOREIGN KEY (tenantId) REFERENCES TENANT (id)
+    apartmentId     uuid,
+    tenantId        uuid,
+    FOREIGN KEY (apartmentId) REFERENCES APARTMENT (uuid),
+    FOREIGN KEY (tenantId) REFERENCES TENANT (uuid)
 );
 
 CREATE TABLE IF NOT EXISTS ORIGIN

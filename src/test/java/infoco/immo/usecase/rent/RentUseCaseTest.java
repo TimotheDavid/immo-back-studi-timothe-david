@@ -25,6 +25,7 @@ import java.sql.SQLException;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -72,7 +73,9 @@ public class RentUseCaseTest {
         Rent rentObject = rent;
         Apartment apartmentObject;
         apartmentObject = apartment;
+        apartment.setId(UUID.randomUUID());
         apartmentRepository.create(apartment);
+        tenant.setId(UUID.randomUUID());
         tenantRepository.create(tenant);
         rentObject.setApartmentId(apartment.getId());
         rentObject.setTenantsId(tenant.getId());
@@ -99,6 +102,7 @@ public class RentUseCaseTest {
     public void updateTest() {
         Rent rentObject = rent;
         UUID rentId = rentUseCase.create(rentObject);
+        apartment.setId(UUID.randomUUID());
         apartmentRepository.create(apartment);
 
         rentObject.setId(rentId);
@@ -106,6 +110,22 @@ public class RentUseCaseTest {
         Rent rentUpdated = rentUseCase.get(rentObject);
         assertEquals(rentUpdated.getId(), rentObject.getId());
         assertEquals(rentUpdated.getRentAmount(), rentObject.getRentAmount());
+    }
+
+    @Test
+    public void deleteTest() throws SQLException {
+        Rent rentObject = rent;
+        Apartment apartmentObject;
+        apartmentObject = apartment;
+        apartment.setId(UUID.randomUUID());
+        apartmentRepository.create(apartment);
+        tenant.setId(UUID.randomUUID());
+        tenantRepository.create(tenant);
+        rentObject.setApartmentId(apartment.getId());
+        rentObject.setTenantsId(tenant.getId());
+        UUID rentId = rentUseCase.create(rentObject);
+        rentUseCase.delete(rentId);
+        assertNull(rentUseCase.get(rentObject));
     }
 
 

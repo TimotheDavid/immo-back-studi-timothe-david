@@ -19,7 +19,7 @@ public class TenantRepository implements TenantRepositoryI {
 
     @Override
     public void create(Tenants tenants) throws SQLException {
-        final String SQL = "INSERT INTO immo.tenant(uuid,firstname, username, birthdate, birthplace, email, second_email, phone, civilityid) VALUES (?,?,?,?,?,?,?,?,?)";
+        final String SQL = "INSERT INTO immo.tenant(uuid, firstname, name, birthdate, birthplace, email, second_email, phone, civilityid) VALUES (?,?,?,?,?,?,?,?,?)";
         db.update(SQL, ps -> {
             int nthPlace = 1;
             ps.setObject(nthPlace++, tenants.getId());
@@ -42,7 +42,7 @@ public class TenantRepository implements TenantRepositoryI {
 
     @Override
     public void update(Tenants tenants) {
-        final String SQL = "UPDATE immo.tenant SET firstname = ?, username = ?, birthdate = ? , birthplace = ? , email = ? , second_email = ?, phone = ? , civilityId = ?  WHERE uuid = ? ";
+        final String SQL = "UPDATE immo.tenant SET firstname = ?, firstname = ?, birthdate = ? , birthplace = ? , email = ? , second_email = ?, phone = ? , civilityId = ?  WHERE uuid = ? ";
         db.update(SQL, ps -> {
             int nthPlace = 1;
             ps.setString(nthPlace++, tenants.getFirstName());
