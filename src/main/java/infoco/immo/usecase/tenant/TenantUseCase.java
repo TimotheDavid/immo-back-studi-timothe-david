@@ -1,9 +1,6 @@
 package infoco.immo.usecase.tenant;
 
 import infoco.immo.core.Tenants;
-import infoco.immo.database.tenant.TenantRepositoryI;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import java.sql.SQLException;

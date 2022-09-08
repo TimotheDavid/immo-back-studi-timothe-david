@@ -1,18 +1,21 @@
 package infoco.immo.core;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@Builder
+@NoArgsConstructor
 public class Payment {
-    private final Float  amount;
-    private final String datePayment;
-    private final Float  landlorPart;
-    private final Float  agencyPart;
-    private final UUID    rentId;
+    private Float amount;
+    private String datePayment;
+    private Float landlorPart;
+    private Float agencyPart;
+    private UUID rentId;
+    private UUID id;
+    private UUID typePayment;
+    private UUID   originId;
 }

@@ -1,4 +1,4 @@
-package infoco.immo.database.user;
+package infoco.immo.database.SQL.user;
 
 import infoco.immo.core.User;
 import org.springframework.jdbc.core.JdbcTemplate;

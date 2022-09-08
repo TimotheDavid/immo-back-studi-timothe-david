@@ -82,9 +82,9 @@ CREATE TABLE IF NOT EXISTS TYPE_PAYMENT
     uuid uuid               NOT NULL UNIQUE ,
     type TYPE_TO_PAY,
 
-    sensPaymentId serial,
+    sensPaymentId uuid,
 
-    FOREIGN KEY (sensPaymentId) REFERENCES SENS_PAYMENT(id)
+    FOREIGN KEY (sensPaymentId) REFERENCES SENS_PAYMENT(uuid)
 );
 
 CREATE TABLE IF NOT EXISTS PAYMENT_RENT
@@ -92,10 +92,10 @@ CREATE TABLE IF NOT EXISTS PAYMENT_RENT
     id        serial PRIMARY KEY NOT NULL UNIQUE ,
     uuid      uuid               NOT NULL UNIQUE ,
 
-    rentId    serial,
-    paymentId serial,
+    rentId    uuid,
+    paymentId uuid,
 
-    FOREIGN KEY (rentId) REFERENCES RENT (id)
+    FOREIGN KEY (rentId) REFERENCES RENT (uuid)
 );
 
 CREATE TABLE IF NOT EXISTS PAYMENT
@@ -107,13 +107,13 @@ CREATE TABLE IF NOT EXISTS PAYMENT
     landlor_part  FLOAT,
     agency_part   FLOAT,
 
-    originId      serial             NOT NULL,
-    typePaymentId serial             NOT NULL,
-    paymentRentId serial,
+    originId      uuid             NOT NULL,
+    typePaymentId uuid             NOT NULL,
+    paymentRentId uuid,
 
-    FOREIGN KEY (originId) REFERENCES ORIGIN (id),
-    FOREIGN KEY (typePaymentId) REFERENCES TYPE_PAYMENT (id),
-    FOREIGN KEY (paymentRentId) REFERENCES PAYMENT_RENT (id)
+    FOREIGN KEY (originId) REFERENCES ORIGIN (uuid),
+    FOREIGN KEY (typePaymentId) REFERENCES TYPE_PAYMENT (uuid),
+    FOREIGN KEY (paymentRentId) REFERENCES PAYMENT_RENT (uuid)
 );
 
 
@@ -137,9 +137,9 @@ CREATE TABLE IF NOT EXISTS USERS
     email            varchar            NOT NULL,
     password         varchar            NOT NULL,
 
-    authenticationId serial,
-    FOREIGN KEY (authenticationId) REFERENCES AUTHENTICATION (id)
+    authenticationId uuid,
+    FOREIGN KEY (authenticationId) REFERENCES AUTHENTICATION (uuid)
 );
 
 ALTER TABLE PAYMENT_RENT
-ADD FOREIGN KEY (paymentId) REFERENCES PAYMENT(id);
+ADD FOREIGN KEY (paymentId) REFERENCES PAYMENT(uuid);

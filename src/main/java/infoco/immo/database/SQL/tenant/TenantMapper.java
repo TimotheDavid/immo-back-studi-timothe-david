@@ -1,4 +1,4 @@
-package infoco.immo.database.tenant;
+package infoco.immo.database.SQL.tenant;
 
 import infoco.immo.core.Tenants;
 import org.springframework.jdbc.core.RowMapper;

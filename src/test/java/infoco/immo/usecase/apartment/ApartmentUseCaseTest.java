@@ -1,14 +1,9 @@
 package infoco.immo.usecase.apartment;
 
 import infoco.immo.ObjectTesting.appartment.ApartmentObjectTest;
-import infoco.immo.ObjectTesting.tenants.TenantsObjectTest;
 import infoco.immo.configuration.PostgresDataConfigurationTest;
 import infoco.immo.core.Apartment;
-import infoco.immo.core.Tenants;
-import infoco.immo.database.appartment.ApartmentRepository;
-import infoco.immo.database.tenant.TenantRepository;
 import infoco.immo.usecase.appartment.ApartmentUseCase;
-import infoco.immo.usecase.appartment.ApartmentUseCaseI;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.runner.RunWith;

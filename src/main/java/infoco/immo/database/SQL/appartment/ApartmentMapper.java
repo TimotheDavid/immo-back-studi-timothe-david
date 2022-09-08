@@ -1,4 +1,4 @@
-package infoco.immo.database.appartment;
+package infoco.immo.database.SQL.appartment;
 
 import infoco.immo.core.Apartment;
 import org.springframework.jdbc.core.RowMapper;

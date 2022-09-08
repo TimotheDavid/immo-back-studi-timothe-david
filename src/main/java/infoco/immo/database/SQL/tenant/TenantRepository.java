@@ -1,11 +1,10 @@
-package infoco.immo.database.tenant;
+package infoco.immo.database.SQL.tenant;
 
 import infoco.immo.core.Tenants;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.sql.SQLException;
 
 
 @Repository
@@ -18,7 +17,7 @@ public class TenantRepository implements TenantRepositoryI {
     }
 
     @Override
-    public void create(Tenants tenants) throws SQLException {
+    public void create(Tenants tenants) {
         final String SQL = "INSERT INTO immo.tenant(uuid, firstname, name, birthdate, birthplace, email, second_email, phone, civilityid) VALUES (?,?,?,?,?,?,?,?,?)";
         db.update(SQL, ps -> {
             int nthPlace = 1;

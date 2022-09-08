@@ -1,7 +1,6 @@
 package infoco.immo.usecase.rent;
 
 import infoco.immo.core.Rent;
-import infoco.immo.database.rent.RentRepositoryI;
 import lombok.RequiredArgsConstructor;
 
 import java.util.UUID;

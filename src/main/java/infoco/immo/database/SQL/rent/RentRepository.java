@@ -1,7 +1,6 @@
-package infoco.immo.database.rent;
+package infoco.immo.database.SQL.rent;
 
 import infoco.immo.core.Rent;
-import infoco.immo.usecase.rent.RentResponse;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;

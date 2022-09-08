@@ -1,7 +1,6 @@
 package infoco.immo.usecase.appartment;
 
 import infoco.immo.core.Apartment;
-import infoco.immo.database.appartment.ApartmentRepositoryI;
 import lombok.RequiredArgsConstructor;
 
 import java.util.UUID;

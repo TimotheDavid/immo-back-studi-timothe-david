@@ -1,25 +1,16 @@
 package infoco.immo.usecase.tenant;
 
 
-import com.github.javafaker.Faker;
 import infoco.immo.ObjectTesting.tenants.TenantsObjectTest;
 import infoco.immo.configuration.PostgresDataConfigurationTest;
 import infoco.immo.core.Tenants;
-import infoco.immo.database.tenant.TenantRepository;
-import org.checkerframework.checker.units.qual.A;
-import org.junit.After;
 import org.junit.jupiter.api.*;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ApplicationContext;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.sql.DataSource;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.UUID;
 
 import static org.junit.Assert.*;

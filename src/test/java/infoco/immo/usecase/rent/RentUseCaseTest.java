@@ -1,7 +1,6 @@
 package infoco.immo.usecase.rent;
 
 
-import com.github.javafaker.Faker;
 import infoco.immo.ObjectTesting.appartment.ApartmentObjectTest;
 import infoco.immo.ObjectTesting.rent.RentObjectTest;
 import infoco.immo.ObjectTesting.tenants.TenantsObjectTest;
@@ -9,14 +8,9 @@ import infoco.immo.configuration.PostgresDataConfigurationTest;
 import infoco.immo.core.Apartment;
 import infoco.immo.core.Rent;
 import infoco.immo.core.Tenants;
-import infoco.immo.database.appartment.ApartmentRepository;
-import infoco.immo.database.rent.RentRepository;
-import infoco.immo.database.tenant.TenantRepository;
-import infoco.immo.usecase.tenant.TenantUseCase;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
