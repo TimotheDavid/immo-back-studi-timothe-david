@@ -8,12 +8,13 @@ import java.util.UUID;
 @Getter
 @AllArgsConstructor
 @Builder
+@NoArgsConstructor
 public class User {
-    private final UUID id;
-    private final String  name;
-    private final String email;
-    private final String password;
-    private final String hash;
-    private final String expires;
-    private final String token;
+    private  UUID id;
+    private  String  name;
+    private  String email;
+    private  String password;
+    private  String hash;
+    private  String expires;
+    private  String token;
 }

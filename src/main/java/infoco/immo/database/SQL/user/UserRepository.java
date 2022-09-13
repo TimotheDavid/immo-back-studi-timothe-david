@@ -16,16 +16,35 @@ public class UserRepository implements UserRepositoryI {
 
     @Override
     public void create(User user) {
+        final String  SQL = "INSERT INTO immo.users(uuid, name, email, password) VALUES (?,?,?,?)";
+        db.update(SQL, ps -> {
+            int nthplace = 1;
+            ps.setObject(nthplace++, user.getId());
+            ps.setString(nthplace++, user.getName());
+            ps.setString(nthplace++, user.getEmail());
+            ps.setString(nthplace++, user.getPassword());
+        });
 
     }
 
     @Override
     public User get(UUID userId) {
-        return null;
+        final String SQL = "SELECT * FROM immo.users WHERE uuid = ?";
+        return db.query(SQL, new UserMapper(), userId).stream().findFirst().orElse(null);
     }
 
     @Override
     public User getByToken(String token) {
-        return null;
+        final String SQL = "SELECT * FROM immo.users JOIN immo.authentication a on users.uuid = a.userid WHERE a.token = ? ";
+        return db.query(SQL, new UserMapper(), token).stream().findFirst().orElse(null);
+
+
     }
+
+    @Override
+    public User  login(User user) {
+        final String SQL = "SELECT password, email,uuid FROM immo.users WHERE email = ?";
+        return db.query(SQL, new UserMapper(), user.getEmail()).stream().findFirst().orElse(null);
+    }
+
 }

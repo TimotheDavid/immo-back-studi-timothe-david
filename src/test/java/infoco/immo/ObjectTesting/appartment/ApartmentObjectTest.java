@@ -12,8 +12,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @Component
 @ActiveProfiles("test")
-@RunWith(SpringRunner.class)
-@SpringBootTest
 public class ApartmentObjectTest {
 
     private final Faker faker = new Faker();
@@ -33,6 +31,7 @@ public class ApartmentObjectTest {
     public static Apartment getApartment(){
         return new ApartmentObjectTest().createApartment();
     }
+
 
 
 }

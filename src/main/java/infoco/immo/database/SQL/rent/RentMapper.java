@@ -12,15 +12,15 @@ public class RentMapper implements RowMapper<Rent> {
     public Rent mapRow(ResultSet rs, int rowNum) throws SQLException {
         Rent rent = new Rent();
         rent.setId(rs.getObject("uuid", UUID.class));
-        rent.setRentAmount(rs.getFloat("rent"));
-        rent.setInDate(rs.getString("in_date"));
-        rent.setDescriptionIn(rs.getString(("in_description")));
-        rent.setOutDate(rs.getString("out_date"));
-        rent.setDescriptionOut(rs.getString("out_description"));
+        rent.setAmount(rs.getFloat("rent"));
+        rent.setTenantsId(rs.getObject("tenantid", UUID.class));
+        rent.setApartmentId(rs.getObject("apartmentid", UUID.class));
         rent.setDeposit(rs.getFloat("deposit"));
         rent.setAgencyPourcent(rs.getFloat("agency_pourcent"));
-        rent.setApartmentId(rs.getObject("apartmentid", UUID.class));
-        rent.setTenantsId(rs.getObject("tenantid", UUID.class));
+        rent.setDescriptionOut(rs.getString("out_description"));
+        rent.setOutDate(rs.getString("in_date"));
+        rent.setDescriptionIn(rs.getString("in_description"));
+        rent.setInDate(rs.getString("in_date"));
         return rent;
     }
 }

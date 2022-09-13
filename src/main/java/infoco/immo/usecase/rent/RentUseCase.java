@@ -1,8 +1,10 @@
 package infoco.immo.usecase.rent;
 
 import infoco.immo.core.Rent;
+import infoco.immo.database.SQL.rent.RentRepositoryI;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -19,6 +21,8 @@ public class RentUseCase {
         rentRepositoryI.create(rent);
         return rent.getId();
     }
+
+    public List<Rent> get() { return rentRepositoryI.get();};
     public Rent get(Rent rent){
         return rentRepositoryI.get(rent);
     }

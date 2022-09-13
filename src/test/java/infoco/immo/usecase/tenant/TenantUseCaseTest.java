@@ -4,6 +4,8 @@ package infoco.immo.usecase.tenant;
 import infoco.immo.ObjectTesting.tenants.TenantsObjectTest;
 import infoco.immo.configuration.PostgresDataConfigurationTest;
 import infoco.immo.core.Tenants;
+import infoco.immo.database.SQL.tenant.TenantRepository;
+import org.junit.Assert;
 import org.junit.jupiter.api.*;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,6 +13,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
@@ -39,7 +42,7 @@ class TenantUseCaseTest {
 
 
     @Test
-    void createTest() throws SQLException {
+    public void createTest() throws SQLException {
         Tenants created = tenants;
 
         UUID tenantId = tenantUseCase.create(created);
@@ -49,16 +52,34 @@ class TenantUseCaseTest {
     }
 
     @Test
-    void getTest() throws SQLException {
-
+    public void getTest() throws SQLException {
         Tenants createdTenant = tenants;
         tenantUseCase.create(createdTenant);
         Tenants tenant = tenantUseCase.get(createdTenant);
         Assertions.assertEquals(tenant.getEmail(), createdTenant.getEmail());
     }
 
+
     @Test
-    void updateTest() throws SQLException {
+    public void getAllTest(){
+        List<Tenants> listTenant = tenantUseCase.get();
+        Assert.assertTrue(listTenant.size() > 0);
+    }
+
+    @Test
+    public void deleteTest() throws SQLException {
+        UUID tenantId = tenantUseCase.create(tenants);
+        tenantUseCase.delete(tenantId);
+        Tenants getTenant = tenantUseCase.get(tenants);
+        Assert.assertNull(getTenant);
+
+
+    }
+
+
+
+    @Test
+    public void updateTest() throws SQLException {
 
         UUID tenantId = tenantUseCase.create(tenants);
         Tenants createTenant = tenants;

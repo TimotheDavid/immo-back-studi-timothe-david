@@ -4,6 +4,7 @@ import infoco.immo.core.Apartment;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
+import java.util.List;
 import java.util.UUID;
 
 public class ApartmentRepository implements ApartmentRepositoryI {
@@ -32,6 +33,12 @@ public class ApartmentRepository implements ApartmentRepositoryI {
     public Apartment get(Apartment apartment) {
         final String SQL = "SELECT * FROM immo.apartment WHERE uuid = ? ";
         return db.query(SQL, new ApartmentMapper(), apartment.getId()).stream().findFirst().orElse(null);
+    }
+
+    @Override
+    public List<Apartment> get() {
+        final String SQL = "SELECT * FROM immo.apartment";
+        return db.query(SQL,new ApartmentMapper());
     }
 
     @Override

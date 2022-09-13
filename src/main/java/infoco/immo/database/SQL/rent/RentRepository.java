@@ -4,6 +4,7 @@ import infoco.immo.core.Rent;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
+import java.util.List;
 import java.util.UUID;
 
 public class RentRepository implements RentRepositoryI {
@@ -21,7 +22,7 @@ public class RentRepository implements RentRepositoryI {
         db.update(SQL, ps -> {
             int nthPlace = 1;
             ps.setObject(nthPlace++, rent.getId());
-            ps.setFloat(nthPlace++, rent.getRentAmount());
+            ps.setFloat(nthPlace++, rent.getAmount());
             ps.setString(nthPlace++, rent.getInDate());
             ps.setString(nthPlace++, rent.getDescriptionIn());
             ps.setString(nthPlace++, rent.getOutDate());
@@ -44,13 +45,13 @@ public class RentRepository implements RentRepositoryI {
         final String SQL = "UPDATE immo.rent SET rent = ?, in_date = ?, in_description = ?, out_date = ? , out_description = ?, deposit = ?, agency_pourcent = ?, apartmentid = ?, tenantid = ? WHERE uuid = ? ";
         db.update(SQL, ps -> {
             int nthPlace = 1;
-            ps.setFloat(nthPlace++, rent.getRentAmount());
+            ps.setFloat(nthPlace++, rent.getAmount());
             ps.setString(nthPlace++, rent.getInDate());
             ps.setString(nthPlace++, rent.getDescriptionIn());
             ps.setString(nthPlace++, rent.getOutDate());
             ps.setString(nthPlace++, rent.getDescriptionOut());
             ps.setFloat(nthPlace++, rent.getDeposit());
-            ps.setFloat(nthPlace++, rent.getAgencyPourcent());
+            ps.setFloat(nthPlace++, rent.getAgencyPourcent() );
             ps.setObject(nthPlace++, rent.getApartmentId());
             ps.setObject(nthPlace++, rent.getTenantsId());
             ps.setObject(nthPlace++, rent.getId());
@@ -62,5 +63,11 @@ public class RentRepository implements RentRepositoryI {
         final String SQL = "DELETE FROM immo.rent WHERE uuid = ? ";
         db.update(SQL, rentId);
 
+    }
+
+    @Override
+    public List<Rent> get() {
+        final String SQL = "SELECT * FROM immo.rent";
+        return db.query(SQL, new RentMapper());
     }
 }

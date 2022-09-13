@@ -3,6 +3,7 @@ package infoco.immo.usecase.apartment;
 import infoco.immo.ObjectTesting.appartment.ApartmentObjectTest;
 import infoco.immo.configuration.PostgresDataConfigurationTest;
 import infoco.immo.core.Apartment;
+import infoco.immo.database.SQL.appartment.ApartmentRepository;
 import infoco.immo.usecase.appartment.ApartmentUseCase;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeAll;
@@ -11,10 +12,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
 import java.util.UUID;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -66,9 +67,20 @@ public class ApartmentUseCaseTest {
         Apartment apartmentGet = apartmentUseCase.get(apartmentObject);
 
         assertNull(apartmentGet);
-
-
-
     }
 
+    @Test
+    public void getTest(){
+        apartmentUseCase.create(apartment);
+        final Apartment apartmentObject = apartmentUseCase.get(apartment);
+        assertEquals(apartment.getAddress(), apartmentObject.getAddress());
+    }
+
+    @Test
+    public void getAllTest(){
+        apartmentUseCase.create(apartment);
+        final List<Apartment> apartmentObject = apartmentUseCase.get();
+        assertTrue(apartmentObject.size() > 0);
+
+    }
 }

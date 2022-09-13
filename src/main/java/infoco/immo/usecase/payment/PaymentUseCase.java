@@ -1,8 +1,10 @@
 package infoco.immo.usecase.payment;
 
 import infoco.immo.core.Payment;
+import infoco.immo.database.SQL.payment.PaymentRepositoryI;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -12,12 +14,11 @@ public class PaymentUseCase {
 
 
     public void  create(Payment payment) {
-        payment.setId(UUID.randomUUID());
         paymentRepositoryI.create(payment);
-        paymentRepositoryI.createMappingRentPayment(payment);
     }
 
-    public Payment get(Payment payment) {
+    public Payment get(UUID paymentId) {
+        Payment payment = Payment.builder().id(paymentId).build();
         return paymentRepositoryI.get(payment);
     }
 
@@ -25,8 +26,12 @@ public class PaymentUseCase {
         paymentRepositoryI.update(payment);
     }
 
-    public void delete(UUID paymentId) {
+    public void  delete(UUID paymentId) {
         paymentRepositoryI.delete(paymentId);
+    }
+
+    public List<Payment> get(){
+        return paymentRepositoryI.get();
     }
 
     public RentReceiptData generateRentReceipt(String from, String to, UUID rentId) {

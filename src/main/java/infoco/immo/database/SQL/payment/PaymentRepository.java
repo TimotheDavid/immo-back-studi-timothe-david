@@ -1,10 +1,12 @@
 package infoco.immo.database.SQL.payment;
 
 import infoco.immo.core.Payment;
+import infoco.immo.core.PaymentRent;
 import infoco.immo.usecase.payment.RentReceiptData;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
+import java.util.List;
 import java.util.UUID;
 
 public class PaymentRepository implements PaymentRepositoryI {
@@ -18,7 +20,7 @@ public class PaymentRepository implements PaymentRepositoryI {
 
     @Override
     public void create(Payment payment) {
-        final String SQL = "INSERT INTO immo.payment(uuid, amount, date_payment, landlor_part, agency_part,paymentrentid, typepaymentid, originid) VALUES (?,?,?,?,?,?,?,?)";
+        final String SQL = "INSERT INTO immo.payment(uuid, amount, date_payment, landlor_part, agency_part, sens, type, origin) VALUES (?,?,?,?,?,?,CAST(? AS immo.type_to_pay),CAST(? AS immo.origin))";
         db.update(SQL, ps -> {
             int nthPlace = 1;
             ps.setObject(nthPlace++, payment.getId());
@@ -26,9 +28,9 @@ public class PaymentRepository implements PaymentRepositoryI {
             ps.setString(nthPlace++, payment.getDatePayment());
             ps.setFloat(nthPlace++, payment.getLandlorPart());
             ps.setFloat(nthPlace++, payment.getAgencyPart());
-            ps.setObject(nthPlace++, payment.getRentId());
-            ps.setObject(nthPlace++, payment.getTypePayment());
-            ps.setObject(nthPlace++, payment.getOriginId());
+            ps.setBoolean(nthPlace++, payment.getSens());
+            ps.setString(nthPlace++, payment.getTypePayment().toString());
+            ps.setString(nthPlace++, payment.getOrigin().toString());
         });
     }
 
@@ -51,8 +53,14 @@ public class PaymentRepository implements PaymentRepositoryI {
     }
 
     @Override
+    public List<Payment> get() {
+        final String SQL = "SELECT * FROM immo.payment";
+        return db.query(SQL, new PaymentMapper());
+    }
+
+    @Override
     public void update(Payment payment) {
-        final String SQL = "UPDATE immo.payment SET amount = ?, date_payment = ?, landlor_part = ?, agency_part = ?, paymentrentid = ?, typepaymentid WHERE uuid = ?";
+        final String SQL = "UPDATE immo.payment SET amount = ?, date_payment = ?, landlor_part = ?, agency_part = ? WHERE uuid = ?";
         db.update(SQL, ps -> {
             int nthPlace = 1;
             ps.setFloat(nthPlace++, payment.getAmount());
@@ -60,7 +68,6 @@ public class PaymentRepository implements PaymentRepositoryI {
             ps.setFloat(nthPlace++, payment.getLandlorPart());
             ps.setFloat(nthPlace++, payment.getAgencyPart());
             ps.setObject(nthPlace++, payment.getRentId());
-            ps.setObject(nthPlace++, payment.getTypePayment());
         });
     }
 
@@ -70,6 +77,17 @@ public class PaymentRepository implements PaymentRepositoryI {
         db.update(SQL, paymentId);
     }
 
+
+    @Override
+    public void mapPaymentRent(PaymentRent paymentRent) {
+        final String SQL = "INSERT INTO immo.payment_rent(uuid, rentid, paymentid) VALUES (?,?,?)";
+        db.update(SQL, ps -> {
+            int nthPlace = 1;
+            ps.setObject(nthPlace++, paymentRent.getId());
+            ps.setObject(nthPlace++, paymentRent.getRent());
+            ps.setObject(nthPlace++, paymentRent.getPayment());
+        });
+    }
     @Override
     public RentReceiptData generateRentReceipt(String from, String to, UUID rentId) {
         return null;

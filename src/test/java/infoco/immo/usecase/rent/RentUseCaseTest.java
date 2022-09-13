@@ -8,6 +8,9 @@ import infoco.immo.configuration.PostgresDataConfigurationTest;
 import infoco.immo.core.Apartment;
 import infoco.immo.core.Rent;
 import infoco.immo.core.Tenants;
+import infoco.immo.database.SQL.appartment.ApartmentRepository;
+import infoco.immo.database.SQL.rent.RentRepository;
+import infoco.immo.database.SQL.tenant.TenantRepository;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.runner.RunWith;
@@ -20,6 +23,7 @@ import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -103,7 +107,7 @@ public class RentUseCaseTest {
         rentUseCase.update(rentObject);
         Rent rentUpdated = rentUseCase.get(rentObject);
         assertEquals(rentUpdated.getId(), rentObject.getId());
-        assertEquals(rentUpdated.getRentAmount(), rentObject.getRentAmount());
+        assertEquals(rentUpdated.getAmount(), rentObject.getAmount());
     }
 
     @Test

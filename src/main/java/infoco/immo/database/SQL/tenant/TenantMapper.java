@@ -19,6 +19,7 @@ public class TenantMapper implements RowMapper<Tenants> {
         tenant.setEmail(rs.getString("email"));
         tenant.setSecondEmail(rs.getString("second_email"));
         tenant.setPhone(rs.getString("phone"));
+        tenant.setCivility(rs.getString("civility"));
         return tenant;
     }
 }

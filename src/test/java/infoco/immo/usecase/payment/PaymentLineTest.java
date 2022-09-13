@@ -3,6 +3,9 @@ package infoco.immo.usecase.payment;
 import infoco.immo.core.Apartment;
 import infoco.immo.core.Rent;
 import infoco.immo.core.Tenants;
+import infoco.immo.database.SQL.appartment.ApartmentRepository;
+import infoco.immo.database.SQL.rent.RentRepository;
+import infoco.immo.database.SQL.tenant.TenantRepository;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 

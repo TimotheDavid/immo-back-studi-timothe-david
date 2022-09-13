@@ -1,16 +1,19 @@
 package infoco.immo.usecase.tenant;
 
 import infoco.immo.core.Tenants;
-import lombok.RequiredArgsConstructor;
+import infoco.immo.database.SQL.tenant.TenantRepositoryI;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.UUID;
 
-@RequiredArgsConstructor
 public class TenantUseCase {
 
-    public final TenantRepositoryI tenantRepositoryI;
+    private final TenantRepositoryI tenantRepositoryI;
 
+    public TenantUseCase(TenantRepositoryI tenantRepositoryI){
+        this.tenantRepositoryI = tenantRepositoryI;
+    }
     public UUID create(Tenants tenants) throws SQLException {
         tenants.setId(UUID.randomUUID());
         this.tenantRepositoryI.create(tenants);
@@ -23,6 +26,13 @@ public class TenantUseCase {
 
     public void update(Tenants tenants) {
         tenantRepositoryI.update(tenants);
+    }
+
+    public void delete(UUID tenantId) {
+        tenantRepositoryI.delete(tenantId);
+    }
+    public List<Tenants> get() {
+        return tenantRepositoryI.get();
     }
 
 
