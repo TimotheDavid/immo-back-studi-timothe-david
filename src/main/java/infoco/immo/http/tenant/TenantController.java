@@ -5,7 +5,7 @@ import infoco.immo.core.Tenants;
 import infoco.immo.http.tenant.dto.CreateTenantDTO;
 import infoco.immo.http.tenant.dto.UpdateTenantDTO;
 import infoco.immo.http.tenant.mapper.TenantMapper;
-import lombok.AllArgsConstructor;
+import infoco.immo.http.tenant.response.TenantResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/tenant")
@@ -32,15 +33,15 @@ public class TenantController {
     }
 
     @GetMapping("/{uuid}")
-    public ResponseEntity<Tenants> getTenant(@PathVariable(value ="uuid") String uuid) {
+    public ResponseEntity<TenantResponse> getTenant(@PathVariable(value ="uuid") String uuid) {
         Tenants tenant = Tenants.builder().id(UUID.fromString(uuid)).build();
         Tenants  tenantObject = tenantService.get(tenant);
-        return new ResponseEntity<>(tenantObject, HttpStatus.OK);
+        return new ResponseEntity<>(TenantMapper.INSTANCE.domainToResponse(tenantObject), HttpStatus.OK);
     }
 
     @GetMapping()
-    public ResponseEntity<List<Tenants>> getTenant() {
-        List<Tenants> tenantObject = tenantService.get();
+    public ResponseEntity<List<TenantResponse>> getTenant() {
+        List<TenantResponse> tenantObject = tenantService.get().stream().map(TenantMapper.INSTANCE::domainToResponse).collect(Collectors.toList());
         return new ResponseEntity<>(tenantObject, HttpStatus.OK);
     }
 

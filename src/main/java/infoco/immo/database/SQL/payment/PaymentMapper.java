@@ -1,5 +1,6 @@
 package infoco.immo.database.SQL.payment;
 
+import infoco.immo.core.Origin;
 import infoco.immo.core.Payment;
 import infoco.immo.core.TypePayment;
 import org.springframework.jdbc.core.PreparedStatementSetter;
@@ -20,6 +21,9 @@ public class PaymentMapper implements RowMapper<Payment> {
         payment.setAmount(rs.getFloat("amount"));
         payment.setAgencyPart(rs.getFloat("agency_part"));
         payment.setLandlorPart(rs.getFloat("landlor_part"));
+        payment.setId(rs.getObject("uuid", UUID.class));
+        payment.setOrigin(Origin.valueOf(rs.getString("origin")));
+        payment.setSens(rs.getBoolean("sens"));
         return payment;
     }
 }

@@ -5,11 +5,15 @@ import infoco.immo.core.Payment;
 import infoco.immo.http.payment.dto.CreateDTOPayment;
 import infoco.immo.http.payment.dto.UpdateDTOPayment;
 import infoco.immo.http.payment.mapper.PaymentMapper;
+import infoco.immo.http.payment.response.PaymentResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/payment")
@@ -25,13 +29,16 @@ public class PaymentController {
     }
 
     @GetMapping
-    public List<Payment> getAll(){
-        return paymentService.get();
+    public ResponseEntity<List<PaymentResponse>> getAll(){
+        return new ResponseEntity<>(paymentService.get().stream().map(payment -> PaymentMapper.INSTANCE.domainToResponse(payment)).collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{uuid}")
-    public Payment get(@PathVariable String uuid){
-        return paymentService.get(UUID.fromString(uuid));
+    public ResponseEntity<PaymentResponse> get(@PathVariable String uuid){
+        Payment payment =  paymentService.get(UUID.fromString(uuid));
+
+        return ResponseEntity.ok(PaymentMapper.INSTANCE.domainToResponse(payment));
+
     }
 
     @DeleteMapping(value = "/{uuid}")

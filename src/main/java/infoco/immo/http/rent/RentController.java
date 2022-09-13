@@ -4,7 +4,10 @@ import infoco.immo.core.Rent;
 import infoco.immo.http.rent.dto.CreateRentDTO;
 import infoco.immo.http.rent.dto.UpdateRentDTO;
 import infoco.immo.http.rent.mapper.RentMappers;
+import infoco.immo.http.rent.response.RentResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,9 +28,9 @@ public class RentController {
     }
 
     @GetMapping(value = "/{uuid}")
-    public Rent getOne(@PathVariable String uuid){
+    public ResponseEntity<RentResponse> getOne(@PathVariable String uuid){
         Rent rent = Rent.builder().id(UUID.fromString(uuid)).build();
-        return rentService.get(rent);
+        return new ResponseEntity<>(RentMappers.INSTANCE.domaineToResponse(rentService.get(rent)), HttpStatus.OK);
     }
 
     @GetMapping

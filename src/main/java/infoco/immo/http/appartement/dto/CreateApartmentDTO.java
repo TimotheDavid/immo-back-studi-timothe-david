@@ -1,6 +1,7 @@
 package infoco.immo.http.appartement.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 @Getter
@@ -12,6 +13,7 @@ public class CreateApartmentDTO {
     private  String address;
     private  String complement;
     private  String city;
+    @JsonProperty("postal_code")
     private  String postalCode;
 
     private  Float charge;

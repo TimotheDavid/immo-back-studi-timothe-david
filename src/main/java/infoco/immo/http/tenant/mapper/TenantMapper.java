@@ -4,6 +4,7 @@ package infoco.immo.http.tenant.mapper;
 import infoco.immo.core.Tenants;
 import infoco.immo.http.tenant.dto.CreateTenantDTO;
 import infoco.immo.http.tenant.dto.UpdateTenantDTO;
+import infoco.immo.http.tenant.response.TenantResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -23,4 +24,6 @@ public interface TenantMapper {
     Tenants tenantToCreateDTO(CreateTenantDTO createTenant);
 
      UpdateTenantDTO tenantToUpdate(Tenants tenants);
+
+    TenantResponse domainToResponse(Tenants tenantObject);
 }

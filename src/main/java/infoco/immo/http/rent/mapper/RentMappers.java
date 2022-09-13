@@ -3,10 +3,17 @@ package infoco.immo.http.rent.mapper;
 import infoco.immo.core.Rent;
 import infoco.immo.http.rent.dto.CreateRentDTO;
 import infoco.immo.http.rent.dto.UpdateRentDTO;
+import infoco.immo.http.rent.response.RentResponse;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+import java.util.UUID;
+
+@Mapper(
+        imports = {UUID.class}
+
+)
 public abstract class RentMappers {
 
     public static final RentMappers INSTANCE = Mappers.getMapper(RentMappers.class);
@@ -38,6 +45,8 @@ public abstract class RentMappers {
         return createRentDTO;
 
     }
+
+    public abstract RentResponse domaineToResponse(Rent rent);
 
     ;
 }
