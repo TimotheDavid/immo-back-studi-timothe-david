@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc(addFilters = false)
 public class RentHttpTest {
 
-    private final String BASE_URL = "/rent";
+    private final String BASE_URL = "/api/rent";
 
     @Autowired
     private MockMvc mockMvc;

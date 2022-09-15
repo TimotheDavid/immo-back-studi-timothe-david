@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc(addFilters = false)
 public class ApartmentHttpTest {
 
-    private final String BASE_URL = "/apartment";
+    private final String BASE_URL = "/api/apartment";
 
     @Autowired
     private MockMvc mockMvc;

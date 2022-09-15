@@ -25,7 +25,7 @@ public class UserUseCase {
 
     public void  create(User user) {
         user.setId(UUID.randomUUID());
-        passwordEncoder.encode(user.getPassword());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         _userRepositoryI.create(user);
     }
 

@@ -30,7 +30,7 @@ public class PaymentController {
 
     @GetMapping
     public ResponseEntity<List<PaymentResponse>> getAll(){
-        return new ResponseEntity<>(paymentService.get().stream().map(payment -> PaymentMapper.INSTANCE.domainToResponse(payment)).collect(Collectors.toList()), HttpStatus.OK);
+        return new ResponseEntity<>(paymentService.get().stream().map(PaymentMapper.INSTANCE::domainToResponse).collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{uuid}")

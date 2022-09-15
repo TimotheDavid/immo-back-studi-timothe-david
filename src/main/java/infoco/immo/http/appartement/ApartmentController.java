@@ -7,6 +7,7 @@ import infoco.immo.http.appartement.dto.CreateApartmentDTO;
 import infoco.immo.http.appartement.dto.UpdateApartmentDTO;
 import infoco.immo.http.appartement.response.ApartmentResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,9 +28,9 @@ public class ApartmentController {
     }
 
     @GetMapping(value = "/{uuid}")
-    public ApartmentResponse getOne(@PathVariable String uuid){
+    public ResponseEntity<ApartmentResponse> getOne(@PathVariable String uuid){
         Apartment apartment = Apartment.builder().id(UUID.fromString(uuid)).build();
-        return ApartmentMapper.INSTANCE.domainToResponse(appartmentService.get(apartment));
+        return ResponseEntity.ok(ApartmentMapper.INSTANCE.domainToResponse(appartmentService.get(apartment)));
     }
 
     @GetMapping
@@ -46,6 +47,6 @@ public class ApartmentController {
     @DeleteMapping(value = "/{uuid}")
     public void delete(@PathVariable String uuid) {
         appartmentService.delete(UUID.fromString(uuid));
-    };
+    }
 
 }

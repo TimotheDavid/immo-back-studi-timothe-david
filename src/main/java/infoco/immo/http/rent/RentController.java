@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/api/rent")
@@ -34,8 +35,8 @@ public class RentController {
     }
 
     @GetMapping
-    public List<Rent> getAll() {
-        return rentService.get();
+    public ResponseEntity<List<RentResponse>> getAll() {
+        return  ResponseEntity.ok(rentService.get().stream().map(RentMappers.INSTANCE::domaineToResponse).collect(Collectors.toList()));
     }
 
     @PutMapping

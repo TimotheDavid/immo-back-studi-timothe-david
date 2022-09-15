@@ -1,0 +1,18 @@
+get:
+  tags:
+    - Apartment
+  summary: get one apartment by UUIDv4
+  parameters:
+    - in: path
+      name: uuid
+      schema:
+        type: string
+        required: true
+        description: UUIDv4 of the apartment to get
+  responses:
+    200:
+      description: apartment object
+      content:
+        application/json:
+          schema:
+            $ref: './object.yaml#GetApartment'

@@ -1,0 +1,83 @@
+openapi: '3.0.0'
+info:
+  title: Immo Api
+  version: '1.0.0'
+  description: "|
+    Open API specification for immo project at Studi course (https://studi.fr)
+    "
+servers:
+  - url: http://localhost:8080
+  - url: https://dev.immo-api.timothedavid.fr
+
+tags:
+  - name: Auth
+    description: create and login in a account
+  - name: Apartment
+    description: CRUD on apartment
+
+paths:
+  /api/apartment:
+    $ref: "./apartment/apartment.yaml"
+  /api/apartment/{uuid}:
+   $ref: './apartment/getOneApartment.yaml'
+
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: login an user
+      requestBody:
+        required: true
+        description: user to login
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schema/LoginBody"
+      responses:
+        200:
+          description: user logged
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: "token to use for the api **Caution the token have a life of 30 minutes**: you need to login again after"
+        404:
+          description: user not found
+  /auth:
+    post:
+      tags:
+        - Auth
+      summary: Register an user
+      requestBody:
+        required: true
+        description: user to register
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schema/RegisterBody'
+      responses:
+        201:
+          description: create an user
+
+components:
+  schemas:
+    RegisterBody:
+      properties:
+        email:
+          type: string
+          required: true
+        password:
+          type: string
+          required: true
+        name:
+          type: string
+          required: true
+
+
+
+
+
+

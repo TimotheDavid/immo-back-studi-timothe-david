@@ -1,0 +1,66 @@
+post:
+  tags:
+    - Apartment
+  summary: create an apartment
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "#/components/schema/CreateApartment"
+  responses:
+    200:
+      description: apartment created
+    500:
+      description: Error for creation
+get:
+  tags:
+    - Apartment
+  summary: get all apartment
+  responses:
+    200:
+      description: array of apartment
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schema/GetAllApartmentResponse"
+delete:
+  tags:
+    - Apartment
+  summary: delete on apartment by UUIDv4
+  parameters:
+    - in: path
+      name: uuid
+      schema:
+        type: string
+        required: true
+        description: UUIDv4 of the apartment to delete
+  responses:
+    200:
+      description: apartment successfully deleted
+put:
+  tags:
+    - Apartment
+  summary: update one apartment
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "#/components/schema/UpdateApartmentBody"
+  responses:
+    200:
+      description: update the apartment successful
+  delete:
+    tags:
+      - Apartment
+    summary: delete an apartment
+    parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          required: true
+          description: UUIDv4 of the apartment to delete
+    responses:
+      200:
+        description: apartment deleted successfully

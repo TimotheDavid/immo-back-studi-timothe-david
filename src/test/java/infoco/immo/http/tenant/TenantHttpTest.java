@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc(addFilters = false)
 public class TenantHttpTest {
 
-    private final String BASE_URL = "/tenant";
+    private final String BASE_URL = "/api/tenant";
 
     @Autowired
     private MockMvc mockMvc;

@@ -23,7 +23,7 @@ public class UserService implements UserUseCaseI {
     BCryptPasswordEncoder bCryptPasswordEncoder;
     private UserUseCase _userUseCase() {
         UserRepository userRepository = new UserRepository();
-        userRepository.setDataSource(new DatabaseConfiguration().dataSource());
+        userRepository.setDataSource(new  DatabaseConfiguration().dataSource());
         AuthenticationRepository authenticationRepository =new AuthenticationRepository();
         authenticationRepository.setDataSource(new DatabaseConfiguration().dataSource());
         return new UserUseCase(userRepository,authenticationRepository, bCryptPasswordEncoder);
