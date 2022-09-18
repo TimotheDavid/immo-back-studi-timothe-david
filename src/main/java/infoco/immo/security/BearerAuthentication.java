@@ -1,11 +1,13 @@
 package infoco.immo.security;
 
+import infoco.immo.configuration.BeanConfiguration;
 import infoco.immo.configuration.DatabaseConfiguration;
 import infoco.immo.core.Authentication;
 import infoco.immo.database.SQL.authentication.AuthenticationRepository;
 import infoco.immo.database.SQL.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -24,7 +26,7 @@ import java.util.Objects;
 
 
 @Slf4j
-@Component
+@Configuration
 public class BearerAuthentication implements Filter {
     static final String FORBIDDEN = "forbidden, add a bearer token";
 
@@ -32,11 +34,10 @@ public class BearerAuthentication implements Filter {
     RequestMappingHandlerMapping requestMappingHandlerMapping;
 
     @Autowired
-    JdbcTemplate jdbcTemplate;
+    BeanConfiguration beanConfiguration;
 
     @Autowired
     AuthenticationRepository authenticationRepository;
-
 
 
     @Override
@@ -44,7 +45,8 @@ public class BearerAuthentication implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String headers = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if (authenticationRepository == null) {
+        AuthenticationRepository authenticationRepository;
+        if (beanConfiguration.authenticationRepository() == null) {
             ServletContext servletContext = request.getServletContext();
             WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
             authenticationRepository = webApplicationContext.getBean(AuthenticationRepository.class);

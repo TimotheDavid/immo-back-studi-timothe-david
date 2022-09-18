@@ -12,6 +12,7 @@ import infoco.immo.usecase.rent.RentUseCase;
 import infoco.immo.usecase.tenant.TenantUseCase;
 import infoco.immo.usecase.user.UserUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,9 +20,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
 @Configuration
+@EnableAutoConfiguration
 public class BeanConfiguration {
 
-
+    @Autowired
+    JdbcTemplate jdbcTemplate;
     @Autowired
     ApartmentRepository apartmentRepository;
 
@@ -43,8 +46,7 @@ public class BeanConfiguration {
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Autowired
-    JdbcTemplate jdbcTemplate;
+
 
 
     @Bean(name = "ApartmentBean")
@@ -72,7 +74,9 @@ public class BeanConfiguration {
         return new UserUseCase(userRepository, authenticationRepository, bCryptPasswordEncoder);
     }
 
-
-
+    @Bean(name = "AuthenticationBean")
+    public AuthenticationRepository authenticationRepository(){
+        return authenticationRepository;
+    }
 
 }

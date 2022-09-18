@@ -1,0 +1,223 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ApartmentMapperImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">infoco.immo.http.appartement.apartmentMapper</a>
+</div>
+
+<h1>Coverage Summary for Class: ApartmentMapperImpl (infoco.immo.http.appartement.apartmentMapper)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ApartmentMapperImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/62)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package infoco.immo.http.appartement.apartmentMapper;
+&nbsp;
+&nbsp;import infoco.immo.core.Apartment;
+&nbsp;import infoco.immo.http.appartement.dto.CreateApartmentDTO;
+&nbsp;import infoco.immo.http.appartement.dto.UpdateApartmentDTO;
+&nbsp;import infoco.immo.http.appartement.response.ApartmentResponse;
+&nbsp;import java.util.UUID;
+&nbsp;import javax.annotation.processing.Generated;
+&nbsp;
+&nbsp;@Generated(
+&nbsp;    value = &quot;org.mapstruct.ap.MappingProcessor&quot;,
+&nbsp;    date = &quot;2022-09-18T13:31:17+0200&quot;,
+&nbsp;    comments = &quot;version: 1.5.2.Final, compiler: javac, environment: Java 18.0.1.1 (Oracle Corporation)&quot;
+&nbsp;)
+<b class="nc">&nbsp;public class ApartmentMapperImpl implements ApartmentMapper {</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public CreateApartmentDTO apartmentTOcreateDTO(Apartment apartment) {
+<b class="nc">&nbsp;        if ( apartment == null ) {</b>
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        CreateApartmentDTO.CreateApartmentDTOBuilder createApartmentDTO = CreateApartmentDTO.builder();</b>
+&nbsp;
+<b class="nc">&nbsp;        createApartmentDTO.address( apartment.getAddress() );</b>
+<b class="nc">&nbsp;        createApartmentDTO.complement( apartment.getComplement() );</b>
+<b class="nc">&nbsp;        createApartmentDTO.city( apartment.getCity() );</b>
+<b class="nc">&nbsp;        createApartmentDTO.postalCode( apartment.getPostalCode() );</b>
+<b class="nc">&nbsp;        createApartmentDTO.charge( apartment.getCharge() );</b>
+<b class="nc">&nbsp;        createApartmentDTO.rent( apartment.getRent() );</b>
+<b class="nc">&nbsp;        createApartmentDTO.deposit( apartment.getDeposit() );</b>
+&nbsp;
+<b class="nc">&nbsp;        return createApartmentDTO.build();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public UpdateApartmentDTO updateToApartment(Apartment apartment) {
+<b class="nc">&nbsp;        if ( apartment == null ) {</b>
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        UpdateApartmentDTO.UpdateApartmentDTOBuilder updateApartmentDTO = UpdateApartmentDTO.builder();</b>
+&nbsp;
+<b class="nc">&nbsp;        updateApartmentDTO.address( apartment.getAddress() );</b>
+<b class="nc">&nbsp;        updateApartmentDTO.complement( apartment.getComplement() );</b>
+<b class="nc">&nbsp;        updateApartmentDTO.city( apartment.getCity() );</b>
+<b class="nc">&nbsp;        updateApartmentDTO.postalCode( apartment.getPostalCode() );</b>
+<b class="nc">&nbsp;        updateApartmentDTO.charge( apartment.getCharge() );</b>
+<b class="nc">&nbsp;        updateApartmentDTO.rent( apartment.getRent() );</b>
+<b class="nc">&nbsp;        updateApartmentDTO.deposit( apartment.getDeposit() );</b>
+<b class="nc">&nbsp;        if ( apartment.getId() != null ) {</b>
+<b class="nc">&nbsp;            updateApartmentDTO.id( apartment.getId().toString() );</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return updateApartmentDTO.build();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Apartment CreateDTOtoDomain(CreateApartmentDTO createApartmentDTO) {
+<b class="nc">&nbsp;        if ( createApartmentDTO == null ) {</b>
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        Apartment.ApartmentBuilder apartment = Apartment.builder();</b>
+&nbsp;
+<b class="nc">&nbsp;        apartment.address( createApartmentDTO.getAddress() );</b>
+<b class="nc">&nbsp;        apartment.complement( createApartmentDTO.getComplement() );</b>
+<b class="nc">&nbsp;        apartment.city( createApartmentDTO.getCity() );</b>
+<b class="nc">&nbsp;        apartment.postalCode( createApartmentDTO.getPostalCode() );</b>
+<b class="nc">&nbsp;        apartment.charge( createApartmentDTO.getCharge() );</b>
+<b class="nc">&nbsp;        apartment.rent( createApartmentDTO.getRent() );</b>
+<b class="nc">&nbsp;        apartment.deposit( createApartmentDTO.getDeposit() );</b>
+&nbsp;
+<b class="nc">&nbsp;        return apartment.build();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Apartment updateDTOToDomain(UpdateApartmentDTO updateApartmentDTO) {
+<b class="nc">&nbsp;        if ( updateApartmentDTO == null ) {</b>
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        Apartment.ApartmentBuilder apartment = Apartment.builder();</b>
+&nbsp;
+<b class="nc">&nbsp;        if ( updateApartmentDTO.getId() != null ) {</b>
+<b class="nc">&nbsp;            apartment.id( UUID.fromString( updateApartmentDTO.getId() ) );</b>
+&nbsp;        }
+<b class="nc">&nbsp;        apartment.address( updateApartmentDTO.getAddress() );</b>
+<b class="nc">&nbsp;        apartment.complement( updateApartmentDTO.getComplement() );</b>
+<b class="nc">&nbsp;        apartment.city( updateApartmentDTO.getCity() );</b>
+<b class="nc">&nbsp;        apartment.postalCode( updateApartmentDTO.getPostalCode() );</b>
+<b class="nc">&nbsp;        apartment.charge( updateApartmentDTO.getCharge() );</b>
+<b class="nc">&nbsp;        apartment.rent( updateApartmentDTO.getRent() );</b>
+<b class="nc">&nbsp;        apartment.deposit( updateApartmentDTO.getDeposit() );</b>
+&nbsp;
+<b class="nc">&nbsp;        return apartment.build();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public ApartmentResponse domainToResponse(Apartment apartment) {
+<b class="nc">&nbsp;        if ( apartment == null ) {</b>
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        ApartmentResponse apartmentResponse = new ApartmentResponse();</b>
+&nbsp;
+<b class="nc">&nbsp;        if ( apartment.getId() != null ) {</b>
+<b class="nc">&nbsp;            apartmentResponse.setId( apartment.getId().toString() );</b>
+&nbsp;        }
+<b class="nc">&nbsp;        apartmentResponse.setAddress( apartment.getAddress() );</b>
+<b class="nc">&nbsp;        apartmentResponse.setComplement( apartment.getComplement() );</b>
+<b class="nc">&nbsp;        apartmentResponse.setCity( apartment.getCity() );</b>
+<b class="nc">&nbsp;        apartmentResponse.setPostalCode( apartment.getPostalCode() );</b>
+<b class="nc">&nbsp;        apartmentResponse.setCharge( apartment.getCharge() );</b>
+<b class="nc">&nbsp;        apartmentResponse.setRent( apartment.getRent() );</b>
+<b class="nc">&nbsp;        apartmentResponse.setDeposit( apartment.getDeposit() );</b>
+&nbsp;
+<b class="nc">&nbsp;        return apartmentResponse;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-09-18 17:13</div>
+</div>
+</body>
+</html>

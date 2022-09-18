@@ -1,0 +1,166 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > TenantController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">infoco.immo.http.tenant</a>
+</div>
+
+<h1>Coverage Summary for Class: TenantController (infoco.immo.http.tenant)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TenantController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    16,7%
+  </span>
+  <span class="absValue">
+    (1/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    9,1%
+  </span>
+  <span class="absValue">
+    (1/11)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package infoco.immo.http.tenant;
+&nbsp;
+&nbsp;
+&nbsp;import infoco.immo.core.Tenants;
+&nbsp;import infoco.immo.http.tenant.dto.CreateTenantDTO;
+&nbsp;import infoco.immo.http.tenant.dto.UpdateTenantDTO;
+&nbsp;import infoco.immo.http.tenant.mapper.TenantMapper;
+&nbsp;import infoco.immo.http.tenant.response.TenantResponse;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;import java.sql.SQLException;
+&nbsp;import java.util.List;
+&nbsp;import java.util.UUID;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;@RestController
+&nbsp;@RequestMapping(&quot;/api/tenant&quot;)
+<b class="fc">&nbsp;public class TenantController {</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    TenantService tenantService;
+&nbsp;
+&nbsp;
+&nbsp;    @PostMapping
+&nbsp;    public void createTenant(@RequestBody CreateTenantDTO createTenant) throws SQLException {
+<b class="nc">&nbsp;        Tenants tenants = TenantMapper.INSTANCE.tenantToCreateDTO(createTenant);</b>
+<b class="nc">&nbsp;        tenantService.create(tenants);</b>
+&nbsp;
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    @GetMapping(&quot;/{uuid}&quot;)
+&nbsp;    public ResponseEntity&lt;TenantResponse&gt; getTenant(@PathVariable(value =&quot;uuid&quot;) String uuid) {
+<b class="nc">&nbsp;        Tenants tenant = Tenants.builder().id(UUID.fromString(uuid)).build();</b>
+<b class="nc">&nbsp;        Tenants  tenantObject = tenantService.get(tenant);</b>
+<b class="nc">&nbsp;        return new ResponseEntity&lt;&gt;(TenantMapper.INSTANCE.domainToResponse(tenantObject), HttpStatus.OK);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @GetMapping()
+&nbsp;    public ResponseEntity&lt;List&lt;TenantResponse&gt;&gt; getTenant() {
+<b class="nc">&nbsp;        List&lt;TenantResponse&gt; tenantObject = tenantService.get().stream().map(TenantMapper.INSTANCE::domainToResponse).collect(Collectors.toList());</b>
+<b class="nc">&nbsp;        return new ResponseEntity&lt;&gt;(tenantObject, HttpStatus.OK);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    @PutMapping
+&nbsp;    public void updateTenant(@RequestBody UpdateTenantDTO updateTenantDTO){
+<b class="nc">&nbsp;        Tenants tenant = TenantMapper.INSTANCE.updateDTOToTenant(updateTenantDTO);</b>
+<b class="nc">&nbsp;        tenantService.update(tenant);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @DeleteMapping(value = &quot;/{uuid}&quot;)
+&nbsp;    public void deleteTenant(@PathVariable(&quot;uuid&quot;) String uuid){
+<b class="nc">&nbsp;        tenantService.delete(UUID.fromString(uuid));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-09-18 17:13</div>
+</div>
+</body>
+</html>

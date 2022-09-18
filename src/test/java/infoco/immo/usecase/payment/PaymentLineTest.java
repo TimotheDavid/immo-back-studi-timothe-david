@@ -26,6 +26,8 @@ public class PaymentLineTest {
         tenantRepository.create(tenant);
         apartment.setId(UUID.randomUUID());
         apartmentRepository.create(apartment);
+        rent.setTenantsId(tenant.getId());
+        rent.setApartmentId(tenant.getId());
         rent.setId(UUID.randomUUID());
         rentRepository.create(rent);
         return rent.getId();

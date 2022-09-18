@@ -33,8 +33,6 @@ public class RentUseCase {
         return rent.getId();
     }
 
-
-
     public List<Rent> get() { return rentRepositoryI.get();}
     public Rent get(Rent rent){
         return rentRepositoryI.get(rent);

@@ -20,7 +20,7 @@ public class PaymentService implements PaymentUseCaseI {
     BeanConfiguration beanConfiguration;
 
     @Override
-    public void create(Payment payment) {
+    public void  create(Payment payment) {
         beanConfiguration.paymentUseCase().create(payment);
     }
 

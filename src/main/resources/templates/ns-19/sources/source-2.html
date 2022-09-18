@@ -1,0 +1,179 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > TenantService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">infoco.immo.http.tenant</a>
+</div>
+
+<h1>Coverage Summary for Class: TenantService (infoco.immo.http.tenant)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TenantService</td>
+<td class="coverageStat">
+  <span class="percent">
+    16,7%
+  </span>
+  <span class="absValue">
+    (1/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    16,7%
+  </span>
+  <span class="absValue">
+    (1/6)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">TenantService$MockitoMock$RLX9qP9q</td>
+  </tr>
+  <tr>
+    <td class="name">TenantService$MockitoMock$RLX9qP9q$auxiliary$AKSbe0w2</td>
+  </tr>
+  <tr>
+    <td class="name">TenantService$MockitoMock$RLX9qP9q$auxiliary$BUpRyYeh</td>
+  </tr>
+  <tr>
+    <td class="name">TenantService$MockitoMock$RLX9qP9q$auxiliary$njCH7zmV</td>
+  </tr>
+  <tr>
+    <td class="name">TenantService$MockitoMock$RLX9qP9q$auxiliary$U9A7mt8t</td>
+  </tr>
+  <tr>
+    <td class="name">TenantService$MockitoMock$RLX9qP9q$auxiliary$UzRt7rIT</td>
+  </tr>
+  <tr>
+    <td class="name">TenantService$MockitoMock$RLX9qP9q$auxiliary$xP01zoBS</td>
+  </tr>
+  <tr>
+    <td class="name">TenantService$MockitoMock$RLX9qP9q$auxiliary$zQmpCIs2</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    16,7%
+  </span>
+  <span class="absValue">
+    (1/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    16,7%
+  </span>
+  <span class="absValue">
+    (1/6)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package infoco.immo.http.tenant;
+&nbsp;
+&nbsp;import infoco.immo.configuration.BeanConfiguration;
+&nbsp;import infoco.immo.configuration.DatabaseConfiguration;
+&nbsp;import infoco.immo.core.Tenants;
+&nbsp;import infoco.immo.database.SQL.tenant.TenantRepository;
+&nbsp;import infoco.immo.usecase.tenant.TenantUseCase;
+&nbsp;import infoco.immo.usecase.tenant.TenantUseCaseI;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import java.sql.SQLException;
+&nbsp;import java.util.List;
+&nbsp;import java.util.UUID;
+&nbsp;
+&nbsp;@Service
+<b class="fc">&nbsp;public class TenantService implements TenantUseCaseI {</b>
+&nbsp;
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    BeanConfiguration beanConfiguration;
+&nbsp;    public List&lt;Tenants&gt; get(){
+<b class="nc">&nbsp;        return beanConfiguration.tenantUseCase().get();</b>
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public void  create(Tenants tenant) throws SQLException {
+<b class="nc">&nbsp;        beanConfiguration.tenantUseCase().create(tenant);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Tenants get(Tenants tenant) {
+<b class="nc">&nbsp;        return beanConfiguration.tenantUseCase().get(tenant);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void  update(Tenants tenants) {
+<b class="nc">&nbsp;        beanConfiguration.tenantUseCase().update(tenants);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public  void delete(UUID tenantUUId){
+<b class="nc">&nbsp;        beanConfiguration.tenantUseCase().delete(tenantUUId);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-09-18 17:13</div>
+</div>
+</body>
+</html>

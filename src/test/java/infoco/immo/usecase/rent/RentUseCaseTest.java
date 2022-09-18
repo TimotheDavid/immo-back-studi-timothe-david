@@ -4,6 +4,7 @@ package infoco.immo.usecase.rent;
 import infoco.immo.ObjectTesting.appartment.ApartmentObjectTest;
 import infoco.immo.ObjectTesting.rent.RentObjectTest;
 import infoco.immo.ObjectTesting.tenants.TenantsObjectTest;
+import infoco.immo.configuration.BeanConfiguration;
 import infoco.immo.configuration.PostgresDataConfigurationTest;
 import infoco.immo.core.Apartment;
 import infoco.immo.core.Rent;
@@ -11,9 +12,13 @@ import infoco.immo.core.Tenants;
 import infoco.immo.database.SQL.appartment.ApartmentRepository;
 import infoco.immo.database.SQL.rent.RentRepository;
 import infoco.immo.database.SQL.tenant.TenantRepository;
-import org.junit.Test;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -21,113 +26,80 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.sql.SQLException;
 import java.util.UUID;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-
 
 @SpringBootTest
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
+@ImportAutoConfiguration(exclude = { PostgresDataConfigurationTest.class})
 public class RentUseCaseTest {
 
 
+    @Autowired
+    RentRepository rentRepository;
+
+    @Autowired
+    TenantRepository tenantRepository;
+
+    @Autowired
+    ApartmentRepository apartmentRepository;
+
+    @Autowired
+    BeanConfiguration beanConfiguration;
     private final Rent rent = RentObjectTest.getRent();
 
     private final Apartment apartment = ApartmentObjectTest.getApartment();
 
     private final Tenants  tenant = TenantsObjectTest.getTenant();
 
-    private final RentUseCase rentUseCase = beforeAllRent();
-
-    private final ApartmentRepository apartmentRepository = beforeAllApartment();
-
-    private  final TenantRepository tenantRepository = beforeAllTenant();
-    static RentUseCase beforeAllRent() {
-        RentRepository rentRepository = new RentRepository();
-        rentRepository.setDataSource(new PostgresDataConfigurationTest().dataSource());
-        TenantRepository tenantRepository = new TenantRepository();
-        tenantRepository.setDataSource(new PostgresDataConfigurationTest().dataSource());
-        ApartmentRepository apartmentRepository = new ApartmentRepository();
-        apartmentRepository.setDataSource(new PostgresDataConfigurationTest().dataSource());
-        return new RentUseCase(rentRepository, apartmentRepository,tenantRepository);
-    }
-
-    static ApartmentRepository beforeAllApartment() {
-        ApartmentRepository apartmentRepository = new ApartmentRepository();
-        apartmentRepository.setDataSource(new PostgresDataConfigurationTest().dataSource());
-        return apartmentRepository;
-    }
-    static TenantRepository beforeAllTenant() {
-        TenantRepository tenantRepository = new TenantRepository();
-        tenantRepository.setDataSource(new PostgresDataConfigurationTest().dataSource());
-        return tenantRepository;
-    }
-
-
-
-    @BeforeAll
-    static void beforeAll() {
-        beforeAllRent();
-    }
 
     @Test
     public void createTest() throws SQLException {
-        Rent rentObject = rent;
-        Apartment apartmentObject;
-        apartmentObject = apartment;
-        apartment.setId(UUID.randomUUID());
-        apartmentRepository.create(apartment);
-        tenant.setId(UUID.randomUUID());
-        tenantRepository.create(tenant);
-        rentObject.setApartmentId(apartment.getId());
-        rentObject.setTenantsId(tenant.getId());
-        UUID rentId = rentUseCase.create(rentObject);
-        rentObject.setId(rentId);
-        rentObject.setApartmentId(apartmentObject.getId());
-        Rent rentReturn = rentUseCase.get(rentObject);
-
-        assertEquals(rent.getDeposit(), rentReturn.getDeposit());
+        Rent rentObject = generateRent();
+        UUID rentId = beanConfiguration.rentUseCase().create(rentObject);
+        Assert.assertNotNull(rentId);
     }
 
     @Test
     public void getTest() {
         Rent rentObject = rent;
-        UUID rentId = rentUseCase.create(rentObject);
+        UUID rentId = beanConfiguration.rentUseCase().create(rentObject);
 
         rentObject.setId(rentId);
-        Rent rentReturn = rentUseCase.get(rentObject);
+        Rent rentReturn = beanConfiguration.rentUseCase().get(rentObject);
 
-        assertEquals(rentObject.getDescriptionIn(), rentReturn.getDescriptionIn());
+        Assertions.assertEquals(rentObject.getDescriptionIn(), rentReturn.getDescriptionIn());
     }
 
     @Test
     public void updateTest() {
         Rent rentObject = rent;
-        UUID rentId = rentUseCase.create(rentObject);
-        apartment.setId(UUID.randomUUID());
-        apartmentRepository.create(apartment);
-
-        rentObject.setId(rentId);
-        rentUseCase.update(rentObject);
-        Rent rentUpdated = rentUseCase.get(rentObject);
-        assertEquals(rentUpdated.getId(), rentObject.getId());
-        assertEquals(rentUpdated.getAmount(), rentObject.getAmount());
+        rentObject.setId(UUID.randomUUID());
+        rentRepository.create(rentObject);
+        beanConfiguration.rentUseCase().update(rentObject);
+        Rent rentUpdated = rentRepository.get(rentObject);
+        Assertions.assertEquals(rentUpdated.getId(), rentObject.getId());
+        Assertions.assertEquals(rentUpdated.getAmount(), rentObject.getAmount());
     }
 
     @Test
     public void deleteTest() throws SQLException {
         Rent rentObject = rent;
-        Apartment apartmentObject;
-        apartmentObject = apartment;
+        rentObject.setId(UUID.randomUUID());
+         rentRepository.create(rentObject);
+        beanConfiguration.rentUseCase().delete(rentObject.getId());
+        Assertions.assertNull(rentRepository.get(rentObject));
+    }
+
+    private Rent  generateRent() {
+        Rent rentObject = RentObjectTest.getRent();
         apartment.setId(UUID.randomUUID());
         apartmentRepository.create(apartment);
         tenant.setId(UUID.randomUUID());
         tenantRepository.create(tenant);
         rentObject.setApartmentId(apartment.getId());
         rentObject.setTenantsId(tenant.getId());
-        UUID rentId = rentUseCase.create(rentObject);
-        rentUseCase.delete(rentId);
-        assertNull(rentUseCase.get(rentObject));
+        rentRepository.create(rentObject);
+        return rentObject;
     }
 
 

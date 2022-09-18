@@ -3,6 +3,7 @@ package infoco.immo.http.tenant;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import infoco.immo.ObjectTesting.tenants.TenantsObjectTest;
+import infoco.immo.configuration.BeanConfiguration;
 import infoco.immo.configuration.PostgresDataConfigurationTest;
 import infoco.immo.core.Tenants;
 import infoco.immo.database.SQL.tenant.TenantRepository;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -25,7 +27,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(controllers = TenantController.class)
-@AutoConfigureMockMvc(addFilters = false)
+@AutoConfigureMockMvc(addFilters = false )
+@ComponentScan({"infoco.immo.*", "org.springframework.jdbc.core.JdbcTemplate"})
 public class TenantHttpTest {
 
     private final String BASE_URL = "/api/tenant";
@@ -33,13 +36,18 @@ public class TenantHttpTest {
     @Autowired
     private MockMvc mockMvc;
 
+
     @MockBean
-    private TenantService tenantService;
+    BeanConfiguration beanConfiguration;
+
+    @Autowired
+    TenantRepository tenantRepository;
 
 
-    private TenantRepository tenantRepository(){
-        return new TenantRepository();
-    }
+    @MockBean
+    TenantService tenantService;
+
+
 
     @Autowired
     ObjectMapper objectMapper;
@@ -62,21 +70,21 @@ public class TenantHttpTest {
     @Test
     public void getOne() throws Exception {
         tenants.setId(UUID.randomUUID());
-        tenantRepository().create(tenants);
+        tenantRepository.create(tenants);
         mockMvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/"+ tenants.getId())).andExpect(status().isOk());
     }
 
     @Test
     public void deleteOne() throws Exception{
         tenants.setId(UUID.randomUUID());
-        tenantRepository().create(tenants);
+        tenantRepository.create(tenants);
         mockMvc.perform(MockMvcRequestBuilders.delete(BASE_URL + "/" + tenants.getId())).andExpect(status().isOk());
     }
 
     @Test
     public void updateOne() throws Exception {
         tenants.setId(UUID.randomUUID());
-        tenantRepository().create(tenants);
+        tenantRepository.create(tenants);
         tenants.setCivility("MADAME");
         tenants.setPhone("000000000");
         String tenantJson = objectMapper.writeValueAsString(TenantMapper.INSTANCE.tenantToUpdate(tenants));

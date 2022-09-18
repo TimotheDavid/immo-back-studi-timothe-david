@@ -1,0 +1,192 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > PaymentMapperImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">infoco.immo.http.payment.mapper</a>
+</div>
+
+<h1>Coverage Summary for Class: PaymentMapperImpl (infoco.immo.http.payment.mapper)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PaymentMapperImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/45)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package infoco.immo.http.payment.mapper;
+&nbsp;
+&nbsp;import infoco.immo.core.Payment;
+&nbsp;import infoco.immo.http.payment.dto.CreateDTOPayment;
+&nbsp;import infoco.immo.http.payment.dto.UpdateDTOPayment;
+&nbsp;import infoco.immo.http.payment.response.PaymentResponse;
+&nbsp;import java.util.UUID;
+&nbsp;import javax.annotation.processing.Generated;
+&nbsp;
+&nbsp;@Generated(
+&nbsp;    value = &quot;org.mapstruct.ap.MappingProcessor&quot;,
+&nbsp;    date = &quot;2022-09-18T13:31:17+0200&quot;,
+&nbsp;    comments = &quot;version: 1.5.2.Final, compiler: javac, environment: Java 18.0.1.1 (Oracle Corporation)&quot;
+&nbsp;)
+<b class="nc">&nbsp;public class PaymentMapperImpl implements PaymentMapper {</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Payment createDTOToDomain(CreateDTOPayment paymentdto) {
+<b class="nc">&nbsp;        if ( paymentdto == null ) {</b>
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        Payment.PaymentBuilder payment = Payment.builder();</b>
+&nbsp;
+<b class="nc">&nbsp;        payment.amount( paymentdto.getAmount() );</b>
+<b class="nc">&nbsp;        payment.datePayment( paymentdto.getDatePayment() );</b>
+<b class="nc">&nbsp;        payment.landlorPart( paymentdto.getLandlorPart() );</b>
+<b class="nc">&nbsp;        payment.agencyPart( paymentdto.getAgencyPart() );</b>
+<b class="nc">&nbsp;        if ( paymentdto.getRentId() != null ) {</b>
+<b class="nc">&nbsp;            payment.rentId( UUID.fromString( paymentdto.getRentId() ) );</b>
+&nbsp;        }
+<b class="nc">&nbsp;        payment.typePayment( paymentdto.getTypePayment() );</b>
+<b class="nc">&nbsp;        payment.origin( paymentdto.getOrigin() );</b>
+<b class="nc">&nbsp;        payment.sens( paymentdto.getSens() );</b>
+<b class="nc">&nbsp;        payment.paymentRentId( paymentdto.getPaymentRentId() );</b>
+&nbsp;
+<b class="nc">&nbsp;        return payment.build();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Payment updatePaymentDTOToDomain(UpdateDTOPayment paymentDTO) {
+<b class="nc">&nbsp;        if ( paymentDTO == null ) {</b>
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        Payment.PaymentBuilder payment = Payment.builder();</b>
+&nbsp;
+<b class="nc">&nbsp;        payment.amount( paymentDTO.getAmount() );</b>
+<b class="nc">&nbsp;        payment.datePayment( paymentDTO.getDatePayment() );</b>
+<b class="nc">&nbsp;        payment.landlorPart( paymentDTO.getLandlorPart() );</b>
+<b class="nc">&nbsp;        payment.agencyPart( paymentDTO.getAgencyPart() );</b>
+<b class="nc">&nbsp;        if ( paymentDTO.getRentId() != null ) {</b>
+<b class="nc">&nbsp;            payment.rentId( UUID.fromString( paymentDTO.getRentId() ) );</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if ( paymentDTO.getId() != null ) {</b>
+<b class="nc">&nbsp;            payment.id( UUID.fromString( paymentDTO.getId() ) );</b>
+&nbsp;        }
+<b class="nc">&nbsp;        payment.typePayment( paymentDTO.getTypePayment() );</b>
+<b class="nc">&nbsp;        payment.origin( paymentDTO.getOrigin() );</b>
+<b class="nc">&nbsp;        payment.sens( paymentDTO.getSens() );</b>
+<b class="nc">&nbsp;        if ( paymentDTO.getPaymentRentId() != null ) {</b>
+<b class="nc">&nbsp;            payment.paymentRentId( UUID.fromString( paymentDTO.getPaymentRentId() ) );</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return payment.build();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public PaymentResponse domainToResponse(Payment payment) {
+<b class="nc">&nbsp;        if ( payment == null ) {</b>
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        PaymentResponse paymentResponse = new PaymentResponse();</b>
+&nbsp;
+<b class="nc">&nbsp;        if ( payment.getId() != null ) {</b>
+<b class="nc">&nbsp;            paymentResponse.setId( payment.getId().toString() );</b>
+&nbsp;        }
+<b class="nc">&nbsp;        paymentResponse.setAmount( payment.getAmount() );</b>
+<b class="nc">&nbsp;        paymentResponse.setDatePayment( payment.getDatePayment() );</b>
+<b class="nc">&nbsp;        paymentResponse.setLandlorPart( payment.getLandlorPart() );</b>
+<b class="nc">&nbsp;        paymentResponse.setAgencyPart( payment.getAgencyPart() );</b>
+<b class="nc">&nbsp;        paymentResponse.setTypePayment( payment.getTypePayment() );</b>
+<b class="nc">&nbsp;        paymentResponse.setOrigin( payment.getOrigin() );</b>
+<b class="nc">&nbsp;        paymentResponse.setSens( payment.getSens() );</b>
+&nbsp;
+<b class="nc">&nbsp;        return paymentResponse;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-09-18 17:13</div>
+</div>
+</body>
+</html>

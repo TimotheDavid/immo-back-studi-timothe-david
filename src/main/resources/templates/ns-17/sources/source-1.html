@@ -1,0 +1,155 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > RentMappers</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">infoco.immo.http.rent.mapper</a>
+</div>
+
+<h1>Coverage Summary for Class: RentMappers (infoco.immo.http.rent.mapper)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RentMappers</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package infoco.immo.http.rent.mapper;
+&nbsp;
+&nbsp;import infoco.immo.core.Rent;
+&nbsp;import infoco.immo.http.rent.dto.CreateRentDTO;
+&nbsp;import infoco.immo.http.rent.dto.UpdateRentDTO;
+&nbsp;import infoco.immo.http.rent.response.RentResponse;
+&nbsp;import org.mapstruct.Mapper;
+&nbsp;import org.mapstruct.Mapping;
+&nbsp;import org.mapstruct.factory.Mappers;
+&nbsp;
+&nbsp;import java.util.UUID;
+&nbsp;
+&nbsp;@Mapper(
+&nbsp;        imports = {UUID.class}
+&nbsp;
+&nbsp;)
+<b class="nc">&nbsp;public abstract class RentMappers {</b>
+&nbsp;
+<b class="nc">&nbsp;    public static final RentMappers INSTANCE = Mappers.getMapper(RentMappers.class);</b>
+&nbsp;
+&nbsp;    public abstract Rent createDTOToRent(CreateRentDTO rent);
+&nbsp;
+&nbsp;    public abstract Rent updateRentToRent(UpdateRentDTO rentDTO);
+&nbsp;
+&nbsp;    public static CreateRentDTO rentToCreateDTO(Rent rent) {
+&nbsp;
+<b class="nc">&nbsp;        if (rent == null) {</b>
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        CreateRentDTO createRentDTO = new CreateRentDTO();</b>
+&nbsp;
+<b class="nc">&nbsp;        createRentDTO.setTenantsId(rent.getTenantsId().toString());</b>
+<b class="nc">&nbsp;        createRentDTO.setAmount(rent.getAmount());</b>
+<b class="nc">&nbsp;        createRentDTO.setInDate(rent.getInDate());</b>
+<b class="nc">&nbsp;        createRentDTO.setDescriptionIn(rent.getDescriptionIn());</b>
+<b class="nc">&nbsp;        createRentDTO.setOutDate(rent.getOutDate());</b>
+<b class="nc">&nbsp;        createRentDTO.setDescriptionOut(rent.getDescriptionOut());</b>
+<b class="nc">&nbsp;        createRentDTO.setDeposit(rent.getDeposit());</b>
+<b class="nc">&nbsp;        createRentDTO.setAgencyPourcent(rent.getAgencyPourcent());</b>
+<b class="nc">&nbsp;        if (rent.getApartmentId().toString() != null) {</b>
+<b class="nc">&nbsp;            createRentDTO.setApartmentId(rent.getApartmentId().toString());</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return createRentDTO;</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    public abstract RentResponse domaineToResponse(Rent rent);
+&nbsp;
+&nbsp;    ;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-09-18 17:13</div>
+</div>
+</body>
+</html>
