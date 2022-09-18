@@ -19,8 +19,11 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -30,8 +33,7 @@ import java.util.UUID;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(controllers = RentController.class)
-@AutoConfigureMockMvc(addFilters = false)
+@WebMvcTest({RentController.class})
 public class RentHttpTest {
 
     private final String BASE_URL = "/api/rent";
@@ -45,28 +47,17 @@ public class RentHttpTest {
     @Autowired
     ObjectMapper objectMapper;
 
-    private final ApartmentRepository apartmentRepository = beforeAllApartment();
-    static ApartmentRepository beforeAllApartment() {
-        ApartmentRepository apartmentRepository = new ApartmentRepository();
-        apartmentRepository.setDataSource(new PostgresDataConfigurationTest().dataSource());
-        return apartmentRepository;
-    }
-    static TenantRepository beforeAllTenant() {
-        TenantRepository tenantRepository = new TenantRepository();
-        tenantRepository.setDataSource(new PostgresDataConfigurationTest().dataSource());
-        return tenantRepository;
-    }
+    @MockBean
+    RentRepository rentRepository;
+
+
     private Rent rent = RentObjectTest.getRent();
 
     private final Apartment apartment = ApartmentObjectTest.getApartment();
 
     private final Tenants tenant = TenantsObjectTest.getTenant();
 
-    private RentRepository rentRepository() {
-        RentRepository rentRepository = new RentRepository();
-        rentRepository.setDataSource(new PostgresDataConfigurationTest().dataSource());
-        return rentRepository;
-    }
+
 
 
 
@@ -84,7 +75,7 @@ public class RentHttpTest {
 
     @Test
     public void getOne() throws Exception {
-        rentRepository().create(rent);
+        rentRepository.create(rent);
         mockMvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/" + rent.getId())).andExpect(status().isOk());
     }
 
@@ -95,7 +86,7 @@ public class RentHttpTest {
 
     @Test
     public void delete() throws Exception {
-        rentRepository().create(rent);
+        rentRepository.create(rent);
         mockMvc.perform(MockMvcRequestBuilders.delete(BASE_URL + "/" + rent.getId())).andExpect(status().isOk());
     }
 

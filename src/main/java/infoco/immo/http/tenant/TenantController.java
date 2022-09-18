@@ -47,7 +47,7 @@ public class TenantController {
 
 
 
-    @PatchMapping
+    @PutMapping
     public void updateTenant(@RequestBody UpdateTenantDTO updateTenantDTO){
         Tenants tenant = TenantMapper.INSTANCE.updateDTOToTenant(updateTenantDTO);
         tenantService.update(tenant);

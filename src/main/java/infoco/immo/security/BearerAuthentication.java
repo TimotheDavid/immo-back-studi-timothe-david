@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
@@ -22,18 +24,20 @@ import java.util.Objects;
 
 
 @Slf4j
+@Component
 public class BearerAuthentication implements Filter {
     static final String FORBIDDEN = "forbidden, add a bearer token";
 
     @Autowired
     RequestMappingHandlerMapping requestMappingHandlerMapping;
 
-    private AuthenticationRepository authenticationRepository;
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    AuthenticationRepository authenticationRepository;
 
 
-    public BearerAuthentication(AuthenticationRepository authenticationRepository) {
-        this.authenticationRepository = authenticationRepository;
-    }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
@@ -44,7 +48,7 @@ public class BearerAuthentication implements Filter {
             ServletContext servletContext = request.getServletContext();
             WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
             authenticationRepository = webApplicationContext.getBean(AuthenticationRepository.class);
-            authenticationRepository.setDataSource(new DatabaseConfiguration().dataSource());
+
         }
 
 
@@ -52,6 +56,7 @@ public class BearerAuthentication implements Filter {
             response.sendError(HttpStatus.FORBIDDEN.value(), FORBIDDEN);
             return;
         }
+
         Authentication userTokenData;
         String token;
         try {
@@ -59,6 +64,7 @@ public class BearerAuthentication implements Filter {
             userTokenData = authenticationRepository.getByToken(token);
             token = userTokenData.getToken();
         } catch (Exception arrayException) {
+            log.info(arrayException.getMessage());
             response.sendError(HttpStatus.FORBIDDEN.value(), FORBIDDEN);
             return;
         }
@@ -68,22 +74,20 @@ public class BearerAuthentication implements Filter {
             return;
         }
 
-        if (!Objects.equals(token, userTokenData.getToken())) {
-            log.info("token not here");
-            response.sendError(HttpStatus.FORBIDDEN.value(), "token is not in here");
-            return;
-        }
-
         if(!GenerateAuth.decode(token, userTokenData.getHash())){
             log.info("problem with auth token");
             response.sendError(HttpStatus.FORBIDDEN.value(), "forbidden, token is malformed, login again");
             return;
         }
-
+        if (!Objects.equals(token, userTokenData.getToken())) {
+            log.info("token not here");
+            response.sendError(HttpStatus.FORBIDDEN.value(), "token is not in here");
+            return;
+        }
         response.setHeader(HttpHeaders.AUTHORIZATION, headers);
 
-        filterChain.doFilter(servletRequest, servletResponse);
-    }
+        filterChain.doFilter(request, response);
 
+    }
 
 }

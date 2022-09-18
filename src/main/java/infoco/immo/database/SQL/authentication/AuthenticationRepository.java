@@ -2,18 +2,23 @@ package infoco.immo.database.SQL.authentication;
 
 import infoco.immo.core.Authentication;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 
 @RequiredArgsConstructor
+@Repository
 public class AuthenticationRepository implements AuthenticationRepositoryI{
 
+    @Autowired
     private JdbcTemplate db;
 
     public void setDataSource(DataSource dataSource) {
         db = new JdbcTemplate(dataSource);
     }
+
 
     @Override
     public void create(Authentication authentication) {

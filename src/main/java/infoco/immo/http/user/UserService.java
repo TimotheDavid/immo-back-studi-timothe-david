@@ -1,6 +1,7 @@
 package infoco.immo.http.user;
 
 
+import infoco.immo.configuration.BeanConfiguration;
 import infoco.immo.configuration.DatabaseConfiguration;
 import infoco.immo.core.User;
 import infoco.immo.database.SQL.authentication.AuthenticationRepository;
@@ -20,24 +21,17 @@ import java.util.UUID;
 public class UserService implements UserUseCaseI {
 
     @Autowired
-    BCryptPasswordEncoder bCryptPasswordEncoder;
-    private UserUseCase _userUseCase() {
-        UserRepository userRepository = new UserRepository();
-        userRepository.setDataSource(new  DatabaseConfiguration().dataSource());
-        AuthenticationRepository authenticationRepository =new AuthenticationRepository();
-        authenticationRepository.setDataSource(new DatabaseConfiguration().dataSource());
-        return new UserUseCase(userRepository,authenticationRepository, bCryptPasswordEncoder);
-    }
+    BeanConfiguration beanConfiguration;
 
     @Override
     public void create(User user) {
-        _userUseCase().create(user);
+        beanConfiguration.userUseCase().create(user);
 
     }
 
     public Token login(User user) throws HttpExceptions {
         try {
-            return _userUseCase().login(user);
+            return beanConfiguration.userUseCase().login(user);
         } catch (HttpExceptions e) {
             throw new HttpExceptions("404", "not found", 404 );
         }
@@ -45,11 +39,11 @@ public class UserService implements UserUseCaseI {
 
     @Override
     public User get(UUID userId) {
-        return _userUseCase().get(userId);
+        return beanConfiguration.userUseCase().get(userId);
     }
 
     @Override
     public User getByToken(String token) {
-        return _userUseCase().getByToken(token);
+        return beanConfiguration.userUseCase().getByToken(token);
     }
 }

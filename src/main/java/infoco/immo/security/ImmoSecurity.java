@@ -1,77 +1,83 @@
 package infoco.immo.security;
 
-import infoco.immo.configuration.DatabaseConfiguration;
-import infoco.immo.database.SQL.authentication.AuthenticationRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.core.annotation.Order;
+import org.springframework.lang.NonNullApi;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.header.writers.StaticHeadersWriter;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.util.List;
+import java.util.logging.Filter;
 
-@Profile("{dev, prod}")
+@Profile({"dev", "prod", "debug"})
 @Configuration
+@EnableWebSecurity
 public class ImmoSecurity {
 
-
-
-    private AuthenticationRepository authenticationRepository(){
-        AuthenticationRepository authenticationRepository = new AuthenticationRepository();
-        authenticationRepository.setDataSource(new DatabaseConfiguration().dataSource());
-        return authenticationRepository;
-    }
-
-
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("*")
+                        .allowedHeaders("*")
+                        .allowedMethods("GET", "POST", "PATCH", "DELETE", "OPTIONS", "PUT", "HEAD");
+            }
+        };
+    }
+    @Bean
+    public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .formLogin().disable()
                 .httpBasic().disable()
-                .cors().disable()
+                .cors()
+                .and()
                 .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .headers(httpSecurityHeadersConfigurer -> httpSecurityHeadersConfigurer.addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Origin", "*")));
+
         return http.build();
     }
 
     @Bean
     public FilterRegistrationBean<BearerAuthentication> bearerAuthFilterRegistration() {
         FilterRegistrationBean<BearerAuthentication> bearerRegistrationBean = new FilterRegistrationBean<>();
-        bearerRegistrationBean.setFilter(new BearerAuthentication(authenticationRepository()));
+        bearerRegistrationBean.setFilter(new BearerAuthentication());
         bearerRegistrationBean.addUrlPatterns("/api/*");
         return bearerRegistrationBean;
     }
 
+
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        final CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("*"));
-        configuration.setAllowedMethods(List.of("HEAD", "POST", "PUT", "GET", "DELETE", "PATCH", "OPTIONS"));
-        configuration.setAllowCredentials(true);
-        configuration.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type", "Access-Control-Allow-Origin", "Origin"));
-        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
+    public FilterRegistrationBean<HeaderFilter> headerFilterFilterRegistration() {
+        FilterRegistrationBean<HeaderFilter> headerFilterFilterRegistrationBean = new FilterRegistrationBean<>();
+        headerFilterFilterRegistrationBean.setFilter(new HeaderFilter());
+        headerFilterFilterRegistrationBean.addUrlPatterns("/api/*");
+        return headerFilterFilterRegistrationBean;
     }
+
 
     @Bean
     public SecurityFilterChain authorizeAuthFilter(HttpSecurity http) throws  Exception {
         http.csrf().disable()
-                .cors().disable()
+                .cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
+                .and()
                 .httpBasic().disable()
                 .formLogin().disable()
                 .authorizeRequests().antMatchers( "/auth/*").permitAll();
-
         return http.build();
     }
+
+
+
+
 
 
 }

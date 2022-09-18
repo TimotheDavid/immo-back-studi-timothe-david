@@ -15,4 +15,4 @@ ENV DATABASE_CONNECTION=database_connection \
 
 RUN echo $DATABASE_CONNECTION
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "/app.jar", "--spring.profiles.active=${ENVIRON}"]
+ENTRYPOINT ["java", "-jar", "/app.jar", "--spring.profiles.active=${ENVIRON}", "debug"]

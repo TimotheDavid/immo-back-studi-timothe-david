@@ -3,20 +3,24 @@ package infoco.immo.database.SQL.payment;
 import infoco.immo.core.Payment;
 import infoco.immo.core.PaymentRent;
 import infoco.immo.usecase.payment.RentReceiptData;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.List;
 import java.util.UUID;
-
+@Repository
 public class PaymentRepository implements PaymentRepositoryI {
 
 
+    @Autowired
     private JdbcTemplate db;
 
     public void setDataSource(DataSource dataSource) {
         db = new JdbcTemplate(dataSource);
     }
+
 
     @Override
     public void create(Payment payment) {
@@ -47,9 +51,9 @@ public class PaymentRepository implements PaymentRepositoryI {
     }
 
     @Override
-    public Payment get(Payment payment) {
+    public Payment get(UUID paymentId) {
         final String SQL = "SELECT * FROM immo.payment WHERE uuid = ?";
-        return db.query(SQL, new PaymentMapper(), payment.getId()).stream().findFirst().orElse(null);
+        return db.query(SQL, new PaymentMapper(), paymentId).stream().findFirst().orElse(null);
     }
 
     @Override

@@ -11,7 +11,7 @@ public interface PaymentRepositoryI {
     public void create(Payment payment);
     public void  createMappingRentPayment(Payment payment);
 
-    public Payment get(Payment payment);
+    public Payment get(UUID paymentId);
 
     public List<Payment> get();
     public void update(Payment payment);

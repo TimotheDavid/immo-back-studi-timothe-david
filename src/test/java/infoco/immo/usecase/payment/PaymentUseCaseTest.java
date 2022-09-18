@@ -80,7 +80,7 @@ public class PaymentUseCaseTest {
         payment.setOrigin(Origin.PROPRIETAIRE);
         payment.setRentId(rentLine);
         paymentUseCase.create(payment);
-        Payment paymentObject = paymentUseCase.get(payment);
+        Payment paymentObject = paymentUseCase.get(payment.getId());
         Assert.assertNotNull(paymentObject);
         Assert.assertEquals(paymentObject.getAgencyPart(), paymentObject.getAgencyPart());
     }
@@ -91,7 +91,7 @@ public class PaymentUseCaseTest {
         payment.setOrigin(Origin.PROPRIETAIRE);
         payment.setRentId(rentLine);
         paymentUseCase.create(payment);
-        Payment PaymentObject = paymentUseCase.get(payment);
+        Payment PaymentObject = paymentUseCase.get(payment.getId());
         Assert.assertEquals(PaymentObject.getDatePayment(), payment.getDatePayment());
     }
 

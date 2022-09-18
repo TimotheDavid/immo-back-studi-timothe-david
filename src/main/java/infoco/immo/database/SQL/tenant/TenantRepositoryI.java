@@ -1,6 +1,7 @@
 package infoco.immo.database.SQL.tenant;
 
 import infoco.immo.core.Tenants;
+import infoco.immo.usecase.payment.PaymentUseCase;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -13,5 +14,6 @@ public interface TenantRepositoryI {
 
     public void delete(UUID tenantId);
 
+    public void patchWithRent(UUID tenantId,UUID rentId);
     public List<Tenants> get();
 }

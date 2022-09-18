@@ -11,9 +11,9 @@ import javax.sql.DataSource;
 @Configuration
 @ActiveProfiles("test")
 public class PostgresDataConfigurationTest {
+/*
 
     @Bean
-
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
@@ -22,5 +22,6 @@ public class PostgresDataConfigurationTest {
         dataSource.setUrl("jdbc:postgresql://localhost:6004/immodev");
         return dataSource;
     }
+*/
 
 }

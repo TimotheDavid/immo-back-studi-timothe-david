@@ -44,11 +44,7 @@ public class ApartmentHttpTest {
 
     private final Apartment apartment = ApartmentObjectTest.getApartment();
 
-    private ApartmentRepository apartmentRepository() {
-        ApartmentRepository apartmentRepository = new ApartmentRepository();
-        apartmentRepository.setDataSource(new PostgresDataConfigurationTest().dataSource());
-        return apartmentRepository;
-    }
+
 
 
     @Test

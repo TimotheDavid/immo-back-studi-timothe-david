@@ -7,8 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.UUID;
-
 @NoArgsConstructor
 @Getter
 @Setter
@@ -27,8 +25,5 @@ public class RentResponse {
     private Float deposit;
     @JsonProperty("agency_pourcent")
     private Float agencyPourcent;
-    @JsonProperty("tenant")
-    private String tenantsId;
-    @JsonProperty("apartment")
-    private String  apartmentId;
+
 }

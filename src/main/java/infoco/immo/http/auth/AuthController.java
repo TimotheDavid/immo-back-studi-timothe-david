@@ -46,7 +46,7 @@ public class AuthController {
 
             return ResponseEntity.status(e.getCode()).body(new ErrorResponse(e));
         }
-        return new ResponseEntity<>(token, HttpStatus.FOUND);
+        return new ResponseEntity<>(token, HttpStatus.OK);
     }
 
 

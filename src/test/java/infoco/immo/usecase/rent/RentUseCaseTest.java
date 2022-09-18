@@ -45,7 +45,11 @@ public class RentUseCaseTest {
     static RentUseCase beforeAllRent() {
         RentRepository rentRepository = new RentRepository();
         rentRepository.setDataSource(new PostgresDataConfigurationTest().dataSource());
-        return new RentUseCase(rentRepository);
+        TenantRepository tenantRepository = new TenantRepository();
+        tenantRepository.setDataSource(new PostgresDataConfigurationTest().dataSource());
+        ApartmentRepository apartmentRepository = new ApartmentRepository();
+        apartmentRepository.setDataSource(new PostgresDataConfigurationTest().dataSource());
+        return new RentUseCase(rentRepository, apartmentRepository,tenantRepository);
     }
 
     static ApartmentRepository beforeAllApartment() {

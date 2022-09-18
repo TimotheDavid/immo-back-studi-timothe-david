@@ -13,13 +13,14 @@ public class PaymentUseCase {
     public final PaymentRepositoryI paymentRepositoryI;
 
 
-    public void  create(Payment payment) {
+    public void  create(Payment payment)
+    {
+        payment.setId(UUID.randomUUID());
         paymentRepositoryI.create(payment);
     }
 
     public Payment get(UUID paymentId) {
-        Payment payment = Payment.builder().id(paymentId).build();
-        return paymentRepositoryI.get(payment);
+        return paymentRepositoryI.get(paymentId);
     }
 
     public void update(Payment payment) {

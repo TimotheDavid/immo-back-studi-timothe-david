@@ -13,8 +13,6 @@ public class RentMapper implements RowMapper<Rent> {
         Rent rent = new Rent();
         rent.setId(rs.getObject("uuid", UUID.class));
         rent.setAmount(rs.getFloat("rent"));
-        rent.setTenantsId(rs.getObject("tenantid", UUID.class));
-        rent.setApartmentId(rs.getObject("apartmentid", UUID.class));
         rent.setDeposit(rs.getFloat("deposit"));
         rent.setAgencyPourcent(rs.getFloat("agency_pourcent"));
         rent.setDescriptionOut(rs.getString("out_description"));

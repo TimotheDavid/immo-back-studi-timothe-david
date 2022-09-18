@@ -13,6 +13,7 @@ import lombok.*;
 @Setter
 public class UpdateTenantDTO {
     private Civility civility;
+    @JsonProperty("first_name")
     private  String firstName;
     private  String name;
     @JsonProperty("birth_date")

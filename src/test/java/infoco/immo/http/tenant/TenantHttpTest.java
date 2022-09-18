@@ -38,9 +38,7 @@ public class TenantHttpTest {
 
 
     private TenantRepository tenantRepository(){
-        TenantRepository tenantRepository = new TenantRepository();
-        tenantRepository.setDataSource(new PostgresDataConfigurationTest().dataSource());
-        return tenantRepository;
+        return new TenantRepository();
     }
 
     @Autowired

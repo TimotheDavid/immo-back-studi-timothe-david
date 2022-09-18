@@ -8,11 +8,8 @@ services:
         POSTGRES_PASSWORD: test
         POSTGRES_USER: test
         POSTGRES_DB: immodev
-        PGDATA: /var/lib/postgresql/data
     ports:
       - 6004:5432
-    volumes:
-      - ./docker:/var/lib/postgresql/data
   app:
     container_name: immo-api
     build:

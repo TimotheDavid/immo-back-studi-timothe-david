@@ -26,8 +26,10 @@ public class PaymentUseCase {
 
     }
 
-    public Payment get(Payment payment){
-        return paymentRepositoryI.get(payment);
+
+
+    public Payment get(UUID paymentId){
+        return paymentRepositoryI.get(paymentId);
     }
 
     public List<Payment> get(){

@@ -26,26 +26,20 @@ public class RentObjectTest {
     private final RentRepository rentRepository = rentRepository();
 
     private RentRepository rentRepository() {
-        RentRepository rentRepository = new RentRepository();
-        rentRepository.setDataSource(new PostgresDataConfigurationTest().dataSource());
-        return rentRepository;
+        return new RentRepository();
     }
 
 
     private final TenantRepository tenantRepository = tenantRepository();
 
     private TenantRepository tenantRepository() {
-        TenantRepository tenantRepository = new TenantRepository();
-        tenantRepository.setDataSource(new PostgresDataConfigurationTest().dataSource());
-        return tenantRepository;
+        return new TenantRepository();
     }
 
     private final ApartmentRepository apartmentRepository = apartmentRepository();
 
     private ApartmentRepository apartmentRepository(){
-        ApartmentRepository apartmentRepository = new ApartmentRepository();
-        apartmentRepository.setDataSource(new PostgresDataConfigurationTest().dataSource());
-        return apartmentRepository;
+        return new ApartmentRepository();
     }
 
 

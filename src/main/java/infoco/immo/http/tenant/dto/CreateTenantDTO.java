@@ -14,6 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CreateTenantDTO {
     private Civility civility;
+    @JsonProperty("first_name")
     private  String firstName;
     private  String name;
     @JsonProperty("birth_date")

@@ -1,19 +1,22 @@
 package infoco.immo.database.SQL.user;
 
 import infoco.immo.core.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.UUID;
 
+@Repository
 public class UserRepository implements UserRepositoryI {
 
+    @Autowired
     private JdbcTemplate db;
 
     public void setDataSource(DataSource dataSource) {
         db = new JdbcTemplate(dataSource);
     }
-
     @Override
     public void create(User user) {
         final String  SQL = "INSERT INTO immo.users(uuid, name, email, password) VALUES (?,?,?,?)";

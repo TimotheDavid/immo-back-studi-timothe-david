@@ -14,6 +14,7 @@ import lombok.Setter;
 public class TenantResponse {
     private String id;
     private  String  civility;
+    @JsonProperty("first_name")
     private  String firstName;
     private  String name;
     @JsonProperty("birth_date")
