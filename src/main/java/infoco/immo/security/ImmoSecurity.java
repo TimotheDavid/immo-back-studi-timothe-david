@@ -1,12 +1,8 @@
 package infoco.immo.security;
 
-import infoco.immo.configuration.BeanConfiguration;
-import infoco.immo.database.SQL.authentication.AuthenticationRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -36,8 +32,7 @@ public class ImmoSecurity {
         http.csrf().disable()
                 .formLogin().disable()
                 .httpBasic().disable()
-                .cors()
-                .and()
+                .cors().disable()
                 .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .headers(httpSecurityHeadersConfigurer -> httpSecurityHeadersConfigurer.addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Origin", "*")));
 
