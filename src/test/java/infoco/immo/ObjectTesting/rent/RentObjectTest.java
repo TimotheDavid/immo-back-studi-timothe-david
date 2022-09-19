@@ -20,17 +20,15 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Component
+@SpringBootTest
 @ActiveProfiles("test")
-@ImportAutoConfiguration(exclude = PostgresDataConfigurationTest.class)
-@ComponentScan({
-        "infoco.immo.database.SQL.*"
-})
 public class RentObjectTest {
 
     private final Faker faker = new Faker();
@@ -62,7 +60,7 @@ public class RentObjectTest {
                 .agencyPourcent((float) 8).build();
     }
 
-    private UUID  generateRent(ApartmentRepository apartmentRepository, TenantRepository tenantRepository ) {
+    private UUID  generateRent() {
         Rent rentObject = createRent();
         apartment.setId(UUID.randomUUID());
         apartmentRepository.create(apartment);

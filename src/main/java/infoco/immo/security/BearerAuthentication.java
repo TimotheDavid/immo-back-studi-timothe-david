@@ -45,7 +45,6 @@ public class BearerAuthentication implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String headers = request.getHeader(HttpHeaders.AUTHORIZATION);
-        AuthenticationRepository authenticationRepository;
         if (beanConfiguration.authenticationRepository() == null) {
             ServletContext servletContext = request.getServletContext();
             WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);

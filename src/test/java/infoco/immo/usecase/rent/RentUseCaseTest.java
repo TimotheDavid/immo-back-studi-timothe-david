@@ -20,9 +20,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.UUID;
 
@@ -33,6 +35,11 @@ import java.util.UUID;
 @ImportAutoConfiguration(exclude = { PostgresDataConfigurationTest.class})
 public class RentUseCaseTest {
 
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    DataSource dataSource;
 
     @Autowired
     RentRepository rentRepository;

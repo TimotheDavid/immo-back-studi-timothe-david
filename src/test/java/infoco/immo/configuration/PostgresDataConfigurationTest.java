@@ -17,7 +17,7 @@ import javax.sql.DataSource;
 public class PostgresDataConfigurationTest {
 
 
-    @Bean
+   /* @Bean
     public DataSource dataSource(){
         return DataSourceBuilder.create().build();
     }
@@ -26,5 +26,5 @@ public class PostgresDataConfigurationTest {
     public JdbcTemplate JdbcTemplate() {
         return new JdbcTemplate(dataSource());
     }
-
+*/
 }
