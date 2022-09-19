@@ -15,11 +15,6 @@ public class AuthenticationRepository implements AuthenticationRepositoryI{
     @Autowired
     private JdbcTemplate db;
 
-    public void setDataSource(DataSource dataSource) {
-        db = new JdbcTemplate(dataSource);
-    }
-
-
     @Override
     public void create(Authentication authentication) {
     final String SQL = "INSERT  INTO immo.authentication(uuid, token, hash, expires, userid) VALUES (?,?,?,?,?)";

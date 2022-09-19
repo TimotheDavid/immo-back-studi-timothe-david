@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 import java.util.UUID;
 
-@RequiredArgsConstructor
 public class RentUseCase {
 
     private RentRepositoryI rentRepositoryI;

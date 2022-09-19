@@ -33,14 +33,14 @@ class TenantUseCaseTest {
 
     private final Tenants tenants = TenantsObjectTest.getTenant();
 
-    @Autowired
-    DataSource dataSource;
+        @Autowired
+        DataSource dataSource;
 
-    @Autowired
-    JdbcTemplate jdbcTemplate;
+        @Autowired
+        JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    Faker faker;
+        @Autowired
+        Faker faker;
 
 
     @Autowired

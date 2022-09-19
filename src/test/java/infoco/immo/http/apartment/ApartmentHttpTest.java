@@ -3,6 +3,7 @@ package infoco.immo.http.apartment;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import infoco.immo.ObjectTesting.appartment.ApartmentObjectTest;
+import infoco.immo.configuration.BeanConfiguration;
 import infoco.immo.configuration.PostgresDataConfigurationTest;
 import infoco.immo.core.Apartment;
 import infoco.immo.database.SQL.appartment.ApartmentRepository;
@@ -25,16 +26,16 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import javax.sql.DataSource;
 import java.util.UUID;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@ActiveProfiles("http-test")
 @WebMvcTest(controllers = ApartmentController.class)
 @AutoConfigureMockMvc(addFilters = false)
 @ComponentScan({
-        "infoco.immo.database.SQL.*"
+      "infoco.immo.*"
 })
 public class ApartmentHttpTest {
 
@@ -46,8 +47,15 @@ public class ApartmentHttpTest {
     @MockBean
     AppartmentService appartmentService;
 
-    @Autowired
+    @MockBean
     JdbcTemplate jdbcTemplate;
+
+    @MockBean
+    DataSource dataSource;
+
+    @MockBean
+    BeanConfiguration beanConfiguration;
+
 
 
     @Autowired

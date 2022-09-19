@@ -29,7 +29,7 @@ public abstract  class   PaymentMappers {
         createDTOPayment.setDatePayment(payment.getDatePayment());
         createDTOPayment.setPaymentRentId(payment.getPaymentRentId());
         createDTOPayment.setTypePayment(payment.getTypePayment());
-        createDTOPayment.setAmount(payment.getAmount());
+        createDTOPayment.setAmountPayment(payment.getAmount());
         createDTOPayment.setSens(payment.getSens());
         createDTOPayment.setAgencyPart(payment.getAgencyPart());
         createDTOPayment.setLandlorPart(payment.getLandlorPart());
@@ -41,4 +41,6 @@ public abstract  class   PaymentMappers {
         return createDTOPayment;
 
     };
+
+    public abstract UpdateDTOPayment domaineToUpdateDTO(Payment payment);
 }

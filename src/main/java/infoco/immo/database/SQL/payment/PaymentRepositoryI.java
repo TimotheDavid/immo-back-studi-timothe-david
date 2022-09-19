@@ -19,7 +19,6 @@ public interface PaymentRepositoryI {
 
     public RentReceiptData generateRentReceipt(String from, String to, UUID rentId);
 
-    public void mapPaymentRent(PaymentRent paymentrent);
 
 
 

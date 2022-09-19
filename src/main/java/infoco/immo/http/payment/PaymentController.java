@@ -4,7 +4,7 @@ package infoco.immo.http.payment;
 import infoco.immo.core.Payment;
 import infoco.immo.http.payment.dto.CreateDTOPayment;
 import infoco.immo.http.payment.dto.UpdateDTOPayment;
-import infoco.immo.http.payment.mapper.PaymentMapper;
+import infoco.immo.http.payment.mapper.PaymentMappers;
 import infoco.immo.http.payment.response.PaymentResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,20 +24,20 @@ public class PaymentController {
 
     @PostMapping
     public void create(@RequestBody CreateDTOPayment paymentdto){
-        Payment payment = PaymentMapper.INSTANCE.createDTOToDomain(paymentdto);
+        Payment payment = PaymentMappers.INSTANCE.createDTOToDomain(paymentdto);
         paymentService.create(payment);
     }
 
     @GetMapping
     public ResponseEntity<List<PaymentResponse>> getAll(){
-        return new ResponseEntity<>(paymentService.get().stream().map(PaymentMapper.INSTANCE::domainToResponse).collect(Collectors.toList()), HttpStatus.OK);
+        return new ResponseEntity<>(paymentService.get().stream().map(PaymentMappers.INSTANCE::domainToResponse).collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{uuid}")
     public ResponseEntity<PaymentResponse> get(@PathVariable String uuid){
         Payment payment =  paymentService.get(UUID.fromString(uuid));
 
-        return ResponseEntity.ok(PaymentMapper.INSTANCE.domainToResponse(payment));
+        return ResponseEntity.ok(PaymentMappers.INSTANCE.domainToResponse(payment));
 
     }
 
@@ -48,7 +48,7 @@ public class PaymentController {
 
     @PutMapping
     public void update(@RequestBody UpdateDTOPayment paymentDTO){
-        Payment payment = PaymentMapper.INSTANCE.updatePaymentDTOToDomain(paymentDTO);
+        Payment payment = PaymentMappers.INSTANCE.updatePaymentDTOToDomain(paymentDTO);
         paymentService.update(payment);
     }
 

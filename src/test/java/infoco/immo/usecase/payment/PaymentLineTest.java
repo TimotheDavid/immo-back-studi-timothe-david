@@ -8,6 +8,7 @@ import infoco.immo.database.SQL.rent.RentRepository;
 import infoco.immo.database.SQL.tenant.TenantRepository;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.junit.jupiter.api.AfterEach;
 
 import java.util.UUID;
 @AllArgsConstructor

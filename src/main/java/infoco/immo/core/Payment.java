@@ -12,6 +12,7 @@ import java.util.UUID;
 @Setter
 public class Payment {
 
+
     private Float amount;
     private String datePayment;
     private Float landlorPart;

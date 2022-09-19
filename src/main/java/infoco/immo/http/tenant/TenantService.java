@@ -1,10 +1,7 @@
 package infoco.immo.http.tenant;
 
 import infoco.immo.configuration.BeanConfiguration;
-import infoco.immo.configuration.DatabaseConfiguration;
 import infoco.immo.core.Tenants;
-import infoco.immo.database.SQL.tenant.TenantRepository;
-import infoco.immo.usecase.tenant.TenantUseCase;
 import infoco.immo.usecase.tenant.TenantUseCaseI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

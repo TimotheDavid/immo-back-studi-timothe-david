@@ -1,15 +1,9 @@
 package infoco.immo.http.rent;
 
 import infoco.immo.configuration.BeanConfiguration;
-import infoco.immo.configuration.DatabaseConfiguration;
 import infoco.immo.core.Rent;
-import infoco.immo.database.SQL.appartment.ApartmentRepository;
-import infoco.immo.database.SQL.rent.RentRepository;
-import infoco.immo.database.SQL.tenant.TenantRepository;
-import infoco.immo.usecase.rent.RentUseCase;
 import infoco.immo.usecase.rent.RentUseCaseI;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

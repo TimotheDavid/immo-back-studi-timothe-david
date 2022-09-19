@@ -14,9 +14,6 @@ public class UserRepository implements UserRepositoryI {
     @Autowired
     private JdbcTemplate db;
 
-    public void setDataSource(DataSource dataSource) {
-        db = new JdbcTemplate(dataSource);
-    }
     @Override
     public void create(User user) {
         final String  SQL = "INSERT INTO immo.users(uuid, name, email, password) VALUES (?,?,?,?)";

@@ -17,11 +17,6 @@ public class PaymentRepository implements PaymentRepositoryI {
     @Autowired
     private JdbcTemplate db;
 
-    public void setDataSource(DataSource dataSource) {
-        db = new JdbcTemplate(dataSource);
-    }
-
-
     @Override
     public void create(Payment payment) {
         final String SQL = "INSERT INTO immo.payment(uuid, amount, date_payment, landlor_part, agency_part, sens, type, origin) VALUES (?,?,?,?,?,?,CAST(? AS immo.type_to_pay),CAST(? AS immo.origin))";
@@ -81,17 +76,6 @@ public class PaymentRepository implements PaymentRepositoryI {
         db.update(SQL, paymentId);
     }
 
-
-    @Override
-    public void mapPaymentRent(PaymentRent paymentRent) {
-        final String SQL = "INSERT INTO immo.payment_rent(uuid, rentid, paymentid) VALUES (?,?,?)";
-        db.update(SQL, ps -> {
-            int nthPlace = 1;
-            ps.setObject(nthPlace++, paymentRent.getId());
-            ps.setObject(nthPlace++, paymentRent.getRent());
-            ps.setObject(nthPlace++, paymentRent.getPayment());
-        });
-    }
     @Override
     public RentReceiptData generateRentReceipt(String from, String to, UUID rentId) {
         return null;

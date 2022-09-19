@@ -112,7 +112,6 @@ class UserRepositoryTest {
         user.setId(UUID.randomUUID());
         user.setName(faker.name().name());
         user.setEmail(faker.internet().emailAddress());
-        user.setHash(RandomStringUtils.random(10));
         user.setPassword(faker.internet().password());
         return user;
     }

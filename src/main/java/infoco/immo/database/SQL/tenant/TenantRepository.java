@@ -16,11 +16,6 @@ public class TenantRepository implements TenantRepositoryI {
     @Autowired
     private JdbcTemplate db;
 
-    public void setDataSource(DataSource dataSource) {
-        db = new JdbcTemplate(dataSource);
-    }
-
-
     @Override
     public void create(Tenants tenants) {
         final String SQL = "INSERT INTO immo.tenant( uuid, firstname, username, birthdate, birthplace, email, second_email, phone, civility) VALUES (?,?,?,?,?,?,?,?,CAST( ? AS immo.CIVILITY))";

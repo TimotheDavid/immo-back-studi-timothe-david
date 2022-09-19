@@ -16,10 +16,6 @@ public class RentRepository implements RentRepositoryI {
     @Autowired
     private JdbcTemplate db;
 
-    public void setDataSource(DataSource dataSource) {
-        db = new JdbcTemplate(dataSource);
-    }
-
     @Override
     public void create(Rent rent) {
         final String SQL = " INSERT INTO immo.rent(uuid, rent, in_date, in_description, out_date, out_description, deposit, agency_pourcent) VALUES(?,?,?,?,?,?,?,?) ";

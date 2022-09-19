@@ -1,11 +1,11 @@
-package infoco.immo.http.user;
+package infoco.immo.http.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import infoco.immo.configuration.BeanConfiguration;
 import infoco.immo.database.SQL.authentication.AuthenticationRepository;
-import infoco.immo.http.auth.AuthController;
-import infoco.immo.http.user.dto.LoginUserDTO;
+import infoco.immo.http.user.UserService;
 import infoco.immo.http.user.dto.CreateUserDTO;
+import infoco.immo.http.user.dto.LoginUserDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

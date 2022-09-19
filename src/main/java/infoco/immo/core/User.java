@@ -6,15 +6,12 @@ import java.util.UUID;
 
 @Setter
 @Getter
-@AllArgsConstructor
-@Builder
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class User {
     private  UUID id;
     private  String  name;
     private  String email;
     private  String password;
-    private  String hash;
-    private  String expires;
-    private  String token;
 }

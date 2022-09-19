@@ -30,23 +30,19 @@ public abstract class RentMappers {
 
         CreateRentDTO createRentDTO = new CreateRentDTO();
 
-        createRentDTO.setTenantsId(rent.getTenantsId().toString());
-        createRentDTO.setAmount(rent.getAmount());
+        createRentDTO.setAmountRent(rent.getAmount());
         createRentDTO.setInDate(rent.getInDate());
         createRentDTO.setDescriptionIn(rent.getDescriptionIn());
         createRentDTO.setOutDate(rent.getOutDate());
         createRentDTO.setDescriptionOut(rent.getDescriptionOut());
         createRentDTO.setDeposit(rent.getDeposit());
         createRentDTO.setAgencyPourcent(rent.getAgencyPourcent());
-        if (rent.getApartmentId().toString() != null) {
-            createRentDTO.setApartmentId(rent.getApartmentId().toString());
-        }
+
+
 
         return createRentDTO;
 
     }
 
     public abstract RentResponse domaineToResponse(Rent rent);
-
-    ;
 }

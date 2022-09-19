@@ -12,7 +12,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CreateRentDTO {
 
-    private Float amount;
+    @JsonProperty(value = "amount")
+    private Float amountRent;
     @JsonProperty(value = "in_date")
     private String inDate;
     @JsonProperty(value = "description_in")
@@ -24,13 +25,5 @@ public class CreateRentDTO {
     private Float deposit;
     @JsonProperty(value = "agency_pourcent")
     private Float agencyPourcent;
-    @JsonProperty(value = "tenant")
-    private String tenantsId;
-    @JsonProperty(value = "apartment")
-    private String apartmentId;
-
-    public void setAmount(Float amount){
-        this.amount = amount;
-    }
 
 }

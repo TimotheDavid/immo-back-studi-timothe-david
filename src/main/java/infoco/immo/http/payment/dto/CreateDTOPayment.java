@@ -14,7 +14,8 @@ import java.util.UUID;
 @AllArgsConstructor
 public class CreateDTOPayment {
     @NotNull
-    private Float amount;
+    @JsonProperty("payment")
+    private Float  amountPayment;
     @NotNull
     @JsonProperty("date_payment")
     private String datePayment;
@@ -39,4 +40,8 @@ public class CreateDTOPayment {
     @NotNull
     @JsonProperty("payment_rent")
     private UUID paymentRentId;
+
+    public Float getAmount(){
+        return this.amountPayment;
+    }
 }

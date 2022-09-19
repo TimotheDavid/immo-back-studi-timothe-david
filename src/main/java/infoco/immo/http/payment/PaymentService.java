@@ -1,10 +1,7 @@
 package infoco.immo.http.payment;
 
 import infoco.immo.configuration.BeanConfiguration;
-import infoco.immo.configuration.DatabaseConfiguration;
 import infoco.immo.core.Payment;
-import infoco.immo.database.SQL.payment.PaymentRepository;
-import infoco.immo.usecase.payment.PaymentUseCase;
 import infoco.immo.usecase.payment.PaymentUseCaseI;
 import infoco.immo.usecase.payment.RentReceiptData;
 import org.springframework.beans.factory.annotation.Autowired;

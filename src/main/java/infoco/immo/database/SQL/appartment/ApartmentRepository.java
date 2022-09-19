@@ -15,10 +15,6 @@ public class ApartmentRepository implements ApartmentRepositoryI {
     @Autowired
     private JdbcTemplate db;
 
-    public void setDataSource(DataSource dataSource) {
-        db = new JdbcTemplate(dataSource);
-    }
-
     @Override
     public void create(Apartment apartment) {
         final String SQL = "INSERT INTO immo.apartment(uuid, address, complement, city, postal_code, charge, rent, deposit) values (?,?,?,?,?,?,?,?)";
