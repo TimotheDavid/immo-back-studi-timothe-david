@@ -1,6 +1,8 @@
 package infoco.immo.http.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import infoco.immo.configuration.BeanConfiguration;
+import infoco.immo.database.SQL.authentication.AuthenticationRepository;
 import infoco.immo.http.auth.AuthController;
 import infoco.immo.http.user.dto.LoginUserDTO;
 import infoco.immo.http.user.dto.CreateUserDTO;
@@ -10,22 +12,39 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import javax.sql.DataSource;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(controllers = AuthController.class)
 @AutoConfigureMockMvc(addFilters = false)
-public class UserHttpTest {
+@ComponentScan({"infoco.immo.*"})
+public class AuthHttpTest {
 
     private final String BASE_URL = "/auth";
 
     @Autowired
     private MockMvc mockMvc;
+
+    @MockBean
+    JdbcTemplate jdbcTemplate;
+
+    @MockBean
+    DataSource dataSource;
+
+    @MockBean
+    BeanConfiguration beanConfiguration;
+
+    @Autowired
+    AuthenticationRepository authenticationRepository;
 
     @Autowired
     ObjectMapper objectMapper;
@@ -52,7 +71,7 @@ public class UserHttpTest {
         mockMvc.perform(MockMvcRequestBuilders.post(BASE_URL + "/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(loginUserDTO)))
-                .andExpect(status().isFound());
+                .andExpect(status().isOk());
 
     }
 }
