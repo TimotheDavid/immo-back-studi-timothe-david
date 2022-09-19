@@ -18,14 +18,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.sql.DataSource;
-import java.sql.SQLException;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -33,13 +30,9 @@ import java.util.UUID;
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @ImportAutoConfiguration(exclude = { PostgresDataConfigurationTest.class})
-public class RentUseCaseTest {
+class RentUseCaseTest {
 
-    @Autowired
-    JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    DataSource dataSource;
 
     @Autowired
     RentRepository rentRepository;
@@ -60,14 +53,14 @@ public class RentUseCaseTest {
 
 
     @Test
-    public void createTest() throws SQLException {
+    void createTest() {
         Rent rentObject = generateRent();
         UUID rentId = beanConfiguration.rentUseCase().create(rentObject);
         Assert.assertNotNull(rentId);
     }
 
     @Test
-    public void getTest() {
+    void getTest() {
         Rent rentObject = rent;
         UUID rentId = beanConfiguration.rentUseCase().create(rentObject);
 
@@ -77,8 +70,16 @@ public class RentUseCaseTest {
         Assertions.assertEquals(rentObject.getDescriptionIn(), rentReturn.getDescriptionIn());
     }
 
+
     @Test
-    public void updateTest() {
+    void getAll(){
+        generate();
+        List<Rent> getAllRent = beanConfiguration.rentUseCase().get();
+        Assertions.assertTrue(getAllRent.size() > 0);
+
+    }
+    @Test
+    void updateTest() {
         Rent rentObject = rent;
         rentObject.setId(UUID.randomUUID());
         rentRepository.create(rentObject);
@@ -89,7 +90,7 @@ public class RentUseCaseTest {
     }
 
     @Test
-    public void deleteTest() throws SQLException {
+    void deleteTest() {
         Rent rentObject = rent;
         rentObject.setId(UUID.randomUUID());
          rentRepository.create(rentObject);
@@ -107,6 +108,18 @@ public class RentUseCaseTest {
         rentObject.setTenantsId(tenant.getId());
         rentRepository.create(rentObject);
         return rentObject;
+    }
+
+    private void generate() {
+
+        int i = 0;
+        while( i <  10) {
+            beanConfiguration.rentUseCase().create(rent);
+         i++;
+        }
+
+
+
     }
 
 

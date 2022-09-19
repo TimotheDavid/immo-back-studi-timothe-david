@@ -3,16 +3,20 @@ package infoco.immo.ObjectTesting.appartment;
 
 import com.github.javafaker.Faker;
 import infoco.immo.core.Apartment;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.stereotype.Component;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 
 @Component
 @ActiveProfiles("test")
 public class ApartmentObjectTest {
+
+
+    @Test
+    void test(){
+        Assertions.assertTrue(true);
+    }
 
     private final Faker faker = new Faker();
 

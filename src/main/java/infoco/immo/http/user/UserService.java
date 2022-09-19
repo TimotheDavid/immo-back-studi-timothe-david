@@ -2,17 +2,10 @@ package infoco.immo.http.user;
 
 
 import infoco.immo.configuration.BeanConfiguration;
-import infoco.immo.configuration.DatabaseConfiguration;
 import infoco.immo.core.User;
-import infoco.immo.database.SQL.authentication.AuthenticationRepository;
-import infoco.immo.database.SQL.user.UserRepository;
 import infoco.immo.usecase.user.Token;
-import infoco.immo.usecase.user.UserNotFoundException;
-import infoco.immo.usecase.user.UserUseCase;
 import infoco.immo.usecase.user.UserUseCaseI;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;

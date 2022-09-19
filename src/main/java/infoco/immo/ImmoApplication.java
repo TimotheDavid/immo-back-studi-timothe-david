@@ -1,5 +1,6 @@
 package infoco.immo;
 
+import com.github.javafaker.Faker;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +19,10 @@ public class ImmoApplication {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public Faker faker(){
+        return new Faker();
+    }
 
 
 }

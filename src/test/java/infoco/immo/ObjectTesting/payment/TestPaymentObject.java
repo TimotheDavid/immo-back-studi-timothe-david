@@ -2,19 +2,28 @@ package infoco.immo.ObjectTesting.payment;
 
 import com.github.javafaker.Faker;
 import infoco.immo.ObjectTesting.rent.RentObjectTest;
-import infoco.immo.core.Origin;
-import infoco.immo.core.Payment;
-import infoco.immo.core.Rent;
-import infoco.immo.core.TypePayment;
+import infoco.immo.core.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.stereotype.Component;
+import org.springframework.test.context.ActiveProfiles;
 
+import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-public class PaymentTestObject  {
+
+@SpringBootTest
+@ActiveProfiles("test")
+@Component
+public class TestPaymentObject {
 
     private final Rent rent = RentObjectTest.getRent();
     private final Faker faker = new Faker();
     private  Payment create(){
+        Origin origin = Origin.values()[new Random().nextInt(Origin.values().length)];
+
         float amount = (float) faker.number().numberBetween(100, 1000);
         float agencyPart = (float) ( amount * 0.08);
         return Payment.builder()
@@ -27,12 +36,18 @@ public class PaymentTestObject  {
                 .landlorPart(amount - agencyPart)
                 .agencyPart(agencyPart)
                 .rentId(rent.getId())
+                .origin(origin)
                 .build();
     }
 
 
+    @Test
+    void test(){
+        Assertions.assertTrue(true);
+    }
+
 
     public static Payment getPayment(){
-        return new PaymentTestObject().create();
+        return new TestPaymentObject().create();
     }
 }

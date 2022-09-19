@@ -3,12 +3,18 @@ package infoco.immo.ObjectTesting.tenants;
 import com.github.javafaker.Faker;
 import infoco.immo.core.Civility;
 import infoco.immo.core.Tenants;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.stereotype.Component;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Random;
 
 
 @Component
+@ActiveProfiles("test")
+@SpringBootTest
 public class TenantsObjectTest {
 
     private final Faker faker = new Faker();
@@ -24,6 +30,12 @@ public class TenantsObjectTest {
                 .phone(faker.phoneNumber().cellPhone())
                 .secondEmail(faker.internet().emailAddress())
                 .build();
+    }
+
+
+    @Test
+    void test(){
+        Assertions.assertTrue(true);
     }
 
     public static Tenants getTenant() {

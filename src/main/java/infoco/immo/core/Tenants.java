@@ -19,4 +19,5 @@ public class Tenants {
     private  String secondEmail;
     private  String phone;
     private  UUID   id;
+    private UUID rent;
 }

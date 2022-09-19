@@ -2,7 +2,7 @@ package infoco.immo.usecase.payment;
 
 
 import infoco.immo.ObjectTesting.appartment.ApartmentObjectTest;
-import infoco.immo.ObjectTesting.payment.PaymentTestObject;
+import infoco.immo.ObjectTesting.payment.TestPaymentObject;
 import infoco.immo.ObjectTesting.rent.RentObjectTest;
 import infoco.immo.ObjectTesting.tenants.TenantsObjectTest;
 import infoco.immo.configuration.BeanConfiguration;
@@ -17,14 +17,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.sql.DataSource;
 import java.util.List;
 import java.util.UUID;
 @SpringBootTest
@@ -33,7 +31,7 @@ import java.util.UUID;
 @ImportAutoConfiguration(exclude = PostgresDataConfigurationTest.class)
 public class PaymentUseCaseTest {
 
-    private final Payment payment = PaymentTestObject.getPayment();
+    private final Payment payment = TestPaymentObject.getPayment();
 
     private final Apartment apartment = ApartmentObjectTest.getApartment();
 
@@ -41,6 +39,9 @@ public class PaymentUseCaseTest {
 
     @Autowired
     JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    DataSource dataSource;
 
     @Autowired
     BeanConfiguration beanConfiguration;
@@ -57,23 +58,6 @@ public class PaymentUseCaseTest {
     @Autowired
     PaymentRepository paymentRepository;
 
-
-    private UUID createPaymentLine() {
-        PaymentLineTest paymentLineTest = new PaymentLineTest(new TenantRepository(),
-                new ApartmentRepository(),
-                new RentRepository(),
-                RentObjectTest.getRent(),
-                ApartmentObjectTest.getApartment(),
-                TenantsObjectTest.getTenant());
-        return paymentLineTest.createLinePayment();
-    }
-
-
-
-
-
-
-
     @Test
     public void createTest() {
         UUID rentLine = generateRent().getId();
@@ -85,10 +69,11 @@ public class PaymentUseCaseTest {
     }
     @Test
     public void getTest() {
-        UUID rentLine = RentObjectTest.generateRentLine();
+        UUID rentLine = generateRent().getId();
         payment.setTypePayment(TypePayment.CARTE);
         payment.setOrigin(Origin.PROPRIETAIRE);
         payment.setRentId(rentLine);
+        payment.setId(UUID.randomUUID());
         paymentRepository.create(payment);
         Payment PaymentObject = beanConfiguration.paymentUseCase().get(payment.getId());
         Assertions.assertEquals(PaymentObject.getDatePayment(), payment.getDatePayment());
@@ -96,10 +81,11 @@ public class PaymentUseCaseTest {
 
     @Test
     public void getAllTest(){
-        UUID rentLine = RentObjectTest.generateRentLine();
+        UUID rentLine = generateRent().getId();
         payment.setTypePayment(TypePayment.CARTE);
         payment.setOrigin(Origin.PROPRIETAIRE);
         payment.setRentId(rentLine);
+        payment.setId(UUID.randomUUID());
         paymentRepository.create(payment);
         List<Payment> listPayment = beanConfiguration.paymentUseCase().get();
         Assertions.assertTrue(listPayment.size() > 0);
@@ -108,10 +94,11 @@ public class PaymentUseCaseTest {
     @Test
     public void update(){
         Payment createObject = payment;
-        UUID rentLine = RentObjectTest.generateRentLine();
+        UUID rentLine = generateRent().getId();
         payment.setTypePayment(TypePayment.CARTE);
         payment.setOrigin(Origin.PROPRIETAIRE);
         payment.setRentId(rentLine);
+        payment.setId(UUID.randomUUID());
         paymentRepository.create(payment);
         createObject.setId(payment.getId());
         createObject.setRentId(payment.getRentId());

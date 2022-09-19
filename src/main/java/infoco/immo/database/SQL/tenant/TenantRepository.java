@@ -34,7 +34,7 @@ public class TenantRepository implements TenantRepositoryI {
             ps.setString(nthPlace++, tenants.getEmail());
             ps.setString(nthPlace++, tenants.getSecondEmail());
             ps.setString(nthPlace++, tenants.getPhone());
-            ps.setString(nthPlace++, String.valueOf(tenants.getCivility()));
+            ps.setString(nthPlace+1, String.valueOf(tenants.getCivility()));
         });
     }
 
@@ -44,11 +44,14 @@ public class TenantRepository implements TenantRepositoryI {
         return  db.query(SQL, new TenantMapper(), tenants.getId()).stream().findFirst().orElse(null);
     }
 
+
+    @Override
     public List<Tenants> get(){
         final String SQL = "SELECT * FROM immo.tenant";
         return db.query(SQL, new TenantMapper());
     }
 
+    @Override
     public void delete(UUID tenantId){
         final String SQL = "DELETE FROM immo.tenant WHERE uuid = ?";
         db.update(SQL, tenantId);
@@ -57,7 +60,7 @@ public class TenantRepository implements TenantRepositoryI {
     @Override
     public void patchWithRent(UUID tenantId, UUID rentId) {
         final String SQL = "UPDATE immo.tenant SET rentid = ? WHERE uuid = ?";
-        db.update(SQL, tenantId, rentId);
+        db.update(SQL, rentId, tenantId);
     }
 
     @Override
@@ -73,7 +76,7 @@ public class TenantRepository implements TenantRepositoryI {
             ps.setString(nthPlace++, tenants.getSecondEmail());
             ps.setString(nthPlace++, tenants.getPhone());
             ps.setString(nthPlace++, tenants.getCivility());
-            ps.setObject(nthPlace++, tenants.getId());
+            ps.setObject(nthPlace+1, tenants.getId());
         });
     }
 
