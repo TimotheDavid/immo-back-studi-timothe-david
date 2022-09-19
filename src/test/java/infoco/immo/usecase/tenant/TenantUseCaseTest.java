@@ -1,26 +1,26 @@
 package infoco.immo.usecase.tenant;
 
 
+import com.github.javafaker.Faker;
 import infoco.immo.ObjectTesting.tenants.TenantsObjectTest;
 import infoco.immo.configuration.BeanConfiguration;
 import infoco.immo.configuration.PostgresDataConfigurationTest;
 import infoco.immo.core.Tenants;
+import infoco.immo.database.SQL.tenant.TenantRepository;
 import org.junit.Assert;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.data.jdbc.AutoConfigureDataJdbc;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
@@ -28,20 +28,45 @@ import java.util.UUID;
 @SpringBootTest
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
-@ImportAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
+@ImportAutoConfiguration(exclude = PostgresDataConfigurationTest.class)
 class TenantUseCaseTest {
 
     private final Tenants tenants = TenantsObjectTest.getTenant();
 
     @Autowired
+    DataSource dataSource;
+
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    Faker faker;
+
+
+    @Autowired
     BeanConfiguration beanConfiguration;
 
+    @Autowired
+    TenantRepository tenantRepository;
 
+
+
+    @BeforeEach
+    void beforeEach(){
+        tenants.setId(UUID.randomUUID());
+        tenants.setEmail(faker.internet().emailAddress());
+        tenantRepository.create(tenants);
+    }
+
+    @AfterEach
+    void afterEach(){
+        jdbcTemplate.execute("DELETE FROM immo.tenant");
+    }
 
     @Test
-    public void createTest() throws SQLException {
+    void createTest() throws SQLException {
+        tenants.setEmail(faker.internet().emailAddress());
         Tenants created = tenants;
-
         UUID tenantId = beanConfiguration.tenantUseCase().create(created);
         created.setId(tenantId);
         Tenants get = beanConfiguration.tenantUseCase().get(created);
@@ -49,39 +74,42 @@ class TenantUseCaseTest {
     }
 
     @Test
-    public void getTest() throws SQLException {
-        Tenants createdTenant = tenants;
-        beanConfiguration.tenantUseCase().create(createdTenant);
-        Tenants tenant = beanConfiguration.tenantUseCase().get(createdTenant);
-        Assertions.assertEquals(tenant.getEmail(), createdTenant.getEmail());
+    void getTest() {
+        Tenants tenant = beanConfiguration.tenantUseCase().get(tenants);
+        Assertions.assertEquals(tenant.getEmail(), tenants.getEmail());
     }
 
 
     @Test
-    public void getAllTest(){
+    void getAllTest(){
+        generated();
         List<Tenants> listTenant = beanConfiguration.tenantUseCase().get();
-        Assert.assertTrue(listTenant.size() > 0);
+        Assert.assertEquals(10, listTenant.size());
     }
 
     @Test
-    public void deleteTest() throws SQLException {
-        UUID tenantId = beanConfiguration.tenantUseCase().create(tenants);
-        beanConfiguration.tenantUseCase().delete(tenantId);
+    void deleteTest() {
+        beanConfiguration.tenantUseCase().delete(tenants.getId());
         Tenants getTenant = beanConfiguration.tenantUseCase().get(tenants);
         Assert.assertNull(getTenant);
     }
 
 
     @Test
-    public void updateTest() throws SQLException {
+    void updateTest() {
 
-        UUID tenantId = beanConfiguration.tenantUseCase().create(tenants);
-        Tenants createTenant = tenants;
-        createTenant.setId(tenantId);
-        beanConfiguration.tenantUseCase().update(createTenant);
-        Tenants getTenant = beanConfiguration.tenantUseCase().get(createTenant);
-        Assertions.assertEquals(createTenant.getName(), getTenant.getName());
-        Assertions.assertEquals(tenantId, getTenant.getId());
+        tenants.setName(faker.name().name());
+        beanConfiguration.tenantUseCase().update(tenants);
+        Tenants getTenant = beanConfiguration.tenantUseCase().get(tenants);
+        Assertions.assertEquals(tenants.getName(), getTenant.getName());
+    }
+
+    private void generated(){
+        int i = 1;
+        while (i < 10) {
+            beforeEach();
+            i++;
+        }
     }
 
 }

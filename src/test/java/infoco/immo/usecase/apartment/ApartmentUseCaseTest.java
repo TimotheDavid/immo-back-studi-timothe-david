@@ -5,7 +5,9 @@ import infoco.immo.configuration.BeanConfiguration;
 import infoco.immo.configuration.PostgresDataConfigurationTest;
 import infoco.immo.core.Apartment;
 import infoco.immo.database.SQL.appartment.ApartmentRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,54 +41,61 @@ class ApartmentUseCaseTest {
     @Autowired
     ApartmentRepository apartmentRepository;
 
+    @BeforeEach
+    void beforeEach(){
+        apartment.setId(UUID.randomUUID());
+        apartmentRepository.create(apartment);
+    }
+
+    @AfterEach
+    void afterEach(){
+        jdbcTemplate.execute("DELETE FROM immo.apartment");
+    }
+
     @Test
     void createTest(){
-        beanConfiguration.apartmentUseCase().create(apartment);
-        final Apartment apartmentObject = apartmentRepository.get(apartment);
+        UUID apartmentId = beanConfiguration.apartmentUseCase().create(apartment);
+        Apartment apartmentCreated = Apartment.builder().id(apartmentId).build();
+        final Apartment apartmentObject = apartmentRepository.get(apartmentCreated);
         Assertions.assertEquals(apartmentObject.getAddress(), apartment.getAddress());
     }
 
     @Test
     void getTest(){
-        beanConfiguration.apartmentUseCase().create(apartment);
         final Apartment apartmentObject = beanConfiguration.apartmentUseCase().get(apartment);
         Assertions.assertEquals(apartment.getAddress(), apartmentObject.getAddress());
     }
 
     @Test
     void updateTest(){
-        UUID apartmentId =  beanConfiguration.apartmentUseCase().create(apartment);
-        Apartment apartmentCreation = apartment;
-        apartmentCreation.setId(apartmentId);
+        apartment.setCity("strasbourg");
         beanConfiguration.apartmentUseCase().update(apartment);
-        Apartment apartmentObject = apartmentRepository.get(apartmentCreation);
-        Assertions.assertEquals(apartmentCreation.getAddress(), apartmentObject.getAddress());
+        Apartment apartmentObject = apartmentRepository.get(apartment);
+        Assertions.assertEquals(apartment.getCity(), apartmentObject.getCity());
     }
 
     @Test
     void deleteTest(){
-        UUID apartmentId =  beanConfiguration.apartmentUseCase().create(apartment);
-        apartmentRepository.delete(apartmentId);
-        Apartment apartmentObject = new Apartment();
-        apartmentObject.setId(apartmentId);
-        Apartment apartmentGet = apartmentRepository.get(apartmentObject);
+        beanConfiguration.apartmentUseCase().delete(apartment.getId());
+        Apartment apartmentGet = apartmentRepository.get(apartment);
         Assertions.assertNull(apartmentGet);
     }
 
     @Test
     void getAllTest(){
-        beanConfiguration.apartmentUseCase().create(apartment);
+        generate();
         final List<Apartment> apartmentObject = beanConfiguration.apartmentUseCase().get();
-        Assertions.assertTrue(apartmentObject.size() > 0);
+        Assertions.assertEquals(10,apartmentObject.size());
     }
 
-    @Test
-    void delete() {
-        apartment.setId(UUID.randomUUID());
-        apartmentRepository.create(apartment);
-        beanConfiguration.apartmentUseCase().delete(apartment.getId());
-        Apartment apartmentObject = apartmentRepository.get(apartment);
-        Assertions.assertNull(apartmentObject);
+
+
+    private void generate(){
+        int i = 1;
+        while (i < 10){
+            beforeEach();
+            i++;
+        }
 
 
     }

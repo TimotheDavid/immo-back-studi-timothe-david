@@ -12,7 +12,8 @@ import infoco.immo.database.SQL.appartment.ApartmentRepository;
 import infoco.immo.database.SQL.payment.PaymentRepository;
 import infoco.immo.database.SQL.rent.RentRepository;
 import infoco.immo.database.SQL.tenant.TenantRepository;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ import java.util.UUID;
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @ImportAutoConfiguration(exclude = PostgresDataConfigurationTest.class)
-public class PaymentUseCaseTest {
+class PaymentUseCaseTest {
 
     private final Payment payment = TestPaymentObject.getPayment();
 
@@ -58,8 +59,17 @@ public class PaymentUseCaseTest {
     @Autowired
     PaymentRepository paymentRepository;
 
+    @AfterEach
+    void afterEach(){
+        jdbcTemplate.execute("DELETE FROM immo.apartment");
+        jdbcTemplate.execute("DELETE FROM immo.tenant");
+        jdbcTemplate.execute("DELETE FROM immo.rent");
+        jdbcTemplate.execute("DELETE FROM immo.payment_rent");
+        jdbcTemplate.execute("DELETE FROM immo.payment");
+    }
+
     @Test
-    public void createTest() {
+    void createTest() {
         UUID rentLine = generateRent().getId();
         payment.setTypePayment(TypePayment.CARTE);
         payment.setOrigin(Origin.PROPRIETAIRE);
@@ -68,7 +78,7 @@ public class PaymentUseCaseTest {
         Assertions.assertTrue(true);
     }
     @Test
-    public void getTest() {
+    void getTest() {
         UUID rentLine = generateRent().getId();
         payment.setTypePayment(TypePayment.CARTE);
         payment.setOrigin(Origin.PROPRIETAIRE);
@@ -80,7 +90,7 @@ public class PaymentUseCaseTest {
     }
 
     @Test
-    public void getAllTest(){
+    void getAllTest(){
         UUID rentLine = generateRent().getId();
         payment.setTypePayment(TypePayment.CARTE);
         payment.setOrigin(Origin.PROPRIETAIRE);
@@ -92,7 +102,7 @@ public class PaymentUseCaseTest {
     }
 
     @Test
-    public void update(){
+    void updateTest(){
         Payment createObject = payment;
         UUID rentLine = generateRent().getId();
         payment.setTypePayment(TypePayment.CARTE);
@@ -104,6 +114,19 @@ public class PaymentUseCaseTest {
         createObject.setRentId(payment.getRentId());
         beanConfiguration.paymentUseCase().update(createObject);
         Assertions.assertTrue(true);
+    }
+
+    @Test
+    void deleteTest(){
+        UUID rentLine = generateRent().getId();
+        payment.setTypePayment(TypePayment.CARTE);
+        payment.setOrigin(Origin.PROPRIETAIRE);
+        payment.setRentId(rentLine);
+        payment.setId(UUID.randomUUID());
+        paymentRepository.create(payment);
+        beanConfiguration.paymentUseCase().delete(payment.getId());
+        Payment paymentObject = paymentRepository.get(payment.getId());
+        Assertions.assertNull(paymentObject);
     }
 
 

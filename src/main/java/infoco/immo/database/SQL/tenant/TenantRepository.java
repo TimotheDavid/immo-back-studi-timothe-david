@@ -34,7 +34,7 @@ public class TenantRepository implements TenantRepositoryI {
             ps.setString(nthPlace++, tenants.getEmail());
             ps.setString(nthPlace++, tenants.getSecondEmail());
             ps.setString(nthPlace++, tenants.getPhone());
-            ps.setString(nthPlace+1, String.valueOf(tenants.getCivility()));
+            ps.setString(nthPlace++, String.valueOf(tenants.getCivility()));
         });
     }
 
@@ -76,7 +76,7 @@ public class TenantRepository implements TenantRepositoryI {
             ps.setString(nthPlace++, tenants.getSecondEmail());
             ps.setString(nthPlace++, tenants.getPhone());
             ps.setString(nthPlace++, tenants.getCivility());
-            ps.setObject(nthPlace+1, tenants.getId());
+            ps.setObject(nthPlace++, tenants.getId());
         });
     }
 

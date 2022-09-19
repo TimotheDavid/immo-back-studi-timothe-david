@@ -34,7 +34,7 @@ public class PaymentRepository implements PaymentRepositoryI {
             ps.setFloat(nthPlace++, payment.getAgencyPart());
             ps.setBoolean(nthPlace++, payment.getSens());
             ps.setString(nthPlace++, payment.getTypePayment().toString());
-            ps.setString(nthPlace+1, payment.getOrigin().toString());
+            ps.setString(nthPlace++, payment.getOrigin().toString());
         });
     }
 
@@ -46,7 +46,7 @@ public class PaymentRepository implements PaymentRepositoryI {
             int nthPlace = 1;
             ps.setObject(nthPlace++, mappingUUID);
             ps.setObject(nthPlace++, payment.getRentId());
-            ps.setObject(nthPlace+1, payment.getId());
+            ps.setObject(nthPlace++, payment.getId());
         });
     }
 

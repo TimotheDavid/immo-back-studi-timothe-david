@@ -13,15 +13,18 @@ import infoco.immo.database.SQL.appartment.ApartmentRepository;
 import infoco.immo.database.SQL.rent.RentRepository;
 import infoco.immo.database.SQL.tenant.TenantRepository;
 import org.junit.Assert;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.sql.DataSource;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,7 +35,11 @@ import java.util.UUID;
 @ImportAutoConfiguration(exclude = { PostgresDataConfigurationTest.class})
 class RentUseCaseTest {
 
+    @Autowired
+    JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    DataSource dataSource;
 
     @Autowired
     RentRepository rentRepository;
@@ -51,6 +58,14 @@ class RentUseCaseTest {
 
     private final Tenants  tenant = TenantsObjectTest.getTenant();
 
+    @AfterEach
+    void afterEach(){
+        jdbcTemplate.execute("DELETE FROM immo.payment_rent");
+        jdbcTemplate.execute("DELETE FROM immo.tenant");
+        jdbcTemplate.execute("DELETE FROM immo.apartment");
+        jdbcTemplate.execute("DELETE FROM immo.rent");
+
+    }
 
     @Test
     void createTest() {
@@ -115,7 +130,7 @@ class RentUseCaseTest {
         int i = 0;
         while( i <  10) {
             beanConfiguration.rentUseCase().create(rent);
-         i++;
+            i++;
         }
 
 
