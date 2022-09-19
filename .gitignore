@@ -33,6 +33,7 @@ build/
 .vscode/
 
 ./docker
-.env
+./.env
 src/main/resources/templates/*
 
+!/.env
