@@ -74,9 +74,5 @@ public class BeanConfiguration {
         return new UserUseCase(userRepository, authenticationRepository, bCryptPasswordEncoder);
     }
 
-    @Bean(name = "AuthenticationBean")
-    public AuthenticationRepository authenticationRepository(){
-        return authenticationRepository;
-    }
 
 }

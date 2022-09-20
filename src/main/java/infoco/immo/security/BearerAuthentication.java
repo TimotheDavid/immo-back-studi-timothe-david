@@ -39,10 +39,10 @@ public class BearerAuthentication implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String headers = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if (beanConfiguration.authenticationRepository() == null) {
+        if (authenticationRepository == null) {
             ServletContext servletContext = request.getServletContext();
             WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
-            authenticationRepository = webApplicationContext.getBean(AuthenticationRepository.class);
+            authenticationRepository = Objects.requireNonNull(webApplicationContext).getBean(AuthenticationRepository.class);
 
         }
 
