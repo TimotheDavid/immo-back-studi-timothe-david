@@ -2,15 +2,11 @@ package infoco.immo.database.SQL.apartement;
 
 import infoco.immo.ObjectTesting.appartment.ApartmentObjectTest;
 import infoco.immo.ObjectTesting.rent.RentObjectTest;
-import infoco.immo.configuration.PostgresDataConfigurationTest;
 import infoco.immo.core.Apartment;
 import infoco.immo.core.Rent;
 import infoco.immo.database.SQL.appartment.ApartmentRepository;
 import infoco.immo.database.SQL.rent.RentRepository;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
@@ -26,7 +22,6 @@ import java.util.UUID;
 @SpringBootTest
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
-@ImportAutoConfiguration(exclude = PostgresDataConfigurationTest.class)
 class ApartmentRepositoryTest {
 
 
@@ -54,8 +49,8 @@ class ApartmentRepositoryTest {
     public  void beforeEach(){
         apartment.setId(UUID.randomUUID());
         apartmentRepository.create(apartment);
-
     }
+
     @Test
     void createTest(){
         apartment.setId(UUID.randomUUID());

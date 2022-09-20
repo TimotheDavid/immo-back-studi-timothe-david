@@ -7,8 +7,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication(scanBasePackages = {
-        "infoco.immo.configuration", "infoco.immo.usecase.*", "infoco.immo.database.SQL.*"
-})
+        "infoco.immo.configuration", "infoco.immo.usecase.*", "infoco.immo.database.SQL.*", "infoco.immo.*"
+},
+        exclude = {}
+
+
+)
 public class ImmoApplication {
     public static void main(String[] args) {
         SpringApplication.run(ImmoApplication.class, args);

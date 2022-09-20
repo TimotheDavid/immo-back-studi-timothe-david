@@ -1,7 +1,6 @@
 package infoco.immo.database.SQL.rent;
 
 import infoco.immo.ObjectTesting.rent.RentObjectTest;
-import infoco.immo.configuration.PostgresDataConfigurationTest;
 import infoco.immo.core.Rent;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.AfterEach;
@@ -23,7 +22,7 @@ import java.util.UUID;
 @SpringBootTest
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
-@ImportAutoConfiguration(exclude = PostgresDataConfigurationTest.class)
+@ImportAutoConfiguration
 class RentRepositoryTest {
 
 

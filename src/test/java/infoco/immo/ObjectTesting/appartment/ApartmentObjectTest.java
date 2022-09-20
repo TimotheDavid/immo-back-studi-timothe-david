@@ -5,11 +5,13 @@ import com.github.javafaker.Faker;
 import infoco.immo.core.Apartment;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.test.context.ActiveProfiles;
 
+import javax.annotation.PostConstruct;
+
 @Component
-@ActiveProfiles("test")
 public class ApartmentObjectTest {
 
 
@@ -18,9 +20,10 @@ public class ApartmentObjectTest {
         Assertions.assertTrue(true);
     }
 
-    private final Faker faker = new Faker();
 
-    private Apartment createApartment() {
+
+    public Apartment createApartment() {
+        Faker faker = new Faker();
         return Apartment.builder()
                 .address(faker.address().fullAddress())
                 .charge((float) faker.number().numberBetween(0, 1000))

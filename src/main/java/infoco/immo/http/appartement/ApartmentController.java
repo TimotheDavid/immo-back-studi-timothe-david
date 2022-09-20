@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -29,17 +30,20 @@ public class ApartmentController {
     }
 
     @GetMapping(value = "/{uuid}")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<ApartmentResponse> getOne(@PathVariable String uuid){
         Apartment apartment = Apartment.builder().id(UUID.fromString(uuid)).build();
         return ResponseEntity.ok(ApartmentMapper.INSTANCE.domainToResponse(appartmentService.get(apartment)));
     }
 
     @GetMapping
-    public ResponseEntity<List<ApartmentResponse>> getAll(){
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<List<ApartmentResponse>> getAll() {
         return ResponseEntity.ok(appartmentService.get().stream().map(ApartmentMapper.INSTANCE::domainToResponse).collect(Collectors.toList()));
     }
 
     @PutMapping
+    @CrossOrigin
     public ResponseEntity update(@RequestBody UpdateApartmentDTO updateApartmentDTO){
         Apartment apartment = ApartmentMapper.INSTANCE.updateDTOToDomain(updateApartmentDTO);
         appartmentService.update(apartment);

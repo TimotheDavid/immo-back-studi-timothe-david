@@ -34,10 +34,10 @@
             <artifactId>flyway-core</artifactId>
             <version>9.3.0</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-security</artifactId>
+                </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -93,6 +93,15 @@
             <artifactId>java-jwt</artifactId>
             <version>4.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-crypto</artifactId>
+            <version>5.7.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+        </dependency>
 
     </dependencies>
 
@@ -112,6 +121,13 @@
             <properties>
                 <spring.profiles.active>prod</spring.profiles.active>
                 <profileActive>prod</profileActive>
+            </properties>
+        </profile>
+        <profile>
+            <id>populate</id>
+            <properties>
+                <spring.profiles.active>populate</spring.profiles.active>
+                <profileActive>populate</profileActive>
             </properties>
         </profile>
         <profile>

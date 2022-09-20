@@ -4,7 +4,6 @@ package infoco.immo.database.SQL.tenant;
 import com.github.javafaker.Faker;
 import infoco.immo.ObjectTesting.rent.RentObjectTest;
 import infoco.immo.ObjectTesting.tenants.TenantsObjectTest;
-import infoco.immo.configuration.PostgresDataConfigurationTest;
 import infoco.immo.core.Rent;
 import infoco.immo.core.Tenants;
 import infoco.immo.database.SQL.rent.RentRepository;
@@ -27,7 +26,7 @@ import java.util.UUID;
 @SpringBootTest
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
-@ImportAutoConfiguration(exclude = PostgresDataConfigurationTest.class)
+@ImportAutoConfiguration
 class TenantRepositoryTest {
 
 

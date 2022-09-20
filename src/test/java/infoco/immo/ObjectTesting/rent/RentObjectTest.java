@@ -20,29 +20,9 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Component
-@SpringBootTest
-@ActiveProfiles("test")
 public class RentObjectTest {
 
     private final Faker faker = new Faker();
-
-    @Autowired
-    JdbcTemplate jdbcTemplate;
-
-    @Autowired
-    DataSource dataSource;
-
-    @Autowired
-    BeanConfiguration beanConfiguration;
-    @MockBean
-    RentRepository rentRepository;
-
-    @Autowired
-    TenantRepository tenantRepository;
-
-    @Autowired
-    ApartmentRepository apartmentRepository;
-
 
     @Test
     void test(){
@@ -60,35 +40,8 @@ public class RentObjectTest {
                 .agencyPourcent((float) 8).build();
     }
 
-/*    private UUID  generateRent() {
-        Rent rentObject = createRent();
-        apartment.setId(UUID.randomUUID());
-        apartmentRepository.create(apartment);
-        tenant.setId(UUID.randomUUID());
-        tenantRepository.create(tenant);
-        rentObject.setApartmentId(apartment.getId());
-        rentObject.setTenantsId(tenant.getId());
-        rentRepository.create(rentObject);
-        return rentObject.getId();
-    }*/
 
-/*    private Rent  generateCreatedLineWthoutRent(){
-        Rent rentObject = createRent();
-        apartment.setId(UUID.randomUUID());
-        apartmentRepository.create(apartment);
-        tenant.setId(UUID.randomUUID());
-        tenantRepository.create(tenant);
-        rentObject.setApartmentId(apartment.getId());
-        rentObject.setTenantsId(tenant.getId());
-        return rentObject;
-    }*/
-
-/*    public static UUID  generateRentLine() {
-        return  new RentObjectTest().generateRent();
-    }*/
-/*
-    public static Rent generateLineWitoutRent(){ return  new RentObjectTest().generateCreatedLineWthoutRent();}*/
-    public static Rent getRent() {
+   public static Rent getRent() {
         return new RentObjectTest().createRent();
     }
 }

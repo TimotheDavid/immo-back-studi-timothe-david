@@ -2,7 +2,6 @@ package infoco.immo.database.SQL.payment;
 
 import infoco.immo.ObjectTesting.payment.TestPaymentObject;
 import infoco.immo.ObjectTesting.rent.RentObjectTest;
-import infoco.immo.configuration.PostgresDataConfigurationTest;
 import infoco.immo.core.Payment;
 import infoco.immo.core.Rent;
 import infoco.immo.database.SQL.rent.RentRepository;
@@ -25,7 +24,7 @@ import java.util.UUID;
 @SpringBootTest
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
-@ImportAutoConfiguration(exclude = PostgresDataConfigurationTest.class)
+@ImportAutoConfiguration()
 class PaymentRepositoryTest {
 
     @Autowired

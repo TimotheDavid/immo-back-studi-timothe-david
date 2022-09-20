@@ -1,56 +1,44 @@
 package infoco.immo.security;
 
-import infoco.immo.configuration.BeanConfiguration;
 import infoco.immo.database.SQL.authentication.AuthenticationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.header.writers.StaticHeadersWriter;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
+import java.util.List;
+
+@Profile(value = {"dev", "prod", "debug"})
 @Configuration
-@EnableWebSecurity
 public class ImmoSecurity {
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedOrigins("*")
-                        .allowedHeaders("*")
-                        .allowedMethods("GET", "POST", "PATCH", "DELETE", "OPTIONS", "PUT", "HEAD");
-            }
-        };
-    }
-    @Bean
-    public SecurityFilterChain configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .formLogin().disable()
-                .httpBasic().disable()
-                .cors()
-                .and()
-                .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .headers(httpSecurityHeadersConfigurer -> httpSecurityHeadersConfigurer.addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Origin", "*")));
 
-        return http.build();
+
+    @Autowired
+    AuthenticationRepository authenticationRepository;
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("*"));
+        configuration.setAllowedMethods(Arrays.asList("GET","POST","PATCH", "PUT", "DELETE", "OPTIONS", "HEAD"));
+        configuration.setAllowCredentials(true);
+        configuration.setAllowedHeaders(Arrays.asList("Authorization","Content-Type"));
+        configuration.setExposedHeaders(List.of("X-Get-Header"));
+        configuration.setMaxAge(3600L);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 
-    @Bean
-    public FilterRegistrationBean<BearerAuthentication> bearerAuthFilterRegistration() {
-        FilterRegistrationBean<BearerAuthentication> bearerRegistrationBean = new FilterRegistrationBean<>();
-        bearerRegistrationBean.setFilter(new BearerAuthentication());
-        bearerRegistrationBean.addUrlPatterns("/api/*");
-        return bearerRegistrationBean;
-    }
 
 
     @Bean
@@ -61,21 +49,27 @@ public class ImmoSecurity {
         return headerFilterFilterRegistrationBean;
     }
 
-
     @Bean
-    public SecurityFilterChain authorizeAuthFilter(HttpSecurity http) throws  Exception {
+    public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                .cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
-                .and()
-                .httpBasic().disable()
                 .formLogin().disable()
-                .authorizeRequests().antMatchers( "/auth/*").permitAll();
+                .httpBasic().disable()
+                .cors().disable()
+                .authorizeRequests().antMatchers("/api/**").permitAll()
+                .and()
+                .authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/api/**").permitAll()
+                .and()
+                .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .headers(httpSecurityHeadersConfigurer -> httpSecurityHeadersConfigurer.addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Origin", "*")));
         return http.build();
     }
 
-
-
-
-
+    @Bean
+    public FilterRegistrationBean<BearerAuthentication> bearerAuthFilterRegistration() {
+        FilterRegistrationBean<BearerAuthentication> bearerRegistrationBean = new FilterRegistrationBean<>();
+        bearerRegistrationBean.setFilter(new BearerAuthentication());
+        bearerRegistrationBean.addUrlPatterns("/api/*");
+        return bearerRegistrationBean;
+    }
 
 }

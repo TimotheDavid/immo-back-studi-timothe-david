@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
@@ -15,12 +17,13 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.Objects;
 
 
 @Slf4j
-@Configuration
+@Component
 public class BearerAuthentication implements Filter {
     static final String FORBIDDEN = "forbidden, add a bearer token";
 
@@ -31,15 +34,18 @@ public class BearerAuthentication implements Filter {
     BeanConfiguration beanConfiguration;
 
     @Autowired
-    AuthenticationRepository authenticationRepository;
+    JdbcTemplate jdbcTemplate;
+
+
+    private AuthenticationRepository authenticationRepository;
 
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        String headers = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if (beanConfiguration.authenticationRepository() == null) {
+        String headers = ((HttpServletRequest) servletRequest).getHeader(HttpHeaders.AUTHORIZATION);
+        if (authenticationRepository == null) {
             ServletContext servletContext = request.getServletContext();
             WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
             authenticationRepository = webApplicationContext.getBean(AuthenticationRepository.class);
@@ -48,7 +54,7 @@ public class BearerAuthentication implements Filter {
 
 
         if (headers == null) {
-            response.sendError(HttpStatus.FORBIDDEN.value(), FORBIDDEN);
+            response.sendError(HttpStatus.OK.value(), FORBIDDEN);
             return;
         }
 

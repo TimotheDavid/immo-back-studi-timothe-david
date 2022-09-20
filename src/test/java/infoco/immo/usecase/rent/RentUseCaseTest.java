@@ -5,7 +5,6 @@ import infoco.immo.ObjectTesting.appartment.ApartmentObjectTest;
 import infoco.immo.ObjectTesting.rent.RentObjectTest;
 import infoco.immo.ObjectTesting.tenants.TenantsObjectTest;
 import infoco.immo.configuration.BeanConfiguration;
-import infoco.immo.configuration.PostgresDataConfigurationTest;
 import infoco.immo.core.Apartment;
 import infoco.immo.core.Rent;
 import infoco.immo.core.Tenants;
@@ -32,7 +31,7 @@ import java.util.UUID;
 @SpringBootTest
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
-@ImportAutoConfiguration(exclude = { PostgresDataConfigurationTest.class})
+@ImportAutoConfiguration
 class RentUseCaseTest {
 
     @Autowired

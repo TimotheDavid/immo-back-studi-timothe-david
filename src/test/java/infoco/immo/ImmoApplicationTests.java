@@ -1,5 +1,6 @@
 package infoco.immo;
 
+import com.github.javafaker.Faker;
 import infoco.immo.configuration.BeanConfiguration;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,11 @@ class ImmoApplicationTests {
     }
     @Test
     void contextLoads() {
+    }
+
+    @Bean
+    public Faker faker(){
+        return new Faker();
     }
 
 

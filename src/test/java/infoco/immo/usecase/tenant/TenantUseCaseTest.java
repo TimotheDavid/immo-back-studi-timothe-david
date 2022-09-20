@@ -4,7 +4,6 @@ package infoco.immo.usecase.tenant;
 import com.github.javafaker.Faker;
 import infoco.immo.ObjectTesting.tenants.TenantsObjectTest;
 import infoco.immo.configuration.BeanConfiguration;
-import infoco.immo.configuration.PostgresDataConfigurationTest;
 import infoco.immo.core.Tenants;
 import infoco.immo.database.SQL.tenant.TenantRepository;
 import org.junit.Assert;
@@ -28,7 +27,7 @@ import java.util.UUID;
 @SpringBootTest
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
-@ImportAutoConfiguration(exclude = PostgresDataConfigurationTest.class)
+@ImportAutoConfiguration()
 class TenantUseCaseTest {
 
     private final Tenants tenants = TenantsObjectTest.getTenant();

@@ -2,7 +2,6 @@ package infoco.immo.usecase.user;
 
 import com.github.javafaker.Faker;
 import infoco.immo.configuration.BeanConfiguration;
-import infoco.immo.configuration.PostgresDataConfigurationTest;
 import infoco.immo.core.Authentication;
 import infoco.immo.core.User;
 import infoco.immo.database.SQL.authentication.AuthenticationRepository;
@@ -28,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 @SpringBootTest
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
-@ImportAutoConfiguration(exclude = PostgresDataConfigurationTest.class)
+@ImportAutoConfiguration
 class UserUseCaseTest {
 
     @Autowired

@@ -19,5 +19,5 @@ public class Apartment {
     private  Float charge;
     private  Float rent;
     private  Float deposit;
-
+    private UUID rentId;
 }

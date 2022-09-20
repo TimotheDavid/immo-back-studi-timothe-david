@@ -2,7 +2,6 @@ package infoco.immo.usecase.apartment;
 
 import infoco.immo.ObjectTesting.appartment.ApartmentObjectTest;
 import infoco.immo.configuration.BeanConfiguration;
-import infoco.immo.configuration.PostgresDataConfigurationTest;
 import infoco.immo.core.Apartment;
 import infoco.immo.database.SQL.appartment.ApartmentRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -25,7 +24,7 @@ import java.util.UUID;
 @SpringBootTest
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
-@ImportAutoConfiguration(exclude = PostgresDataConfigurationTest.class)
+@ImportAutoConfiguration
 class ApartmentUseCaseTest {
 
     private final Apartment apartment = ApartmentObjectTest.getApartment();
