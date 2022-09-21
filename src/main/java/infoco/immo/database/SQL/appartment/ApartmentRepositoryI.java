@@ -14,4 +14,5 @@ public interface ApartmentRepositoryI {
     void delete(UUID apartmentId);
 
 
+    PaymentDataByAppartment getPaymentByApartment(UUID apartmentId);
 }

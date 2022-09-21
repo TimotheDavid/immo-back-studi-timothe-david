@@ -6,10 +6,15 @@ import infoco.immo.http.rent.dto.UpdateRentDTO;
 import infoco.immo.http.rent.mapper.RentMappers;
 import infoco.immo.http.rent.response.RentResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -48,5 +53,17 @@ public class RentController {
     @DeleteMapping(value = "/{uuid}")
     public void delete(@PathVariable String uuid) {
         rentService.delete(UUID.fromString(uuid));
+    }
+
+    @GetMapping(value = "/receipt")
+    @ResponseBody
+    public ResponseEntity getReceipt(@RequestParam(required = true) String  tenant, @RequestParam(required = false) String from, @RequestParam(required = false) String to) throws IOException {
+        InputStream inputStream = rentService.generateRentReceipt(from, to, tenant);
+        ByteArrayResource resource = new ByteArrayResource(inputStream.readAllBytes());
+
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + "rentReceipt.pdf")
+                .contentLength(resource.contentLength())
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(resource);
     }
 }

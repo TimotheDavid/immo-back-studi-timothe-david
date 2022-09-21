@@ -28,8 +28,6 @@ public class PaymentController {
     @Autowired
     PaymentService paymentService;
 
-    @Autowired
-    FilesGenerator filesGenerator;
 
     @PostMapping
     public void create(@RequestBody CreateDTOPayment paymentdto){
@@ -61,18 +59,6 @@ public class PaymentController {
         paymentService.update(payment);
     }
 
-    @GetMapping(value = "/receipt")
-    @ResponseBody
-    public ResponseEntity getReceipt(@RequestParam(required = true) String  tenant, @RequestParam(required = false) String from, @RequestParam(required = false) String to) throws IOException {
-        InputStream inputStream = paymentService.generateRentReceipt(from, to, tenant);
-        ByteArrayResource resource = new ByteArrayResource(inputStream.readAllBytes());
 
-        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + "rentReceipt.pdf")
-                .contentLength(resource.contentLength())
-                .contentType(MediaType.APPLICATION_PDF)
-                .body(resource);
-
-
-    }
 
 }

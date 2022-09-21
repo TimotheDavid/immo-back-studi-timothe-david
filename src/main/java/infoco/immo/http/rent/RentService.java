@@ -6,6 +6,8 @@ import infoco.immo.usecase.rent.RentUseCaseI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.UUID;
 
@@ -39,5 +41,10 @@ public class RentService implements RentUseCaseI {
     @Override
     public void delete(UUID rentId) {
         beanConfiguration.rentUseCase().delete(rentId);
+    }
+
+    @Override
+    public InputStream generateRentReceipt(String from, String to, String  rentId) throws IOException {
+        return beanConfiguration.filesUseCase().generateRentReceipt(rentId, from, to);
     }
 }

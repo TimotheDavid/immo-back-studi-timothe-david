@@ -44,6 +44,5 @@ public class PaymentService implements PaymentUseCaseI {
     @Override
     public InputStream generateRentReceipt(String from, String to, String  rentId) throws IOException {
         return beanConfiguration.filesUseCase().generateRentReceipt(rentId, from, to);
-
     }
 }

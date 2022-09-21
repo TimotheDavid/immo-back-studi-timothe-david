@@ -2,15 +2,19 @@ package infoco.immo.usecase.rent;
 
 import infoco.immo.core.Rent;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.UUID;
 
 public interface RentUseCaseI {
-    public void  create(Rent rent);
-    public Rent  get(Rent rent);
+    void  create(Rent rent);
+    Rent  get(Rent rent);
 
-    public List<Rent> get();
-    public void update(Rent rent);
-    public void delete(UUID rentId);
+    List<Rent> get();
+    void update(Rent rent);
+    void delete(UUID rentId);
 
+
+    InputStream generateRentReceipt(String from, String to, String rentId) throws IOException;
 }

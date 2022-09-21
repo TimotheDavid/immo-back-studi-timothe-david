@@ -21,7 +21,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
-@Slf4j
 public class FilesGenerator implements FilesGeneratorI {
 
     public static final String DESTINATION = "./rentReceipt.pdf";
