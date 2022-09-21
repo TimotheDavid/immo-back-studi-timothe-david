@@ -6,14 +6,12 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ApartmentRepositoryI {
-    public void create(Apartment apartment);
-    public Apartment get(Apartment apartment);
-    public List<Apartment> get();
+    void create(Apartment apartment);
+    Apartment get(Apartment apartment);
+    List<Apartment> get();
 
-    public void  update(Apartment apartment);
-    public void delete(UUID apartmentId);
+    void  update(Apartment apartment);
+    void delete(UUID apartmentId);
 
-    public void patchWithRent(UUID apartmentId, UUID rentId);
-    public PaymentDataByAppartment getPaymentByApartment(UUID apartmentId);
 
 }

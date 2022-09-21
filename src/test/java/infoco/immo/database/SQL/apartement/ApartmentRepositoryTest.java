@@ -6,10 +6,12 @@ import infoco.immo.core.Apartment;
 import infoco.immo.core.Rent;
 import infoco.immo.database.SQL.appartment.ApartmentRepository;
 import infoco.immo.database.SQL.rent.RentRepository;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
@@ -47,6 +49,7 @@ class ApartmentRepositoryTest {
 
     @BeforeEach
     public  void beforeEach(){
+        tearDownDatabase();
         apartment.setId(UUID.randomUUID());
         apartmentRepository.create(apartment);
     }
@@ -90,7 +93,6 @@ class ApartmentRepositoryTest {
     @Test
     void patchWithRentTest(){
         rentRepository.create(rent);
-        apartmentRepository.patchWithRent(apartment.getId(), rent.getId());
         Assertions.assertTrue(true);
 
     }
@@ -104,7 +106,10 @@ class ApartmentRepositoryTest {
     }
 
     private void  tearDownDatabase() {
+        jdbcTemplate.execute("DELETE FROM immo.payment");
+        jdbcTemplate.execute("DELETE FROM immo.rent");
         jdbcTemplate.execute("DELETE FROM immo.apartment");
+        jdbcTemplate.execute("DELETE FROM immo.tenant");
 
     }
 }

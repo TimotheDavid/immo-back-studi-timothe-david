@@ -6,18 +6,6 @@ SET search_path = immo;
 
 DROP TYPE IF EXISTS CIVILITY;
 
-CREATE TABLE IF NOT EXISTS RENT
-(
-    id              serial PRIMARY KEY NOT NULL UNIQUE,
-    uuid            uuid               NOT NULL UNIQUE,
-    rent            FLOAT DEFAULT 0,
-    in_date         varchar,
-    in_description  varchar,
-    out_date        varchar,
-    out_description varchar,
-    deposit         FLOAT DEFAULT 0,
-    agency_pourcent FLOAT DEFAULT 8
-);
 
 CREATE TYPE CIVILITY AS ENUM ('MONSIEUR','MADAME', 'AUTRE');
 CREATE TABLE IF NOT EXISTS TENANT
@@ -31,10 +19,8 @@ CREATE TABLE IF NOT EXISTS TENANT
     email        varchar            NOT NULL UNIQUE,
     second_email varchar            NOT NULL,
     phone        varchar            NOT NULL,
-    civility     CIVILITY           NOT NULL,
+    civility     CIVILITY           NOT NULL
 
-    rentId uuid,
-    CONSTRAINT tenant_rent FOREIGN KEY (rentId) REFERENCES RENT(uuid)
 );
 
 
@@ -50,13 +36,28 @@ CREATE TABLE IF NOT EXISTS APARTMENT
     charge      FLOAT DEFAULT 0,
     rent        FLOAT DEFAULT 0,
     deposit     FLOAT DEFAULT 0,
-    deleted     bool  DEFAULT FALSE,
-
-    rentId uuid,
-    CONSTRAINT  apartment_rent FOREIGN KEY (rentId) REFERENCES RENT(uuid)
+    deleted     bool  DEFAULT FALSE
 );
 
 
+CREATE TABLE IF NOT EXISTS RENT
+(
+    id              serial PRIMARY KEY NOT NULL UNIQUE,
+    uuid            uuid               NOT NULL UNIQUE,
+    rent            FLOAT DEFAULT 0,
+    in_date         varchar,
+    in_description  varchar,
+    out_date        varchar,
+    out_description varchar,
+    deposit         FLOAT DEFAULT 0,
+    agency_pourcent FLOAT DEFAULT 8,
+
+    apartmentId uuid,
+    tenantId uuid,
+
+    FOREIGN KEY (tenantId) REFERENCES TENANT(uuid),
+    FOREIGN KEY (apartmentId) REFERENCES APARTMENT(uuid)
+);
 
 
 
@@ -68,16 +69,7 @@ DROP TYPE IF EXISTS ORIGIN;
 
 CREATE TYPE ORIGIN AS ENUM ('CAF', 'PROPRIETAIRE');
 
-CREATE TABLE IF NOT EXISTS PAYMENT_RENT
-(
-    id        serial PRIMARY KEY NOT NULL UNIQUE,
-    uuid      uuid               NOT NULL UNIQUE,
 
-    rentId    uuid,
-    paymentId uuid,
-
-    FOREIGN KEY (rentId) REFERENCES RENT (uuid)
-);
 
 CREATE TABLE IF NOT EXISTS PAYMENT
 (
@@ -89,7 +81,10 @@ CREATE TABLE IF NOT EXISTS PAYMENT
     agency_part  FLOAT,
     sens         BOOLEAN,
     type         TYPE_TO_PAY        NOT NULL,
-    origin       ORIGIN             NOT NULL
+    origin       ORIGIN             NOT NULL,
+    rentId uuid,
+
+    CONSTRAINT rent_payment FOREIGN KEY (rentId) REFERENCES RENT(uuid)
 );
 
 CREATE TABLE IF NOT EXISTS USERS
@@ -118,6 +113,3 @@ CREATE TABLE IF NOT EXISTS AUTHENTICATION
 );
 
 
-
-ALTER TABLE PAYMENT_RENT
-    ADD FOREIGN KEY (paymentId) REFERENCES PAYMENT (uuid);

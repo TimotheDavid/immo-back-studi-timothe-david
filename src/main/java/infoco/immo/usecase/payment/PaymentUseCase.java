@@ -36,7 +36,4 @@ public class PaymentUseCase {
         return paymentRepositoryI.get();
     }
 
-    public RentReceiptData generateRentReceipt(String from, String to, UUID rentId) {
-        return null;
-    }
 }

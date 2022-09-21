@@ -6,7 +6,9 @@ import infoco.immo.database.SQL.payment.PaymentRepository;
 import infoco.immo.database.SQL.rent.RentRepository;
 import infoco.immo.database.SQL.tenant.TenantRepository;
 import infoco.immo.database.SQL.user.UserRepository;
+import infoco.immo.files.FilesGenerator;
 import infoco.immo.usecase.appartment.ApartmentUseCase;
+import infoco.immo.usecase.files.FilesUseCase;
 import infoco.immo.usecase.payment.PaymentUseCase;
 import infoco.immo.usecase.rent.RentUseCase;
 import infoco.immo.usecase.tenant.TenantUseCase;
@@ -46,6 +48,9 @@ public class BeanConfiguration {
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Autowired
+    FilesGenerator filesGenerator;
+
 
 
 
@@ -74,5 +79,9 @@ public class BeanConfiguration {
         return new UserUseCase(userRepository, authenticationRepository, bCryptPasswordEncoder);
     }
 
+
+    public FilesUseCase  filesUseCase(){
+        return new FilesUseCase(paymentRepository,filesGenerator, apartmentRepository, rentRepository, tenantRepository);
+    }
 
 }

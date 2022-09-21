@@ -47,6 +47,9 @@ class PaymentRepositoryTest {
 
     @BeforeEach
     public void beforeEach(){
+        rent.setId(UUID.randomUUID());
+        rentRepository.create(rent);
+        payment.setRentId(rent.getId());
         payment.setId(UUID.randomUUID());
         paymentRepository.create(payment);
     }
@@ -54,7 +57,6 @@ class PaymentRepositoryTest {
 
     @AfterEach
     public void afterEach(){
-        jdbcTemplate.execute("DELETE FROM immo.payment_rent");
         jdbcTemplate.execute("DELETE FROM immo.payment");
     }
 
@@ -64,14 +66,7 @@ class PaymentRepositoryTest {
         Assertions.assertEquals(payment.getDatePayment(), paymentObject.getDatePayment());
     }
 
-    @Test
-    void createMappingRentPaymentTest(){
-        rent.setId(UUID.randomUUID());
-        rentRepository.create(rent);
-        payment.setRentId(rent.getId());
-        paymentRepository.createMappingRentPayment(payment);
-        Assertions.assertTrue(true);
-    }
+
 
     @Test
     void getTest(){

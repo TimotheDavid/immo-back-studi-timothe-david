@@ -46,7 +46,6 @@ class TenantRepositoryTest {
     @Autowired
     RentRepository rentRepository;
 
-    private final Rent rent = RentObjectTest.getRent();
 
     private final Tenants tenants = TenantsObjectTest.getTenant();
 
@@ -94,16 +93,10 @@ class TenantRepositoryTest {
         Assertions.assertNull(tenantsObject);
     }
 
-    @Test
-    void patchWithRentTest(){
-        rentRepository.create(rent);
-        tenantRepository.patchWithRent(tenants.getId(), rent.getId());
-        Tenants tenantsObject = tenantRepository.get(tenants);
-        Assertions.assertNotNull(tenantsObject.getRent());
-    }
-
-
     private void tearDown(){
+        jdbcTemplate.execute("DELETE FROM immo.payment");
+        jdbcTemplate.execute("DELETE FROM immo.rent");
+        jdbcTemplate.execute("DELETE FROM immo.apartment");
         jdbcTemplate.execute("DELETE FROM immo.tenant");
     }
 

@@ -59,10 +59,10 @@ class RentUseCaseTest {
 
     @AfterEach
     void afterEach(){
-        jdbcTemplate.execute("DELETE FROM immo.payment_rent");
-        jdbcTemplate.execute("DELETE FROM immo.tenant");
-        jdbcTemplate.execute("DELETE FROM immo.apartment");
+        jdbcTemplate.execute("DELETE FROM immo.payment");
         jdbcTemplate.execute("DELETE FROM immo.rent");
+        jdbcTemplate.execute("DELETE FROM immo.apartment");
+        jdbcTemplate.execute("DELETE FROM immo.tenant");
 
     }
 

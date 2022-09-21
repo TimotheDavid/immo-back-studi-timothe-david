@@ -1,0 +1,20 @@
+version: '3.1'
+
+services:
+  db:
+    container_name: postgres-test-immo
+    image: postgres:13.0-alpine
+    environment:
+      POSTGRES_PASSWORD: test
+      POSTGRES_USER: test
+      POSTGRES_DB: immodev
+    ports:
+      - 6005:5432
+  app:
+    container_name: immo-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - ./.env
+    network_mode: host

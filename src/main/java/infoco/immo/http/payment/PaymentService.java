@@ -3,10 +3,11 @@ package infoco.immo.http.payment;
 import infoco.immo.configuration.BeanConfiguration;
 import infoco.immo.core.Payment;
 import infoco.immo.usecase.payment.PaymentUseCaseI;
-import infoco.immo.usecase.payment.RentReceiptData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,7 +42,8 @@ public class PaymentService implements PaymentUseCaseI {
     }
 
     @Override
-    public RentReceiptData generateRentReceipt(String from, String to, UUID rentId) {
-        return null;
+    public InputStream generateRentReceipt(String from, String to, String  rentId) throws IOException {
+        return beanConfiguration.filesUseCase().generateRentReceipt(rentId, from, to);
+
     }
 }

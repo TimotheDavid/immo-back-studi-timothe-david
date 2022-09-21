@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.UUID;
 
@@ -50,12 +49,6 @@ public class TenantRepository implements TenantRepositoryI {
     public void delete(UUID tenantId){
         final String SQL = "DELETE FROM immo.tenant WHERE uuid = ?";
         db.update(SQL, tenantId);
-    }
-
-    @Override
-    public void patchWithRent(UUID tenantId, UUID rentId) {
-        final String SQL = "UPDATE immo.tenant SET rentid = ? WHERE uuid = ?";
-        db.update(SQL, rentId, tenantId);
     }
 
     @Override
