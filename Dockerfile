@@ -1,5 +1,4 @@
-FROM maven:3-openjdk-18-slim as RUN echo $DATABASE_CONNECTION
-builder
+FROM maven:3-openjdk-18-slim as builder
 
 
 ARG ENVIRON
@@ -31,9 +30,11 @@ FROM maven:3-openjdk-18-slim
 COPY --from=builder /app/target/*.jar /app.jar
 EXPOSE 8080
 RUN echo $DATABASE_CONNECTION
+
+RUN echo $DATABASE_CONNECTION
 RUN echo $DATABASE_PASSWORD
+RUN echo $DATABASE_USERNAME
 RUN echo $DATABASE_NAME
-RUN echo $DATABASE_USER
 
 
 CMD  ["java", "-jar", "/app.jar", "--spring.profiles.active=$ENVIRON"]
