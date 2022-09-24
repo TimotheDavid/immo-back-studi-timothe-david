@@ -12,7 +12,7 @@ WORKDIR /app
 COPY pom.xml .
 COPY src ./src
 
-RUN mvn package  -Dspring.profiles.active=$ENVIRON -Dmaven.test.skip
+RUN mvn package  -Dspring.profiles.active=${ENVIRON} -Dmaven.test.skip
 
 FROM maven:3-openjdk-18-slim
 
