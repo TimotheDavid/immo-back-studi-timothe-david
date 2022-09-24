@@ -66,7 +66,7 @@ class TenantUseCaseTest {
     }
 
     @Test
-    void createTest() throws SQLException {
+    public void createTest() throws SQLException {
         tenants.setEmail(faker.internet().emailAddress());
         Tenants created = tenants;
         UUID tenantId = beanConfiguration.tenantUseCase().create(created);
@@ -76,21 +76,21 @@ class TenantUseCaseTest {
     }
 
     @Test
-    void getTest() {
+    public void getTest() {
         Tenants tenant = beanConfiguration.tenantUseCase().get(tenants);
         Assertions.assertEquals(tenant.getEmail(), tenants.getEmail());
     }
 
 
     @Test
-    void getAllTest(){
+    public void getAllTest(){
         generated();
         List<Tenants> listTenant = beanConfiguration.tenantUseCase().get();
         Assert.assertEquals(10, listTenant.size());
     }
 
     @Test
-    void deleteTest() {
+    public void deleteTest() {
         beanConfiguration.tenantUseCase().delete(tenants.getId());
         Tenants getTenant = beanConfiguration.tenantUseCase().get(tenants);
         Assert.assertNull(getTenant);
@@ -98,7 +98,7 @@ class TenantUseCaseTest {
 
 
     @Test
-    void updateTest() {
+    public void updateTest() {
 
         tenants.setName(faker.name().name());
         beanConfiguration.tenantUseCase().update(tenants);

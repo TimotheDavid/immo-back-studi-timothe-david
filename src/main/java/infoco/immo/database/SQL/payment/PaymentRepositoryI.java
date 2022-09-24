@@ -17,7 +17,5 @@ public interface PaymentRepositoryI {
 
     List<RentReceiptData> generateRentReceipt(String from, String to, String rentId);
 
-
-
-
+    List<PaymentData> getPaymentData();
 }

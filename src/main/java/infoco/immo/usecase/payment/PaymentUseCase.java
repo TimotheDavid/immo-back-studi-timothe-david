@@ -1,6 +1,7 @@
 package infoco.immo.usecase.payment;
 
 import infoco.immo.core.Payment;
+import infoco.immo.database.SQL.payment.PaymentData;
 import infoco.immo.database.SQL.payment.PaymentRepositoryI;
 import lombok.RequiredArgsConstructor;
 
@@ -34,6 +35,10 @@ public class PaymentUseCase {
 
     public List<Payment> get(){
         return paymentRepositoryI.get();
+    }
+
+    public List<PaymentData> getPaymentData(){
+        return paymentRepositoryI.getPaymentData();
     }
 
 }

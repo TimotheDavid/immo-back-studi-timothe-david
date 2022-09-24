@@ -1,6 +1,7 @@
 package infoco.immo.http.rent;
 
 import infoco.immo.core.Rent;
+import infoco.immo.core.RentTenant;
 import infoco.immo.http.rent.dto.CreateRentDTO;
 import infoco.immo.http.rent.dto.UpdateRentDTO;
 import infoco.immo.http.rent.mapper.RentMappers;
@@ -55,10 +56,20 @@ public class RentController {
         rentService.delete(UUID.fromString(uuid));
     }
 
+    @GetMapping(value = "/tenant")
+    public  ResponseEntity<List<RentTenant>> getRentTenant(){
+        return ResponseEntity.ok(rentService.getAllRentTenant());
+    }
+
     @GetMapping(value = "/receipt")
     @ResponseBody
-    public ResponseEntity getReceipt(@RequestParam(required = true) String  tenant, @RequestParam(required = false) String from, @RequestParam(required = false) String to) throws IOException {
-        InputStream inputStream = rentService.generateRentReceipt(from, to, tenant);
+    public ResponseEntity getReceipt(@RequestParam(required = true) String  rent) throws IOException {
+        InputStream inputStream = rentService.generateRentReceipt("", "", rent);
+
+        if(inputStream == null){
+            return ResponseEntity.ok().build();
+        }
+
         ByteArrayResource resource = new ByteArrayResource(inputStream.readAllBytes());
 
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + "rentReceipt.pdf")

@@ -34,21 +34,31 @@ public class TenantRepository implements TenantRepositoryI {
 
         @Override
     public Tenants get(Tenants tenants) {
-        final String SQL = "SELECT * FROM immo.tenant WHERE uuid = ? ";
+        final String SQL = "SELECT * FROM immo.tenant WHERE uuid = ? AND deleted is false ";
         return  db.query(SQL, new TenantMapper(), tenants.getId()).stream().findFirst().orElse(null);
     }
 
 
     @Override
     public List<Tenants> get(){
-        final String SQL = "SELECT * FROM immo.tenant";
+        final String SQL = "SELECT * FROM immo.tenant WHERE deleted is false";
         return db.query(SQL, new TenantMapper());
     }
 
     @Override
     public void delete(UUID tenantId){
-        final String SQL = "DELETE FROM immo.tenant WHERE uuid = ?";
+        final String SQL = "UPDATE immo.tenant SET deleted = true WHERE uuid = ?";
         db.update(SQL, tenantId);
+    }
+
+    @Override
+    public List<TenantBalanceSheet> TenantBalanceSheet(UUID tenantId) {
+        final String SQL = "select amount, sens, from_type, date_payment, origin, r.rent from immo.payment\n" +
+                "join immo.rent r on r.uuid = payment.rentid\n" +
+                "join immo.tenant t on r.tenantid = t.uuid\n" +
+                "where t.uuid = ? \n" +
+                "order by date_payment::timestamptz;";
+        return db.query(SQL,new TenantBalanceSheetMapper(), tenantId);
     }
 
     @Override
@@ -67,5 +77,7 @@ public class TenantRepository implements TenantRepositoryI {
             ps.setObject(nthPlace++, tenants.getId());
         });
     }
+
+
 
 }

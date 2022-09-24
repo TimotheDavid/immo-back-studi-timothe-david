@@ -1,11 +1,12 @@
 FROM maven:3-openjdk-18-slim as builder
 
 
-ENV DATABASE_CONNECTION=database_connection \
-    DATABASE_NAME=database_name \
-    DATABASE_PASSWORD=database_password \
-    SECRET_KEY=secret_key  \
-    ENVIRON=environ
+ENV DATABASE_CONNECTION=${DATABASE_CONNECTION} \
+    DATABASE_NAME=${DATABASE_NAME} \
+    DATABASE_PASSWORD=${DATABASE_PASSWORD} \
+    SECRET_KEY=${SECRET_KEY}  \
+    ENVIRON=${ENVIRON} \
+    DATABASE_USER=${DATABASE_USER}
 
 WORKDIR /app
 COPY pom.xml .

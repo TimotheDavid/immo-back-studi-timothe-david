@@ -9,33 +9,23 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class PaymentResponse {
-
-    private String id;
-    private Float amount;
-
-    @JsonProperty("date_payment")
-    private String datePayment;
-
-    @JsonProperty("landlor_part")
-    private Float landlorPart;
-
-    @JsonProperty("agency_part")
-    private Float agencyPart;
-
-    @JsonProperty("type_payment")
-    private TypePayment typePayment;
-
+@NoArgsConstructor
+public class PaymentDataResponse {
+    private UUID id;
+    private boolean sens;
+    private TypePayment type;
     private Origin origin;
-
-    private Boolean sens;
+    @JsonProperty("first_name")
+    private String firstName;
+    private String username;
+    private Float amount;
+    private String date_payment;
     @JsonProperty("from")
     private FromType fromType;
-
 
 }

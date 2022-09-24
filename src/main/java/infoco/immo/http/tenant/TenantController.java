@@ -7,10 +7,15 @@ import infoco.immo.http.tenant.dto.UpdateTenantDTO;
 import infoco.immo.http.tenant.mapper.TenantMapper;
 import infoco.immo.http.tenant.response.TenantResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
@@ -57,6 +62,23 @@ public class TenantController {
     @DeleteMapping(value = "/{uuid}")
     public void deleteTenant(@PathVariable("uuid") String uuid){
         tenantService.delete(UUID.fromString(uuid));
+    }
+
+    @GetMapping(value = "/sheet")
+    @ResponseBody
+    public ResponseEntity getReceipt(@RequestParam(required = true) String  rent) throws IOException {
+        InputStream inputStream = tenantService.getBalanceSheet(rent);
+
+        if(inputStream == null){
+            return ResponseEntity.ok().build();
+        }
+
+        ByteArrayResource resource = new ByteArrayResource(inputStream.readAllBytes());
+
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + "rentReceipt.pdf")
+                .contentLength(resource.contentLength())
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(resource);
     }
 
 

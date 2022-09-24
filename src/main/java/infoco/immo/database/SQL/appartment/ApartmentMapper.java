@@ -19,6 +19,7 @@ public class ApartmentMapper implements RowMapper<Apartment> {
         apartment.setCharge(rs.getFloat("charge"));
         apartment.setRent(rs.getFloat("rent"));
         apartment.setDeposit(rs.getFloat("deposit"));
+        apartment.setDeleted(rs.getBoolean("deleted"));
         return apartment;
     }
 }

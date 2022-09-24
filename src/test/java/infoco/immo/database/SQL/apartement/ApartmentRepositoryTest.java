@@ -87,7 +87,7 @@ class ApartmentRepositoryTest {
     void deleteTest(){
         apartmentRepository.delete(apartment.getId());
         Apartment apartmentObject = apartmentRepository.get(apartment);
-        Assertions.assertNull(apartmentObject);
+        Assertions.assertNull( apartmentObject);
     }
 
     @Test
@@ -101,7 +101,8 @@ class ApartmentRepositoryTest {
         int i = 1;
         while (i < 10){
             i++;
-            beforeEach();
+            apartment.setId(UUID.randomUUID());
+            apartmentRepository.create(apartment);
         }
     }
 

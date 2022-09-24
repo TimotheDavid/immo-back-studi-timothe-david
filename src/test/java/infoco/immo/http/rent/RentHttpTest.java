@@ -5,6 +5,8 @@ import infoco.immo.ObjectTesting.rent.RentObjectTest;
 import infoco.immo.configuration.BeanConfiguration;
 import infoco.immo.core.Rent;
 import infoco.immo.database.SQL.rent.RentRepository;
+import infoco.immo.http.rent.dto.CreateRentDTO;
+import infoco.immo.http.rent.mapper.RentMappers;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -52,24 +55,38 @@ class RentHttpTest {
 
 
     private final Rent rent = RentObjectTest.getRent();
+
+
     @Test
-    void getOne() throws Exception {
+    public void create() throws Exception {
+        rent.setId(UUID.randomUUID());
+        CreateRentDTO rentDTO = RentMappers.domaineToCreateDTO(rent);
+        String data = objectMapper.writeValueAsString(rentDTO);
+        mockMvc.perform(MockMvcRequestBuilders.post(BASE_URL).contentType(MediaType.APPLICATION_JSON_VALUE).content(data)).andExpect(status().isOk());
+
+
+
+    }
+    @Test
+    public void getOne() throws Exception {
         rent.setId(UUID.randomUUID());
         rentRepository.create(rent);
         mockMvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/" + rent.getId())).andExpect(status().isOk());
     }
 
     @Test
-    void getAll() throws Exception {
+    public void getAll() throws Exception {
         rent.setId(UUID.randomUUID());
         rentRepository.create(rent);
         mockMvc.perform(MockMvcRequestBuilders.get(BASE_URL)).andExpect(status().isOk());
     }
 
     @Test
-    void delete() throws Exception {
+    public void delete() throws Exception {
         rent.setId(UUID.randomUUID());
         rentRepository.create(rent);
         mockMvc.perform(MockMvcRequestBuilders.delete(BASE_URL + "/" + rent.getId())).andExpect(status().isOk());
     }
+
+
 }

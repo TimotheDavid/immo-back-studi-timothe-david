@@ -36,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ComponentScan({"infoco.immo.*"})
 public class PaymentHttpTest {
 
-    private final String BASE_URL = "/api/rent";
+    private final String BASE_URL = "/api/payment";
 
     @MockBean
     JdbcTemplate jdbcTemplate;
@@ -69,7 +69,6 @@ public class PaymentHttpTest {
     @After
     public void afterEach(){
         jdbcTemplate.execute("DELETE FROM immo.payment");
-        jdbcTemplate.execute("DELETE FROM immo.payment_rent");
         jdbcTemplate.execute("DELETE FROM immo.rent");
     }
 
@@ -79,13 +78,13 @@ public class PaymentHttpTest {
         paymentRepository.create(payment);
     }
     @Test
-    public void createTest() throws Exception {
+     public void createTest() throws Exception {
         String dataJson = objectMapper.writeValueAsString(PaymentMappers.INSTANCE.domaineToCreateDTO(payment));
         mockMvc.perform(MockMvcRequestBuilders.post(BASE_URL).content(dataJson).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
     }
 
     @Test
-    public void getAllTest() throws Exception {
+     public void getAllTest() throws Exception {
         generate();
         mockMvc.perform(MockMvcRequestBuilders.get(BASE_URL)).andExpect(status().isOk());
     }

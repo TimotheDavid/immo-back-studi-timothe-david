@@ -2,6 +2,7 @@ package infoco.immo.http.payment;
 
 import infoco.immo.configuration.BeanConfiguration;
 import infoco.immo.core.Payment;
+import infoco.immo.database.SQL.payment.PaymentData;
 import infoco.immo.usecase.payment.PaymentUseCaseI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,9 +38,16 @@ public class PaymentService implements PaymentUseCaseI {
         beanConfiguration.paymentUseCase().delete(paymentId);
     }
 
+    @Override
+    public List<PaymentData> getPaymentData() {
+        return beanConfiguration.paymentUseCase().getPaymentData();
+    }
+
     public List<Payment> get(){
         return  beanConfiguration.paymentUseCase().get();
     }
+
+
 
     @Override
     public InputStream generateRentReceipt(String from, String to, String  rentId) throws IOException {

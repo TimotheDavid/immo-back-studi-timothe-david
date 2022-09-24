@@ -16,6 +16,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -23,6 +24,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.sql.DataSource;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -57,8 +61,7 @@ class UserUseCaseTest {
         user.setPassword(faker.internet().password());
         user.setName(faker.name().name());
         user.setEmail(faker.internet().emailAddress());
-        user.setId(UUID.randomUUID());
-        userRepository.create(user);
+        beanConfiguration.userUseCase().create(user);
     }
 
     @AfterEach
@@ -82,25 +85,26 @@ class UserUseCaseTest {
 
 
     @Test
-    void createTest() {
+    public void createTest() {
         beanConfiguration.userUseCase().create(user);
         Assertions.assertTrue(true);
     }
 
     @Test
-    void loginTest() throws HttpExceptions {
+    public void loginTest() throws HttpExceptions {
         Token token = beanConfiguration.userUseCase().login(user);
         Assertions.assertNotNull(token);
     }
 
+
     @Test
-    void getUserByIdTest() {
+    public void getUserByIdTest() {
         User userObject = beanConfiguration.userUseCase().get(user.getId());
         Assertions.assertEquals(user.getEmail(), userObject.getEmail());
     }
 
     @Test
-    void getUserByTokenTest() {
+    public void getUserByTokenTest() {
         Authentication authentication = createAuthentication(user.getId());
         authenticationRepository.create(authentication);
         User userToken = beanConfiguration.userUseCase().getByToken(authentication.getToken());

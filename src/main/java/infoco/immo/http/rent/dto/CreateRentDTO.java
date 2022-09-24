@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -25,5 +27,12 @@ public class CreateRentDTO {
     private Float deposit;
     @JsonProperty(value = "agency_pourcent")
     private Float agencyPourcent;
+    @JsonProperty(value = "tenant")
+    private UUID tenantId;
+    @JsonProperty(value = "apartment")
+    private UUID apartmentId;
 
+    public void setAmountRent(Float amountRent) {
+        this.amountRent = amountRent;
+    }
 }

@@ -9,6 +9,9 @@ import java.util.UUID;
 public interface TenantRepositoryI {
     void create(Tenants tenants) throws SQLException;
     public Tenants get(Tenants tenants);
+
+    List<TenantBalanceSheet> TenantBalanceSheet(UUID tenantId);
+
     void update(Tenants tenants);
 
     void delete(UUID tenantId);

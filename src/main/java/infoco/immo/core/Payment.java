@@ -24,6 +24,7 @@ public class Payment {
     private Origin origin;
     private Boolean sens;
     private UUID paymentRentId;
+    private FromType fromType;
 
 }
 

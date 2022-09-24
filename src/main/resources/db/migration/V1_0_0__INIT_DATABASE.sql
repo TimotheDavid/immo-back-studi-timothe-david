@@ -19,7 +19,8 @@ CREATE TABLE IF NOT EXISTS TENANT
     email        varchar            NOT NULL UNIQUE,
     second_email varchar            NOT NULL,
     phone        varchar            NOT NULL,
-    civility     CIVILITY           NOT NULL
+    civility     CIVILITY           NOT NULL,
+    deleted      BOOLEAN DEFAULT FALSE
 
 );
 
@@ -44,19 +45,19 @@ CREATE TABLE IF NOT EXISTS RENT
 (
     id              serial PRIMARY KEY NOT NULL UNIQUE,
     uuid            uuid               NOT NULL UNIQUE,
-    rent            FLOAT DEFAULT 0,
-    in_date         varchar,
+    rent            FLOAT   DEFAULT 0,
+    in_date         varchar default null,
     in_description  varchar,
-    out_date        varchar,
+    out_date        varchar default null,
     out_description varchar,
-    deposit         FLOAT DEFAULT 0,
-    agency_pourcent FLOAT DEFAULT 8,
+    deposit         FLOAT   DEFAULT 0,
+    agency_pourcent FLOAT   DEFAULT 8,
 
-    apartmentId uuid,
-    tenantId uuid,
+    apartmentId     uuid,
+    tenantId        uuid,
 
-    FOREIGN KEY (tenantId) REFERENCES TENANT(uuid),
-    FOREIGN KEY (apartmentId) REFERENCES APARTMENT(uuid)
+    FOREIGN KEY (tenantId) REFERENCES TENANT (uuid),
+    FOREIGN KEY (apartmentId) REFERENCES APARTMENT (uuid)
 );
 
 
@@ -65,9 +66,13 @@ DROP TYPE IF EXISTS TYPE_TO_PAY;
 
 CREATE TYPE TYPE_TO_PAY AS ENUM ('CARTE', 'CHEQUE', 'ESPECE');
 
+
+DROP TYPE IF EXISTS TYPE_FROM;
+CREATE TYPE TYPE_FROM AS ENUM ('CHARGE', 'CAUTION', 'LOYER');
+
 DROP TYPE IF EXISTS ORIGIN;
 
-CREATE TYPE ORIGIN AS ENUM ('CAF', 'PROPRIETAIRE');
+CREATE TYPE ORIGIN AS ENUM ('CAF', 'LOCATAIRE');
 
 
 
@@ -77,14 +82,15 @@ CREATE TABLE IF NOT EXISTS PAYMENT
     uuid         uuid               NOT NULL UNIQUE,
     amount       FLOAT              NOT NULL,
     date_payment varchar            NOT NULL,
-    landlor_part FLOAT,
-    agency_part  FLOAT,
+    landlor_part FLOAT DEFAULT 0,
+    agency_part  FLOAT DEFAULT 8,
     sens         BOOLEAN,
     type         TYPE_TO_PAY        NOT NULL,
+    from_type    TYPE_FROM          NOT NULL,
     origin       ORIGIN             NOT NULL,
-    rentId uuid,
+    rentId       uuid,
 
-    CONSTRAINT rent_payment FOREIGN KEY (rentId) REFERENCES RENT(uuid)
+    CONSTRAINT rent_payment FOREIGN KEY (rentId) REFERENCES RENT (uuid)
 );
 
 CREATE TABLE IF NOT EXISTS USERS
@@ -108,7 +114,7 @@ CREATE TABLE IF NOT EXISTS AUTHENTICATION
     expires varchar            NOT NULL,
 
     userId  uuid,
-    FOREIGN KEY (userId) REFERENCES USERS(uuid)
+    FOREIGN KEY (userId) REFERENCES USERS (uuid)
 
 );
 

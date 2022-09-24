@@ -13,7 +13,6 @@ import java.util.Random;
 
 
 @Component
-@ActiveProfiles("test")
 @SpringBootTest
 public class TenantsObjectTest {
 

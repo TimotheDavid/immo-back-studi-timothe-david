@@ -9,6 +9,7 @@ import infoco.immo.security.GenerateAuth;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.UUID;
@@ -21,7 +22,7 @@ public class UserUseCase {
     private final AuthenticationRepositoryI _authenticationRepositoryI;
 
     private final Authentication generateAuth = GenerateAuth.generate();
-    private final PasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     public void  create(User user) {
         user.setId(UUID.randomUUID());

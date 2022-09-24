@@ -9,5 +9,4 @@ public interface ApartmentUseCaseI {
     public Apartment get(Apartment apartment);
     public void  update(Apartment apartment);
     public void delete(UUID apartmentId);
-    public ApartmentPaymentData getPaymentByApartment(UUID apartment);
 }

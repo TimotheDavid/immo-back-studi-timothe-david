@@ -1,8 +1,10 @@
 package infoco.immo.http.payment.mapper;
 
 import infoco.immo.core.Payment;
+import infoco.immo.database.SQL.payment.PaymentData;
 import infoco.immo.http.payment.dto.CreateDTOPayment;
 import infoco.immo.http.payment.dto.UpdateDTOPayment;
+import infoco.immo.http.payment.response.PaymentDataResponse;
 import infoco.immo.http.payment.response.PaymentResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -43,4 +45,6 @@ public abstract  class   PaymentMappers {
     };
 
     public abstract UpdateDTOPayment domaineToUpdateDTO(Payment payment);
+
+    public  abstract PaymentDataResponse domaineToPaymentDataResponse(PaymentData paymentData);
 }

@@ -4,6 +4,7 @@ import infoco.immo.ObjectTesting.appartment.ApartmentObjectTest;
 import infoco.immo.ObjectTesting.payment.TestPaymentObject;
 import infoco.immo.ObjectTesting.rent.RentObjectTest;
 import infoco.immo.ObjectTesting.tenants.TenantsObjectTest;
+import infoco.immo.configuration.GenerateAllDatabase;
 import infoco.immo.core.Apartment;
 import infoco.immo.core.Payment;
 import infoco.immo.core.Rent;
@@ -29,87 +30,16 @@ import java.util.UUID;
 @SpringBootTest
 @ActiveProfiles("populate")
 @AutoConfigureJdbc
-@RunWith(SpringJUnit4ClassRunner.class)
 @ImportAutoConfiguration
-class PopulateTest {
+public class PopulateTest {
 
 
     @Autowired
-    JdbcTemplate jdbcTemplate;
-
-    @Autowired
-    DataSource dataSource;
-
-    @Autowired
-    RentRepository rentRepository;
-
-    @Autowired
-    ApartmentRepository apartmentRepository;
-
-    @Autowired
-    TenantRepository tenantRepository;
-
-    @Autowired
-    PaymentRepository paymentRepository;
-    private void generate(){
-        int i = 1;
-        while (i < 20) {
-            UUID apartmentId = generateApartment();
-            UUID tenantId = generateTenant();
-            UUID rentId = generateRent(tenantId, apartmentId);
-            generateRentPayment(rentId);
-            i++;
-        }
-    }
-    private UUID  generateRent(UUID tenantId, UUID apartmentId){
-        Rent rent = RentObjectTest.getRent();
-        rent.setId(UUID.randomUUID());
-        rent.setApartmentId(apartmentId);
-        rent.setTenantsId(tenantId);
-        rentRepository.create(rent);
-        return rent.getId();
-
-    }
-
-
-    private UUID generateTenant(){
-        Tenants tenants = TenantsObjectTest.getTenant();
-        tenants.setId(UUID.randomUUID());
-        tenantRepository.create(tenants);
-        return tenants.getId();
-    }
-
-    private void generateRentPayment(UUID rentId) {
-
-        int i = 0;
-        while(i < 10){
-            Payment payment = TestPaymentObject.getPayment();
-            payment.setRentId(rentId);
-            payment.setId(UUID.randomUUID());
-            paymentRepository.create(payment);
-            i++;
-        }
-
-    }
-
-
-    private UUID  generateApartment(){
-        Apartment apartment = ApartmentObjectTest.getApartment();
-        apartment.setId(UUID.randomUUID());
-        apartmentRepository.create(apartment);
-        return apartment.getId();
-    }
-
-    private UUID generatePayment(){
-        Payment payment =  TestPaymentObject.getPayment();
-        payment.setId(UUID.randomUUID());
-        paymentRepository.create(payment);
-        return payment.getId();
-    }
+    GenerateAllDatabase generate;
 
     @Test
     void populateDatabaseTest(){
-        generate();
+        generate.generate();
         Assertions.assertTrue(true);
     }
 }

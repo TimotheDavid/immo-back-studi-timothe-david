@@ -34,13 +34,13 @@ public class ApartmentRepository implements ApartmentRepositoryI {
 
     @Override
     public Apartment get(Apartment apartment) {
-        final String SQL = "SELECT * FROM immo.apartment WHERE uuid = ? ";
+        final String SQL = "SELECT * FROM immo.apartment WHERE uuid = ? AND deleted is false ";
         return db.query(SQL, new ApartmentMapper(), apartment.getId()).stream().findFirst().orElse(null);
     }
 
     @Override
     public List<Apartment> get() {
-        final String SQL = "SELECT * FROM immo.apartment";
+        final String SQL = "SELECT * FROM immo.apartment where deleted = false";
         return db.query(SQL,new ApartmentMapper());
     }
 
@@ -62,13 +62,8 @@ public class ApartmentRepository implements ApartmentRepositoryI {
 
     @Override
     public void delete(UUID apartmentId) {
-        final String SQL = "DELETE FROM immo.apartment WHERE uuid = ?";
+        final String SQL = "UPDATE  immo.apartment SET deleted = true  WHERE uuid = ?";
         db.update(SQL, apartmentId);
     }
 
-
-    @Override
-    public PaymentDataByAppartment getPaymentByApartment(UUID apartmentId) {
-        return null;
-    }
 }

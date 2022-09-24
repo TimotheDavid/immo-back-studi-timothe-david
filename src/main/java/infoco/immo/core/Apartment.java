@@ -20,4 +20,5 @@ public class Apartment {
     private  Float rent;
     private  Float deposit;
     private UUID rentId;
+    private Boolean deleted;
 }

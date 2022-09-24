@@ -24,6 +24,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 @SpringBootTest
 @ActiveProfiles("test")
@@ -67,19 +68,24 @@ class PaymentUseCaseTest {
     }
 
     @Test
-    void createTest() {
+    public void createTest() {
+        Origin origin = Origin.values()[new Random().nextInt(Origin.values().length)];
+        FromType fromType = FromType.values()[new Random().nextInt(FromType.values().length)];
+
         UUID rentLine = generateRent().getId();
         payment.setTypePayment(TypePayment.CARTE);
-        payment.setOrigin(Origin.PROPRIETAIRE);
+        payment.setOrigin(origin);
         payment.setRentId(rentLine);
         beanConfiguration.paymentUseCase().create(payment);
         Assertions.assertTrue(true);
     }
     @Test
-    void getTest() {
+    public void getTest() {
+        Origin origin = Origin.values()[new Random().nextInt(Origin.values().length)];
+
         UUID rentLine = generateRent().getId();
         payment.setTypePayment(TypePayment.CARTE);
-        payment.setOrigin(Origin.PROPRIETAIRE);
+        payment.setOrigin(origin);
         payment.setRentId(rentLine);
         payment.setId(UUID.randomUUID());
         paymentRepository.create(payment);
@@ -88,10 +94,12 @@ class PaymentUseCaseTest {
     }
 
     @Test
-    void getAllTest(){
+    public void getAllTest(){
+        Origin origin = Origin.values()[new Random().nextInt(Origin.values().length)];
+
         UUID rentLine = generateRent().getId();
         payment.setTypePayment(TypePayment.CARTE);
-        payment.setOrigin(Origin.PROPRIETAIRE);
+        payment.setOrigin(origin);
         payment.setRentId(rentLine);
         payment.setId(UUID.randomUUID());
         paymentRepository.create(payment);
@@ -100,11 +108,13 @@ class PaymentUseCaseTest {
     }
 
     @Test
-    void updateTest(){
+    public void updateTest(){
+        Origin origin = Origin.values()[new Random().nextInt(Origin.values().length)];
+
         Payment createObject = payment;
         UUID rentLine = generateRent().getId();
         payment.setTypePayment(TypePayment.CARTE);
-        payment.setOrigin(Origin.PROPRIETAIRE);
+        payment.setOrigin(origin);
         payment.setRentId(rentLine);
         payment.setId(UUID.randomUUID());
         paymentRepository.create(payment);
@@ -115,10 +125,12 @@ class PaymentUseCaseTest {
     }
 
     @Test
-    void deleteTest(){
+    public void deleteTest(){
+        Origin origin = Origin.values()[new Random().nextInt(Origin.values().length)];
+
         UUID rentLine = generateRent().getId();
         payment.setTypePayment(TypePayment.CARTE);
-        payment.setOrigin(Origin.PROPRIETAIRE);
+        payment.setOrigin(origin);
         payment.setRentId(rentLine);
         payment.setId(UUID.randomUUID());
         paymentRepository.create(payment);

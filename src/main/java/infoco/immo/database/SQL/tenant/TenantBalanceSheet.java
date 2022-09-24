@@ -1,5 +1,7 @@
-package infoco.immo.core;
+package infoco.immo.database.SQL.tenant;
 
+import infoco.immo.core.FromType;
+import infoco.immo.core.Origin;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,10 +11,12 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RentReceiptData {
+public class TenantBalanceSheet {
+
     private Float amount;
     private Boolean sens;
-    private String datePayment;
     private FromType fromType;
-
+    private String datePayment;
+    private Origin origin;
+    private Float rent;
 }

@@ -1,6 +1,7 @@
 
 package infoco.immo.database.SQL.payment;
 
+import infoco.immo.core.FromType;
 import infoco.immo.core.Origin;
 import infoco.immo.core.Payment;
 import infoco.immo.core.TypePayment;
@@ -25,6 +26,7 @@ public class PaymentMapper implements RowMapper<Payment> {
         payment.setId(rs.getObject("uuid", UUID.class));
         payment.setOrigin(Origin.valueOf(rs.getString("origin")));
         payment.setSens(rs.getBoolean("sens"));
+        payment.setFromType(FromType.valueOf(rs.getString("from_type")));
         return payment;
     }
 }

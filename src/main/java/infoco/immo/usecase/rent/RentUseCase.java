@@ -1,6 +1,8 @@
 package infoco.immo.usecase.rent;
 
 import infoco.immo.core.Rent;
+import infoco.immo.core.RentDataResponse;
+import infoco.immo.core.RentTenant;
 import infoco.immo.database.SQL.appartment.ApartmentRepository;
 import infoco.immo.database.SQL.appartment.ApartmentRepositoryI;
 import infoco.immo.database.SQL.rent.RentRepositoryI;
@@ -40,5 +42,14 @@ public class RentUseCase {
     }
     public void delete(UUID rentId){
         rentRepositoryI.delete(rentId);
+    }
+
+    public List<RentTenant> getAllRentTenant(){
+        return rentRepositoryI.getAllRentTenant();
+    }
+
+    public List<RentDataResponse> getDataResponse(){
+        return rentRepositoryI.getDataResponse();
+
     }
 }

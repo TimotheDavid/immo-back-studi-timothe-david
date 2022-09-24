@@ -11,7 +11,7 @@ import java.util.UUID;
 @Builder
 public class Rent {
     private UUID id;
-    private  Float amount;
+    private  Float amountRent;
     private  String inDate;
     private  String descriptionIn;
     private  String outDate;

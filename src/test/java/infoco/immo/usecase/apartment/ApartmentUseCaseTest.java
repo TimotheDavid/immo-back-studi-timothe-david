@@ -52,7 +52,7 @@ class ApartmentUseCaseTest {
     }
 
     @Test
-    void createTest(){
+    public void createTest(){
         UUID apartmentId = beanConfiguration.apartmentUseCase().create(apartment);
         Apartment apartmentCreated = Apartment.builder().id(apartmentId).build();
         final Apartment apartmentObject = apartmentRepository.get(apartmentCreated);
@@ -60,13 +60,13 @@ class ApartmentUseCaseTest {
     }
 
     @Test
-    void getTest(){
+    public void getTest(){
         final Apartment apartmentObject = beanConfiguration.apartmentUseCase().get(apartment);
         Assertions.assertEquals(apartment.getAddress(), apartmentObject.getAddress());
     }
 
     @Test
-    void updateTest(){
+    public void updateTest(){
         apartment.setCity("strasbourg");
         beanConfiguration.apartmentUseCase().update(apartment);
         Apartment apartmentObject = apartmentRepository.get(apartment);
@@ -74,14 +74,14 @@ class ApartmentUseCaseTest {
     }
 
     @Test
-    void deleteTest(){
+    public void deleteTest(){
         beanConfiguration.apartmentUseCase().delete(apartment.getId());
         Apartment apartmentGet = apartmentRepository.get(apartment);
         Assertions.assertNull(apartmentGet);
     }
 
     @Test
-    void getAllTest(){
+    public void getAllTest(){
         generate();
         final List<Apartment> apartmentObject = beanConfiguration.apartmentUseCase().get();
         Assertions.assertEquals(10,apartmentObject.size());

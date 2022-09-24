@@ -1,14 +1,17 @@
 package infoco.immo.usecase.rent;
 
 
+import com.github.javafaker.Faker;
 import infoco.immo.ObjectTesting.appartment.ApartmentObjectTest;
+import infoco.immo.ObjectTesting.payment.TestPaymentObject;
 import infoco.immo.ObjectTesting.rent.RentObjectTest;
 import infoco.immo.ObjectTesting.tenants.TenantsObjectTest;
 import infoco.immo.configuration.BeanConfiguration;
-import infoco.immo.core.Apartment;
-import infoco.immo.core.Rent;
-import infoco.immo.core.Tenants;
+import infoco.immo.configuration.GenerateAllDatabase;
+import infoco.immo.core.*;
 import infoco.immo.database.SQL.appartment.ApartmentRepository;
+import infoco.immo.database.SQL.payment.PaymentData;
+import infoco.immo.database.SQL.payment.PaymentRepository;
 import infoco.immo.database.SQL.rent.RentRepository;
 import infoco.immo.database.SQL.tenant.TenantRepository;
 import org.junit.Assert;
@@ -29,7 +32,6 @@ import java.util.UUID;
 
 
 @SpringBootTest
-@ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @ImportAutoConfiguration
 class RentUseCaseTest {
@@ -50,12 +52,22 @@ class RentUseCaseTest {
     ApartmentRepository apartmentRepository;
 
     @Autowired
+    PaymentRepository paymentRepository;
+
+    @Autowired
     BeanConfiguration beanConfiguration;
+
+    @Autowired
+    GenerateAllDatabase generate;
+
+    private Faker faker = new Faker();
     private final Rent rent = RentObjectTest.getRent();
 
     private final Apartment apartment = ApartmentObjectTest.getApartment();
 
     private final Tenants  tenant = TenantsObjectTest.getTenant();
+
+    private final Payment payment = TestPaymentObject.getPayment();
 
     @AfterEach
     void afterEach(){
@@ -67,14 +79,14 @@ class RentUseCaseTest {
     }
 
     @Test
-    void createTest() {
+    public void createTest() {
         Rent rentObject = generateRent();
         UUID rentId = beanConfiguration.rentUseCase().create(rentObject);
         Assert.assertNotNull(rentId);
     }
 
     @Test
-    void getTest() {
+    public void getTest() {
         Rent rentObject = rent;
         UUID rentId = beanConfiguration.rentUseCase().create(rentObject);
 
@@ -86,31 +98,52 @@ class RentUseCaseTest {
 
 
     @Test
-    void getAll(){
-        generate();
+    public void getAll(){
+        generate.generate();
         List<Rent> getAllRent = beanConfiguration.rentUseCase().get();
         Assertions.assertTrue(getAllRent.size() > 0);
-
     }
     @Test
-    void updateTest() {
+    public void updateTest() {
         Rent rentObject = rent;
         rentObject.setId(UUID.randomUUID());
         rentRepository.create(rentObject);
         beanConfiguration.rentUseCase().update(rentObject);
         Rent rentUpdated = rentRepository.get(rentObject);
         Assertions.assertEquals(rentUpdated.getId(), rentObject.getId());
-        Assertions.assertEquals(rentUpdated.getAmount(), rentObject.getAmount());
+        Assertions.assertEquals(rentUpdated.getAmountRent(), rentObject.getAmountRent());
     }
 
     @Test
-    void deleteTest() {
+    public void deleteTest() {
         Rent rentObject = rent;
         rentObject.setId(UUID.randomUUID());
          rentRepository.create(rentObject);
         beanConfiguration.rentUseCase().delete(rentObject.getId());
         Assertions.assertNull(rentRepository.get(rentObject));
     }
+
+    @Test
+    public void getAllRentTenantTest(){
+        generateAll();
+        List<RentTenant> rentTenant = beanConfiguration.rentUseCase().getAllRentTenant();
+        Assertions.assertEquals(10, rentTenant.size());
+    }
+
+    @Test
+    public void getPaymentData(){
+        generate.generate();
+        List<PaymentData> paymentData = beanConfiguration.paymentUseCase().getPaymentData();
+        Assertions.assertTrue( paymentData.size() > 0 );
+    }
+
+    @Test
+    public void getDataResponseTest(){
+        generateAll();
+        List<RentDataResponse> rentDataResponses = beanConfiguration.rentUseCase().getDataResponse();
+        Assertions.assertEquals(10, rentDataResponses.size());
+    }
+
 
     private Rent  generateRent() {
         Rent rentObject = RentObjectTest.getRent();
@@ -124,6 +157,25 @@ class RentUseCaseTest {
         return rentObject;
     }
 
+    private void generateAll() {
+        int i = 0;
+        while (i < 10) {
+            tenant.setId(UUID.randomUUID());
+            tenant.setEmail(faker.internet().password());
+            tenantRepository.create(tenant);
+            apartment.setId(UUID.randomUUID());
+            apartmentRepository.create(apartment);
+            rent.setId(UUID.randomUUID());
+            rent.setTenantsId(tenant.getId());
+            rent.setApartmentId(apartment.getId());
+            rentRepository.create(rent);
+            payment.setId(UUID.randomUUID());
+            payment.setRentId(rent.getId());
+            paymentRepository.create(payment);
+            i++;
+        }
+
+    }
     private void generate() {
 
         int i = 0;

@@ -20,4 +20,5 @@ public class Tenants {
     private  String phone;
     private  UUID   id;
     private UUID rent;
+    private Boolean deleted;
 }

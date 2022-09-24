@@ -6,6 +6,9 @@ import infoco.immo.usecase.tenant.TenantUseCaseI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
@@ -39,4 +42,10 @@ public class TenantService implements TenantUseCaseI {
         beanConfiguration.tenantUseCase().delete(tenantUUId);
 
     }
+
+    @Override
+    public InputStream getBalanceSheet(String rentId) throws IOException {
+      return  beanConfiguration.filesUseCase().generateBalanceSheet(rentId);
+    }
+
 }

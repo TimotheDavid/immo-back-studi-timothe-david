@@ -12,7 +12,7 @@ public class RentMapper implements RowMapper<Rent> {
     public Rent mapRow(ResultSet rs, int rowNum) throws SQLException {
         Rent rent = new Rent();
         rent.setId(rs.getObject("uuid", UUID.class));
-        rent.setAmount(rs.getFloat("rent"));
+        rent.setAmountRent(rs.getFloat("rent"));
         rent.setDeposit(rs.getFloat("deposit"));
         rent.setAgencyPourcent(rs.getFloat("agency_pourcent"));
         rent.setDescriptionOut(rs.getString("out_description"));

@@ -13,6 +13,4 @@ public interface ApartmentRepositoryI {
     void  update(Apartment apartment);
     void delete(UUID apartmentId);
 
-
-    PaymentDataByAppartment getPaymentByApartment(UUID apartmentId);
 }

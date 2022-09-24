@@ -1,16 +1,22 @@
 package infoco.immo.database.SQL.rent;
 
 import infoco.immo.core.Rent;
-import infoco.immo.usecase.rent.RentResponse;
+import infoco.immo.core.RentDataResponse;
+import infoco.immo.core.RentTenant;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface RentRepositoryI {
-    public void   create(Rent rent);
-    public Rent  get(Rent rent);
-    public void  update(Rent rent);
-    public void delete(UUID rentId);
+    void   create(Rent rent);
 
-    public List<Rent> get();
+    List<RentDataResponse> getDataResponse();
+
+    Rent get(Rent rent);
+    void  update(Rent rent);
+    void delete(UUID rentId);
+
+    List<Rent> get();
+
+    List<RentTenant> getAllRentTenant();
 }

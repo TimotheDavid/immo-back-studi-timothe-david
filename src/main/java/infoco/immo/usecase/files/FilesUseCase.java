@@ -7,10 +7,12 @@ import infoco.immo.core.Tenants;
 import infoco.immo.database.SQL.appartment.ApartmentRepositoryI;
 import infoco.immo.database.SQL.payment.PaymentRepositoryI;
 import infoco.immo.database.SQL.rent.RentRepositoryI;
+import infoco.immo.database.SQL.tenant.TenantBalanceSheet;
 import infoco.immo.database.SQL.tenant.TenantRepositoryI;
 import infoco.immo.files.FilesGeneratorI;
 import lombok.RequiredArgsConstructor;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -48,6 +50,18 @@ class FilesUseCase {
         return null;
     }
 
+    public InputStream generateBalanceSheet(String rentId) throws IOException {
+        Rent rentObject = Rent.builder().id(UUID.fromString(rentId)).build();
+        Rent rent = rentRepositoryI.get(rentObject);
+        List<TenantBalanceSheet> tenantBalanceSheets = tenantRepository.TenantBalanceSheet(rent.getTenantsId());
+        Tenants tenantObject = Tenants.builder().id(rent.getTenantsId()).build();
+        Tenants tenants = tenantRepository.get(tenantObject);
+        Apartment apartmentObject = Apartment.builder().id(rent.getApartmentId()).build();
+        Apartment apartment = apartmentRepository.get(apartmentObject);
+
+        return filesGeneratorI.generateBalanceSheet(tenantBalanceSheets, tenants, apartment);
+    }
+
     private boolean verifyInRules(List<RentReceiptData> rentReceiptDataList) {
 
             float finalAmount = 0;
@@ -64,6 +78,7 @@ class FilesUseCase {
 
 
     }
+
 
 
 }

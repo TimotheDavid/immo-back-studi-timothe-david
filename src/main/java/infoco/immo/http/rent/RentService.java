@@ -2,6 +2,8 @@ package infoco.immo.http.rent;
 
 import infoco.immo.configuration.BeanConfiguration;
 import infoco.immo.core.Rent;
+import infoco.immo.core.RentDataResponse;
+import infoco.immo.core.RentTenant;
 import infoco.immo.usecase.rent.RentUseCaseI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,11 @@ public class RentService implements RentUseCaseI {
     }
 
     @Override
+    public List<RentDataResponse> getDataResponse() {
+        return beanConfiguration.rentUseCase().getDataResponse();
+    }
+
+    @Override
     public List<Rent> get() {
         return beanConfiguration.rentUseCase().get();
     }
@@ -46,5 +53,10 @@ public class RentService implements RentUseCaseI {
     @Override
     public InputStream generateRentReceipt(String from, String to, String  rentId) throws IOException {
         return beanConfiguration.filesUseCase().generateRentReceipt(rentId, from, to);
+    }
+
+    @Override
+    public List<RentTenant> getAllRentTenant(){
+        return beanConfiguration.rentUseCase().getAllRentTenant();
     }
 }

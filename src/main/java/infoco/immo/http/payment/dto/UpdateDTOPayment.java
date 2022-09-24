@@ -2,6 +2,7 @@ package infoco.immo.http.payment.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import infoco.immo.core.FromType;
 import infoco.immo.core.Origin;
 import infoco.immo.core.TypePayment;
 import lombok.AllArgsConstructor;
@@ -44,5 +45,7 @@ public class UpdateDTOPayment {
     @NotNull
     @JsonProperty("payment_rent")
     private String paymentRentId;
+    @JsonProperty("from")
+    private FromType fromType;
 
 }

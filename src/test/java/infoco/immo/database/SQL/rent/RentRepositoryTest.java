@@ -53,13 +53,13 @@ class RentRepositoryTest {
         rent.setId(UUID.randomUUID());
         rentRepository.create(rent);
         Rent rentObject = rentRepository.get(rent);
-        Assertions.assertEquals(rent.getAmount(), rentObject.getAmount());
+        Assertions.assertEquals(rent.getAmountRent(), rentObject.getAmountRent());
     }
 
     @Test
     void getTest(){
         Rent renObject = rentRepository.get(rent);
-        Assertions.assertEquals(rent.getAmount(), renObject.getAmount());
+        Assertions.assertEquals(rent.getAmountRent(), renObject.getAmountRent());
     }
 
     @Test
