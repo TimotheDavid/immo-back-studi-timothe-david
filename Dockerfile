@@ -16,6 +16,8 @@ ENV DATABASE_CONNECTION=$DATABASE_CONNECTION \
     ENVIRON=$ENVIRON \
     DATABASE_USER=$DATABASE_USER \
     DATABASE_URL=$DATABASE_URL
+
+
 WORKDIR /app
 COPY pom.xml .
 COPY src ./src
@@ -27,5 +29,5 @@ FROM maven:3-openjdk-18-slim
 COPY --from=builder /app/target/*.jar /app.jar
 EXPOSE 8080
 
-RUN echo $ENVIRON
+RUN echo $DATABASE_URL
 CMD  ["java", "-jar", "/app.jar", "--spring.profiles.active=$ENVIRON"]
