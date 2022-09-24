@@ -21,5 +21,5 @@ FROM maven:3-openjdk-18-slim
 COPY --from=builder /app/target/*.jar /app.jar
 EXPOSE 8080
 
-RUN echo $ENVIRON
+
 CMD  ["java", "-jar", "/app.jar", "--spring.profiles.active=$ENVIRON"]
