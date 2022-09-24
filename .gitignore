@@ -36,6 +36,5 @@ build/
 .env
 .env.local
 src/main/resources/templates/*
-Dockerfile
-docker-compose-*.yml
+
 
