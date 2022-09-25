@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping( "/api/apartment")
-@CrossOrigin(origins = "*")
 public class ApartmentController {
 
     @Autowired
@@ -30,20 +29,17 @@ public class ApartmentController {
     }
 
     @GetMapping(value = "/{uuid}")
-    @CrossOrigin(origins = "*")
     public ResponseEntity<ApartmentResponse> getOne(@PathVariable String uuid){
         Apartment apartment = Apartment.builder().id(UUID.fromString(uuid)).build();
         return ResponseEntity.ok(ApartmentMapper.INSTANCE.domainToResponse(appartmentService.get(apartment)));
     }
 
     @GetMapping
-    @CrossOrigin(origins = "*")
     public ResponseEntity<List<ApartmentResponse>> getAll() {
         return ResponseEntity.ok(appartmentService.get().stream().map(ApartmentMapper.INSTANCE::domainToResponse).collect(Collectors.toList()));
     }
 
     @PutMapping
-    @CrossOrigin
     public ResponseEntity update(@RequestBody UpdateApartmentDTO updateApartmentDTO){
         Apartment apartment = ApartmentMapper.INSTANCE.updateDTOToDomain(updateApartmentDTO);
         appartmentService.update(apartment);

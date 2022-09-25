@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/tenant")
-@CrossOrigin(origins = "*")
 public class TenantController {
 
     @Autowired

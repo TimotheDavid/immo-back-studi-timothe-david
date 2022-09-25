@@ -1,11 +1,13 @@
 package infoco.immo.security;
 
 import infoco.immo.database.SQL.authentication.AuthenticationRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -22,6 +24,7 @@ import java.util.List;
 
 @Profile(value = {"dev", "prod", "debug"})
 @Configuration
+@Slf4j
 public class ImmoSecurity {
 
     @Autowired
@@ -31,14 +34,17 @@ public class ImmoSecurity {
     @Autowired
     AuthenticationRepository authenticationRepository;
 
+    @Autowired
+    Environment environment;
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
+        log.info(environment.getProperty("allowed.origin"));
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("*"));
+        configuration.setAllowedOrigins(List.of(environment.getProperty("allowed.origin")));
         configuration.setAllowedMethods(Arrays.asList("GET","POST","PATCH", "PUT", "DELETE", "OPTIONS", "HEAD"));
         configuration.setAllowCredentials(true);
-        configuration.setAllowedHeaders(Arrays.asList("Authorization","Content-Type"));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization","Content-Type", "Allowed-Origins"));
         configuration.setExposedHeaders(List.of("X-Get-Header"));
         configuration.setMaxAge(3600L);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -61,7 +67,7 @@ public class ImmoSecurity {
         http.csrf().disable()
                 .formLogin().disable()
                 .httpBasic().disable()
-                .cors().disable()
+                .cors().and()
                 .authorizeRequests().antMatchers("/api/**").permitAll()
                 .and()
                 .authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/api/**").permitAll()
