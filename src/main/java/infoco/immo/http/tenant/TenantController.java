@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -46,7 +47,7 @@ public class TenantController {
 
     @GetMapping()
     public ResponseEntity<List<TenantResponse>> getTenant() {
-        List<TenantResponse> tenantObject = tenantService.get().stream().map(TenantMapper.INSTANCE::domainToResponse).collect(Collectors.toList());
+        List<TenantResponse> tenantObject = Optional.of(tenantService.get().stream().map(TenantMapper.INSTANCE::domainToResponse).collect(Collectors.toList())).orElse(null);
         return new ResponseEntity<>(tenantObject, HttpStatus.OK);
     }
 
