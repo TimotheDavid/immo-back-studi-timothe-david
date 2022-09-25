@@ -3,6 +3,12 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+./docker
+!.env
+!.env.local
+src/main/resources/templates/*
+Dockerfile
+!/.env.local
 
 ### STS ###
 .apt_generated
@@ -31,11 +37,5 @@ build/
 
 ### VS Code ###
 .vscode/
-
-./docker
-!.env
-!.env.local
-src/main/resources/templates/*
-Dockerfile
 
 
