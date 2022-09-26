@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -47,7 +48,7 @@ public class TenantController {
 
     @GetMapping()
     public ResponseEntity<List<TenantResponse>> getTenant() {
-        List<TenantResponse> tenantObject = Optional.of(tenantService.get().stream().map(TenantMapper.INSTANCE::domainToResponse).collect(Collectors.toList())).orElse(null);
+        List<TenantResponse> tenantObject = Optional.of(tenantService.get().stream().map(TenantMapper.INSTANCE::domainToResponse).collect(Collectors.toList())).orElse(new ArrayList<>());
         return new ResponseEntity<>(tenantObject, HttpStatus.OK);
     }
 

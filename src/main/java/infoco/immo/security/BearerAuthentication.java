@@ -37,7 +37,7 @@ public class BearerAuthentication implements Filter {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-
+    private Environment environment;
     private AuthenticationRepository authenticationRepository;
 
     @Override
@@ -49,10 +49,15 @@ public class BearerAuthentication implements Filter {
             ServletContext servletContext = request.getServletContext();
             WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
             authenticationRepository = webApplicationContext.getBean(AuthenticationRepository.class);
-
         }
 
-        final String SECRET = beanConfiguration.getSecret();
+        if(beanConfiguration == null) {
+            ServletContext servletContext = request.getServletContext();
+            WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
+            environment = webApplicationContext.getBean(Environment.class);
+        }
+
+        final String SECRET = environment.getProperty("secret.key");
 
 
         if (headers == null) {
