@@ -72,7 +72,7 @@ public class BeanConfiguration implements EnvironmentAware {
 
     @Bean
     public RentUseCase rentUseCase(){
-        return new RentUseCase(rentRepository, apartmentRepository,tenantRepository);
+        return new RentUseCase(rentRepository, apartmentRepository,tenantRepository, paymentRepository);
     }
 
     @Bean
