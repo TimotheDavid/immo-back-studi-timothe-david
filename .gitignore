@@ -5,10 +5,10 @@ target/
 !**/src/test/**/target/
 ./docker
 !.env
-!.env.local
+.env.local
 src/main/resources/templates/*
 Dockerfile
-!/.env.local
+/.env.local
 
 ### STS ###
 .apt_generated
