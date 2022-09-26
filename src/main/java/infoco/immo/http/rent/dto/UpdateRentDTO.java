@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -28,4 +26,6 @@ public class UpdateRentDTO {
     @JsonProperty(value = "apartment")
     private String apartmentId;
     private String id;
+    @JsonProperty(value = "rent")
+    private Float amountRent;
 }

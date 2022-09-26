@@ -1,6 +1,7 @@
 package infoco.immo.database.SQL.rent;
 
 import infoco.immo.core.Rent;
+import infoco.immo.core.RentData;
 import infoco.immo.core.RentDataResponse;
 import infoco.immo.core.RentTenant;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class RentRepository implements RentRepositoryI {
 
     @Override
     public void create(Rent rent) {
-        final String SQL = " INSERT INTO immo.rent(uuid, rent, in_date, in_description, out_date, out_description, deposit, agency_pourcent,apartmentId,tenantId) VALUES(?,?,?,?,?,?,?,?,?,?) ";
+        final String SQL = " INSERT INTO immo.rent(uuid, rent, in_date, in_description, out_date, out_description, deposit, agency_pourcent,apartmentId,tenantId, out_description_tenant, in_description_tenant) VALUES(?,?,?,?,?,?,?,?,?,?,?,?) ";
         db.update(SQL, ps -> {
             int nthPlace = 1;
             ps.setObject(nthPlace++, rent.getId());
@@ -32,6 +33,8 @@ public class RentRepository implements RentRepositoryI {
             ps.setFloat(nthPlace++, rent.getAgencyPourcent());
             ps.setObject(nthPlace++, rent.getApartmentId());
             ps.setObject(nthPlace++, rent.getTenantsId());
+            ps.setString(nthPlace++, rent.getDescriptionOutTenant());
+            ps.setString(nthPlace++, rent.getDescriptionInTenant());
         });
     }
 
@@ -51,7 +54,7 @@ public class RentRepository implements RentRepositoryI {
 
     @Override
     public void update(Rent rent) {
-        final String SQL = "UPDATE immo.rent SET rent = ?, in_date = ?::timestamptz, in_description = ?, out_date = ?::timestamptz , out_description = ?, deposit = ?, agency_pourcent = ? WHERE uuid = ? ";
+        final String SQL = "UPDATE immo.rent SET rent = ?, in_date = ?::timestamptz, in_description = ?, out_date = ?::timestamptz , out_description = ?, deposit = ?, agency_pourcent = ?, in_description_tenant = ?, out_description_tenant = ?  WHERE uuid = ? ";
         db.update(SQL, ps -> {
             int nthPlace = 1;
             ps.setFloat(nthPlace++, rent.getAmountRent());
@@ -60,7 +63,9 @@ public class RentRepository implements RentRepositoryI {
             ps.setString(nthPlace++, rent.getOutDate());
             ps.setString(nthPlace++, rent.getDescriptionOut());
             ps.setFloat(nthPlace++, rent.getDeposit());
-            ps.setFloat(nthPlace++, rent.getAgencyPourcent() );
+            ps.setFloat(nthPlace++, rent.getAgencyPourcent() == null ? 0: rent.getAgencyPourcent()  );
+            ps.setString(nthPlace++, rent.getDescriptionInTenant());
+            ps.setString(nthPlace++, rent.getDescriptionOutTenant());
             ps.setObject(nthPlace++, rent.getId());
         });
     }
@@ -73,9 +78,11 @@ public class RentRepository implements RentRepositoryI {
     }
 
     @Override
-    public List<Rent> get() {
-        final String SQL = "SELECT * FROM immo.rent";
-        return db.query(SQL, new RentMapper());
+    public List<RentData> get() {
+        final String SQL = "SELECT r.*, t.email, a.address, in_description_tenant, out_description_tenant FROM immo.rent r\n" +
+                "join immo.apartment a on r.apartmentid = r.apartmentid\n" +
+                "join immo.tenant t  on  r.tenantid = t.uuid;";
+        return db.query(SQL, new RentMapperData());
     }
 
     @Override

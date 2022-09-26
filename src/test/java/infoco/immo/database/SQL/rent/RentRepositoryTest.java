@@ -2,6 +2,7 @@ package infoco.immo.database.SQL.rent;
 
 import infoco.immo.ObjectTesting.rent.RentObjectTest;
 import infoco.immo.core.Rent;
+import infoco.immo.core.RentData;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -80,7 +81,7 @@ class RentRepositoryTest {
     @Test
     void getAllTest(){
         generate();
-        List<Rent> rentList  =  rentRepository.get();
+        List<RentData> rentList  =  rentRepository.get();
         Assertions.assertEquals(10, rentList.size());
     }
 

@@ -2,7 +2,6 @@ package infoco.immo.http.rent.response;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import infoco.immo.core.FromType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,5 +24,10 @@ public class RentResponse {
     private Float deposit;
     private String address;
     private String email;
+    private Float rent;
+    @JsonProperty("description_in_tenant")
+    private String descriptionInTenant;
+    @JsonProperty("description_out_tenant")
+    private String descriptionOutTenant;
 
 }

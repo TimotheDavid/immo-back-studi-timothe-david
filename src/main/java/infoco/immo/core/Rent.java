@@ -20,6 +20,10 @@ public class Rent {
     private  Float agencyPourcent;
     private  UUID tenantsId;
     private  UUID apartmentId;
+    private String address;
+    private String email;
+    private String descriptionInTenant;
+    private String descriptionOutTenant;
 
 
 

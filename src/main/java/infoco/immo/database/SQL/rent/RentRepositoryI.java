@@ -1,6 +1,7 @@
 package infoco.immo.database.SQL.rent;
 
 import infoco.immo.core.Rent;
+import infoco.immo.core.RentData;
 import infoco.immo.core.RentDataResponse;
 import infoco.immo.core.RentTenant;
 
@@ -16,7 +17,7 @@ public interface RentRepositoryI {
     void  update(Rent rent);
     void delete(UUID rentId);
 
-    List<Rent> get();
+    List<RentData> get();
 
     List<RentTenant> getAllRentTenant();
 }

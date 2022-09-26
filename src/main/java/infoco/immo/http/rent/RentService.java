@@ -2,6 +2,7 @@ package infoco.immo.http.rent;
 
 import infoco.immo.configuration.BeanConfiguration;
 import infoco.immo.core.Rent;
+import infoco.immo.core.RentData;
 import infoco.immo.core.RentDataResponse;
 import infoco.immo.core.RentTenant;
 import infoco.immo.usecase.rent.RentUseCaseI;
@@ -35,7 +36,7 @@ public class RentService implements RentUseCaseI {
     }
 
     @Override
-    public List<Rent> get() {
+    public List<RentData> get() {
         return beanConfiguration.rentUseCase().get();
     }
 

@@ -23,7 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.sql.DataSource;
@@ -60,7 +59,7 @@ class RentUseCaseTest {
     @Autowired
     GenerateAllDatabase generate;
 
-    private Faker faker = new Faker();
+    private final Faker faker = new Faker();
     private final Rent rent = RentObjectTest.getRent();
 
     private final Apartment apartment = ApartmentObjectTest.getApartment();
@@ -100,7 +99,7 @@ class RentUseCaseTest {
     @Test
     public void getAll(){
         generate.generate();
-        List<Rent> getAllRent = beanConfiguration.rentUseCase().get();
+        List<RentData> getAllRent = beanConfiguration.rentUseCase().get();
         Assertions.assertTrue(getAllRent.size() > 0);
     }
     @Test

@@ -30,7 +30,7 @@ public class RentController {
 
     @PostMapping
     public void create(@RequestBody CreateRentDTO rentDTO){
-        Rent rent = RentMappers.INSTANCE.createDTOToRent(rentDTO);
+        Rent rent = RentMappers.createDTOToRent(rentDTO);
         rentService.create(rent);
     }
 
@@ -42,7 +42,7 @@ public class RentController {
 
     @GetMapping
     public ResponseEntity<List<RentResponse>> getAll() {
-        return  ResponseEntity.ok(rentService.get().stream().map(RentMappers.INSTANCE::domaineToResponse).collect(Collectors.toList()));
+        return  ResponseEntity.ok(rentService.get().stream().map(RentMappers.INSTANCE::domaineDataToResponse).collect(Collectors.toList()));
     }
 
     @PutMapping

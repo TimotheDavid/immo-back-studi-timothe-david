@@ -1,22 +1,13 @@
 package infoco.immo.ObjectTesting.rent;
 
 import com.github.javafaker.Faker;
-import infoco.immo.configuration.BeanConfiguration;
 import infoco.immo.core.Rent;
-import infoco.immo.database.SQL.appartment.ApartmentRepository;
-import infoco.immo.database.SQL.rent.RentRepository;
-import infoco.immo.database.SQL.tenant.TenantRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-import org.springframework.test.context.ActiveProfiles;
 
-import javax.sql.DataSource;
+import java.text.SimpleDateFormat;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -31,15 +22,21 @@ public class RentObjectTest {
         Assertions.assertTrue(true);
     }
     private Rent createRent() {
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        String inDate = sdf.format(faker.date().past(100, TimeUnit.DAYS));
+        String outDate = sdf.format(faker.date().future(100, TimeUnit.DAYS));
         return Rent.builder()
                 .id(UUID.randomUUID())
                 .deposit((float) faker.number().numberBetween(0, 10000))
                 .descriptionIn(faker.lorem().paragraphs(1).toString())
-                .inDate(faker.date().past(100, TimeUnit.DAYS).toString())
+                .inDate(inDate)
                 .descriptionOut(faker.lorem().paragraphs(1).toString())
-                .outDate(faker.date().future(100, TimeUnit.DAYS).toString())
+                .outDate(outDate)
+                .descriptionInTenant(faker.lorem().paragraph(1))
+                .descriptionOutTenant(faker.lorem().paragraph(1))
                 .amountRent((float) faker.number().numberBetween(0, 10000))
-                .agencyPourcent((float) 8).build();
+                .agencyPourcent((float) 8).build()
+                ;
     }
 
 
