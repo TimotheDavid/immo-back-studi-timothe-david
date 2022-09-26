@@ -1,7 +1,6 @@
 package infoco.immo.security;
 
 import infoco.immo.database.SQL.authentication.AuthenticationRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -10,21 +9,19 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.header.writers.StaticHeadersWriter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Profile(value = {"dev", "prod", "debug"})
 @Configuration
-@Slf4j
 public class ImmoSecurity {
 
     @Autowired
@@ -39,9 +36,8 @@ public class ImmoSecurity {
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
-        log.info(environment.getProperty("allowed.origin"));
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of(environment.getProperty("allowed.origin")));
+        configuration.setAllowedOrigins(Collections.singletonList(environment.getProperty("allowed.origin")));
         configuration.setAllowedMethods(Arrays.asList("GET","POST","PATCH", "PUT", "DELETE", "OPTIONS", "HEAD"));
         configuration.setAllowCredentials(true);
         configuration.setAllowedHeaders(Arrays.asList("Authorization","Content-Type", "Allowed-Origins"));
