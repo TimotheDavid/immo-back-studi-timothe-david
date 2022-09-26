@@ -15,15 +15,22 @@ import infoco.immo.usecase.tenant.TenantUseCase;
 import infoco.immo.usecase.user.UserUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
 @Configuration
 @EnableAutoConfiguration
-public class BeanConfiguration {
+public class BeanConfiguration implements EnvironmentAware {
+
+    @Override
+    public void setEnvironment(Environment environment) {
+        this.environment = environment;
+    }
 
     @Autowired
     JdbcTemplate jdbcTemplate;
@@ -51,8 +58,7 @@ public class BeanConfiguration {
     @Autowired
     FilesGenerator filesGenerator;
 
-
-
+    Environment environment;
 
     @Bean(name = "ApartmentBean")
     public ApartmentUseCase apartmentUseCase(){
@@ -76,12 +82,19 @@ public class BeanConfiguration {
 
     @Bean
     public UserUseCase userUseCase(){
-        return new UserUseCase(userRepository, authenticationRepository, bCryptPasswordEncoder);
+        return
+                new UserUseCase(userRepository, authenticationRepository,getSecret(), bCryptPasswordEncoder);
+    }
+
+    @Bean
+    public String getSecret(){
+        return environment.getProperty("secret.key");
     }
 
 
     public FilesUseCase  filesUseCase(){
         return new FilesUseCase(paymentRepository,filesGenerator, apartmentRepository, rentRepository, tenantRepository);
     }
+
 
 }

@@ -21,8 +21,8 @@ public class GenerateAuth {
     private final String SECRET = "secret";
     private final ZonedDateTime ZONE = Instant.now().atZone(ZoneId.of("Europe/Paris"));
 
-    private boolean decodeToken(String token, String hash){
-        Algorithm algorithm = Algorithm.HMAC256(SECRET);
+    private boolean decodeToken(String token, String hash, String secret){
+        Algorithm algorithm = Algorithm.HMAC256(secret);
         JWTVerifier jwtVerifier = JWT.require(algorithm)
               //  .withSubject(hash)
                 .build();
@@ -36,30 +36,30 @@ public class GenerateAuth {
         ZonedDateTime  tokenExpiration = decodedJWT.getExpiresAt().toInstant().atZone(ZoneId.of("Europe/Paris"));
         return tokenExpiration.compareTo(ZONE) > 0;
     }
-    private Authentication create() {
+    private Authentication create(String secret) {
         String hash = RandomStringUtils.random(10, true, false);
         Instant  time = Instant.from(ZONE).plus(30,ChronoUnit.MINUTES);
 
         Authentication authentication = new Authentication();
         authentication.setHash(hash);
         authentication.setUuid(UUID.randomUUID());
-        authentication.setToken(generateToken(hash, time));
+        authentication.setToken(generateToken(hash, time, secret));
         authentication.setExpires(String.valueOf(time));
         return authentication;
     }
 
-    private String generateToken(String hash, Instant  endTime) {
-        Algorithm algorithm = Algorithm.HMAC256(SECRET);
+    private String generateToken(String hash, Instant  endTime, String secret) {
+        Algorithm algorithm = Algorithm.HMAC256(secret);
         return JWT.create()
                 .withSubject(hash)
                 .withExpiresAt(endTime)
                 .sign(algorithm);
     }
 
-    public static boolean decode(String token, String hash){
-        return new GenerateAuth().decodeToken(token, hash);
+    public static boolean decode(String token, String hash, String secret){
+        return new GenerateAuth().decodeToken(token, hash, secret);
     }
-    public static Authentication generate() {
-        return new GenerateAuth().create();
+    public static Authentication generate(String secret) {
+        return new GenerateAuth().create(secret);
     }
 }

@@ -57,16 +57,13 @@ class RentHttpTest {
     private final Rent rent = RentObjectTest.getRent();
 
 
-    @Test
+/*    @Test
     public void create() throws Exception {
         rent.setId(UUID.randomUUID());
         CreateRentDTO rentDTO = RentMappers.domaineToCreateDTO(rent);
         String data = objectMapper.writeValueAsString(rentDTO);
         mockMvc.perform(MockMvcRequestBuilders.post(BASE_URL).contentType(MediaType.APPLICATION_JSON_VALUE).content(data)).andExpect(status().isOk());
-
-
-
-    }
+    }*/
     @Test
     public void getOne() throws Exception {
         rent.setId(UUID.randomUUID());

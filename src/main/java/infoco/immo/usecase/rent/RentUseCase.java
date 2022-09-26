@@ -7,13 +7,10 @@ import infoco.immo.core.RentTenant;
 import infoco.immo.database.SQL.appartment.ApartmentRepositoryI;
 import infoco.immo.database.SQL.rent.RentRepositoryI;
 import infoco.immo.database.SQL.tenant.TenantRepositoryI;
-import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.UUID;
 
-
-@RequiredArgsConstructor
 public class RentUseCase {
 
     private RentRepositoryI rentRepositoryI;
@@ -22,6 +19,11 @@ public class RentUseCase {
 
     private ApartmentRepositoryI apartmentRepository;
 
+    public RentUseCase(RentRepositoryI rentRepositoryI, ApartmentRepositoryI apartmentRepositoryI, TenantRepositoryI tenantRepositoryI) {
+        this.rentRepositoryI = rentRepositoryI;
+        this.apartmentRepository = apartmentRepositoryI;
+        this.tenantRepositoryI = tenantRepositoryI;
+    }
 
     public UUID create(Rent rent) {
         rent.setId(UUID.randomUUID());

@@ -6,6 +6,7 @@ import infoco.immo.database.SQL.authentication.AuthenticationRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -39,7 +40,6 @@ public class BearerAuthentication implements Filter {
 
     private AuthenticationRepository authenticationRepository;
 
-
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
@@ -51,6 +51,8 @@ public class BearerAuthentication implements Filter {
             authenticationRepository = webApplicationContext.getBean(AuthenticationRepository.class);
 
         }
+
+        final String SECRET = beanConfiguration.getSecret();
 
 
         if (headers == null) {
@@ -75,7 +77,7 @@ public class BearerAuthentication implements Filter {
             return;
         }
 
-        if(!GenerateAuth.decode(token, userTokenData.getHash())){
+        if(!GenerateAuth.decode(token, userTokenData.getHash(), SECRET)){
             log.info("problem with auth token");
             response.sendError(HttpStatus.FORBIDDEN.value(), "forbidden, token is malformed, login again");
             return;
