@@ -21,8 +21,6 @@ public class RentMapper implements RowMapper<Rent> {
         rent.setInDate(rs.getString("in_date"));
         rent.setTenantsId(rs.getObject("tenantid", UUID.class));
         rent.setApartmentId(rs.getObject("apartmentid", UUID.class));
-        rent.setEmail(rs.getString("email"));
-        rent.setAddress(rs.getString("address"));
 
         return rent;
     }

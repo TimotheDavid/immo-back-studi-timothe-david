@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 @Repository
@@ -18,6 +19,7 @@ PaymentRepository implements PaymentRepositoryI {
 
     @Override
     public void create(Payment payment) {
+
         final String SQL = "INSERT INTO immo.payment(uuid, amount, date_payment, landlor_part, agency_part, sens,rentid, type, origin, from_type) VALUES (?,?,?,?,?,?,?,CAST(? AS immo.type_to_pay),CAST(? AS immo.origin), CAST(? AS immo.type_from))";
         db.update(SQL, ps -> {
             int nthPlace = 1;

@@ -8,6 +8,7 @@ import infoco.immo.database.SQL.rent.RentRepositoryI;
 import infoco.immo.database.SQL.tenant.TenantRepositoryI;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,11 +38,13 @@ public class RentUseCase {
 
     private void createPayment(Rent rent){
         LocalDateTime localDateTime = LocalDateTime.now();
+        final DateTimeFormatter parser = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        String paymentDate = parser.format(localDateTime);
         Payment payment = Payment.builder()
                 .id(UUID.randomUUID())
                 .amount(rent.getAmountRent())
                 .rentId(rent.getId())
-                .datePayment(localDateTime.toString())
+                .datePayment(paymentDate)
                 .fromType(FromType.CAUTION)
                 .typePayment(TypePayment.CHEQUE)
                 .origin(Origin.LOCATAIRE)
