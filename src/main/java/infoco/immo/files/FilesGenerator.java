@@ -235,8 +235,8 @@ public class FilesGenerator implements FilesGeneratorI {
         table.setWidth(550);
         table.addCell(createCell("Date", 2, 1, TextAlignment.LEFT, false));
         table.addCell(createCell("Details", 2, 1, TextAlignment.LEFT, false));
-        table.addCell(createCell("Débits", 2, 1, TextAlignment.LEFT, false));
         table.addCell(createCell("Crédits", 2, 1, TextAlignment.LEFT, false));
+        table.addCell(createCell("Débits", 2, 1, TextAlignment.LEFT, false));
 
         LocalDate dateBegin = LocalDate.parse(tenantBalanceSheets.get(0).getDatePayment(), parser);
         Integer numberOfMonth = getNumberOfMonth(tenantBalanceSheets, dateBegin.getMonthValue());
