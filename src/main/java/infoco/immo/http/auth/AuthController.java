@@ -8,6 +8,7 @@ import infoco.immo.http.user.dto.LoginUserDTO;
 import infoco.immo.usecase.user.Token;
 import infoco.immo.http.user.dto.CreateUserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,7 @@ public class AuthController {
     UserService userService;
 
 
+    @Profile("!prod")
     @PostMapping
     public ResponseEntity create(@Valid  @RequestBody  CreateUserDTO createUserDTO) {
         User user = User.builder()
