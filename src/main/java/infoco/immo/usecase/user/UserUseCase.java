@@ -33,7 +33,6 @@ public class UserUseCase {
         this.passwordEncoder = passwordEncoder;
         this._userRepositoryI = userRepository;
         this._authenticationRepositoryI = authenticationRepositoryI;
-        generateAuth = GenerateAuth.generate(secret);
 
     }
 
@@ -54,9 +53,8 @@ public class UserUseCase {
         }catch (Exception exception){
             throw new HttpExceptions(HttpStatus.NOT_FOUND.toString(), HttpStatus.NOT_FOUND.toString(), HttpStatus.NOT_FOUND.value());
         }
-        Authentication authentication = GenerateAuth.generate(secret);
+        Authentication authentication = GenerateAuth.generate(secret, databaseUser.getId());
         authentication.setUserId(databaseUser.getId());
-        _authenticationRepositoryI.create(authentication);
 
         Token signingtoken = new Token();
         signingtoken.setToken(authentication.getToken());
