@@ -2,19 +2,12 @@ package infoco.immo.usecase.user;
 
 import infoco.immo.core.Authentication;
 import infoco.immo.core.User;
-import infoco.immo.database.SQL.authentication.AuthenticationRepository;
-import infoco.immo.database.SQL.authentication.AuthenticationRepositoryI;
-import infoco.immo.database.SQL.user.UserRepository;
 import infoco.immo.database.SQL.user.UserRepositoryI;
 import infoco.immo.http.user.HttpExceptions;
 import infoco.immo.security.GenerateAuth;
-import infoco.immo.usecase.payment.PaymentUseCase;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.UUID;
 
@@ -22,17 +15,15 @@ import java.util.UUID;
 public class UserUseCase {
 
     private final  UserRepositoryI _userRepositoryI;
-    private final AuthenticationRepositoryI _authenticationRepositoryI;
     private final BCryptPasswordEncoder passwordEncoder;
 
     private Authentication generateAuth;
     private  String secret;
 
-    public UserUseCase(UserRepositoryI userRepository, AuthenticationRepositoryI authenticationRepositoryI, String secret, BCryptPasswordEncoder passwordEncoder){
+    public UserUseCase(UserRepositoryI userRepository, String secret, BCryptPasswordEncoder passwordEncoder){
         this.secret = secret;
         this.passwordEncoder = passwordEncoder;
         this._userRepositoryI = userRepository;
-        this._authenticationRepositoryI = authenticationRepositoryI;
 
     }
 

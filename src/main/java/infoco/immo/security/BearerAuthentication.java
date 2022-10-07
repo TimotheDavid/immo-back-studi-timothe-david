@@ -2,7 +2,6 @@ package infoco.immo.security;
 
 import infoco.immo.configuration.BeanConfiguration;
 import infoco.immo.core.Authentication;
-import infoco.immo.database.SQL.authentication.AuthenticationRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -38,18 +37,13 @@ public class BearerAuthentication implements Filter {
     JdbcTemplate jdbcTemplate;
 
     private Environment environment;
-    private AuthenticationRepository authenticationRepository;
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String headers = ((HttpServletRequest) servletRequest).getHeader(HttpHeaders.AUTHORIZATION);
-        if (authenticationRepository == null) {
-            ServletContext servletContext = request.getServletContext();
-            WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
-            authenticationRepository = webApplicationContext.getBean(AuthenticationRepository.class);
-        }
+
 
         if(beanConfiguration == null) {
             ServletContext servletContext = request.getServletContext();

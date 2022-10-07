@@ -1,7 +1,6 @@
 package infoco.immo.configuration;
 
 import infoco.immo.database.SQL.appartment.ApartmentRepository;
-import infoco.immo.database.SQL.authentication.AuthenticationRepository;
 import infoco.immo.database.SQL.payment.PaymentRepository;
 import infoco.immo.database.SQL.rent.RentRepository;
 import infoco.immo.database.SQL.tenant.TenantRepository;
@@ -50,15 +49,16 @@ public class BeanConfiguration implements EnvironmentAware {
     UserRepository userRepository;
 
     @Autowired
-    AuthenticationRepository authenticationRepository;
-
-    @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     FilesGenerator filesGenerator;
 
     Environment environment;
+    @Bean
+    public String getSecret(){
+        return environment.getProperty("secret.key");
+    }
 
     @Bean(name = "ApartmentBean")
     public ApartmentUseCase apartmentUseCase(){
@@ -83,13 +83,9 @@ public class BeanConfiguration implements EnvironmentAware {
     @Bean
     public UserUseCase userUseCase(){
         return
-                new UserUseCase(userRepository, authenticationRepository,getSecret(), bCryptPasswordEncoder);
+                new UserUseCase(userRepository,getSecret(), bCryptPasswordEncoder);
     }
 
-    @Bean
-    public String getSecret(){
-        return environment.getProperty("secret.key");
-    }
 
 
     public FilesUseCase  filesUseCase(){

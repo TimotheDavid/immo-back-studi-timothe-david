@@ -1,6 +1,5 @@
 package infoco.immo.security;
 
-import infoco.immo.database.SQL.authentication.AuthenticationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -26,10 +25,6 @@ public class ImmoSecurity {
 
     @Autowired
     HttpSecurity httpSecurity;
-
-
-    @Autowired
-    AuthenticationRepository authenticationRepository;
 
     @Autowired
     Environment environment;
