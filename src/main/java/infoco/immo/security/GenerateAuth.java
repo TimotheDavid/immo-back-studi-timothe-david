@@ -18,7 +18,6 @@ import java.util.UUID;
 
 public class GenerateAuth {
 
-    private final String SECRET = "secret";
     private final ZonedDateTime ZONE = Instant.now().atZone(ZoneId.of("Europe/Paris"));
 
     private boolean decodeToken(String token, String hash, String secret){

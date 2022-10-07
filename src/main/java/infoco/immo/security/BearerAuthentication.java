@@ -83,12 +83,10 @@ public class BearerAuthentication implements Filter {
         }
 
         if(!GenerateAuth.decode(token, userTokenData.getHash(), SECRET)){
-            log.info("problem with auth token");
             response.sendError(HttpStatus.FORBIDDEN.value(), "forbidden, token is malformed, login again");
             return;
         }
         if (!Objects.equals(token, userTokenData.getToken())) {
-            log.info("token not here");
             response.sendError(HttpStatus.FORBIDDEN.value(), "token is not in here");
             return;
         }
