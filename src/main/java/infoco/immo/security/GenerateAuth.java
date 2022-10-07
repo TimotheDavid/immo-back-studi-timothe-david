@@ -20,7 +20,7 @@ public class GenerateAuth {
 
     private final ZonedDateTime ZONE = Instant.now().atZone(ZoneId.of("Europe/Paris"));
 
-    private boolean decodeToken(String token, String hash, String secret){
+    private boolean decodeToken(String token, String secret){
         Algorithm algorithm = Algorithm.HMAC256(secret);
         JWTVerifier jwtVerifier = JWT.require(algorithm)
               //  .withSubject(hash)
@@ -56,8 +56,8 @@ public class GenerateAuth {
                 .sign(algorithm);
     }
 
-    public static boolean decode(String token, String hash, String secret){
-        return new GenerateAuth().decodeToken(token, hash, secret);
+    public static boolean decode(String token, String secret){
+        return new GenerateAuth().decodeToken(token, secret);
     }
     public static Authentication generate(String secret, UUID userId) {
         return new GenerateAuth().create(secret, userId);

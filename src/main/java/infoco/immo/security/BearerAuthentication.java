@@ -65,12 +65,10 @@ public class BearerAuthentication implements Filter {
             return;
         }
 
-        Authentication userTokenData;
+
         String token;
         try {
             token = headers.split(" ")[1];
-            userTokenData = authenticationRepository.getByToken(token);
-            token = userTokenData.getToken();
         } catch (Exception arrayException) {
             log.info(arrayException.getMessage());
             response.sendError(HttpStatus.FORBIDDEN.value(), FORBIDDEN);
@@ -82,14 +80,11 @@ public class BearerAuthentication implements Filter {
             return;
         }
 
-        if(!GenerateAuth.decode(token, userTokenData.getHash(), SECRET)){
+        if(!GenerateAuth.decode(token, SECRET)){
             response.sendError(HttpStatus.FORBIDDEN.value(), "forbidden, token is malformed, login again");
             return;
         }
-        if (!Objects.equals(token, userTokenData.getToken())) {
-            response.sendError(HttpStatus.FORBIDDEN.value(), "token is not in here");
-            return;
-        }
+
         response.setHeader(HttpHeaders.AUTHORIZATION, headers);
 
         filterChain.doFilter(request, response);
